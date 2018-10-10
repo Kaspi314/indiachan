@@ -14,6 +14,6 @@ LynxChan root
     └ fe ← place this repo here
 ```
 
-Follow usual instructions at https://gitgud.io/LynxChan/LynxChan/tree/master/src/be for commands.
+Follow usual instructions at https://gitgud.io/LynxChan/LynxChan/blob/master/src/be/Readme.md for commands.
 You'll need to create a root user immediately after setting this up. Afterwards, login as root
 http://localhost:8080/login.html and create boards etc.
