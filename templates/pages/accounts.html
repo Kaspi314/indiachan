@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="/.static/css/global.css">
+</head>
+
+<body>
+
+  <nav>
+    <span id="navLinkSpan"> <span>[</span> <a
+        href="/"
+        class="coloredIcon"
+        id="navLinkHome">home</a> <span>/</span> <a
+        href="/boards.js"
+        class="coloredIcon"
+        id="navBoardList">boards</a> <span>/</span> <a
+        href="/overboard"
+        class="coloredIcon"
+        id="navOverboard">overboard</a> <span>/</span> <a
+        href="/.static/posting.html"
+        class="coloredIcon"
+        id="navPosting">help</a> <span>]</span>
+    </span> <span id="navBoardsSpan"> </span> <span id="navOptionsSpan"> </span>
+  </nav>
+
+  <header>
+    <img
+      src="/.static/logo.png"
+      alt="logo" />
+  </header>
+
+  <div id="settingsWrapper">
+    <fieldset id="settingsFieldset">
+
+      <legend>Accounts</legend>
+      <form
+        action="/addAccount.js"
+        method="post"
+        enctype="multipart/form-data">
+
+        <h3>Add account</h3>
+
+        <input
+          type="text"
+          id="fieldLogin"
+          name="login"
+          placeholder="login">
+
+        <input
+          type="text"
+          id="fieldEmail"
+          name="email"
+          placeholder="e-mail">
+
+        <input
+          type="password"
+          id="fieldPassword"
+          name="password"
+          placeholder="password">
+
+        <input
+          id="addAccountFormButton"
+          type="submit"
+          value="Add Account">
+
+        <input
+          id="addAccountJsButton"
+          type="button"
+          style="display: none;"
+          onclick="addAccount()"
+          value="Add Account">
+
+      </form>
+      <hr>
+      <h3>Existing Accounts</h3>
+      <div
+        id="divAccounts"
+        class="linkList"></div>
+
+    </fieldset>
+  </div>
+</body>
+
+<script src="/.static/js/settings.js"></script>
+<script src="/.static/js/api.js"></script>
+<script src="/.static/js/accounts.js"></script>
+<script src="/.static/js/themes.js"></script>
+<script src="/.static/js/favouriteBoards.js"></script>
+
+</html>

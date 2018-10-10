@@ -1,0 +1,42 @@
+#catalogId {
+  font-size: 24px;
+  text-align: center;
+}
+.catalogDiv {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+.catalogDiv .threadStats {
+  opacity: 0.8;
+  font-size: 0.875em;
+}
+.catalogDiv img {
+  max-width: 100%;
+}
+.catalogCell {
+  flex: 1 0 220px;
+  padding: 6px 2px;
+  overflow: hidden;
+  margin: 4px;
+  border-radius: 2px;
+  border: 1px solid rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.04);
+  max-height: 300px;
+  max-width: 220px;
+}
+.catalogCell.active {
+  overflow-y: auto;
+}
+.catalogCell p {
+  margin: 8px 0 0;
+}
+.catalogCell .divMessage {
+  padding-left: 2px;
+  padding-right: 2px;
+  font-size: 0.875em;
+}
+#divTools {
+  display: none;
+}

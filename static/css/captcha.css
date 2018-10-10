@@ -1,0 +1,27 @@
+#captchaModal {
+  position: fixed;
+  z-index: 10;
+  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  text-align: center;
+  display: none;
+}
+#captchaModal:before {
+  content: '';
+  vertical-align: middle;
+  height: 96%;
+  display: inline-block;
+}
+#captchaModal > div {
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  background: #fff;
+  box-shadow: 0 2px 8px 1px rgba(0,0,0,0.6);
+  position: relative;
+  padding: 20px;
+}

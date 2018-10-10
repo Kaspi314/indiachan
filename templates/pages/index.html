@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="/.static/css/chan.css?13" rel="stylesheet">
+    <link href="/.static/icons/style.css" rel="stylesheet">
+    <link rel="manifest" href="/.static/manifest.json">
+    <link href="/.static/favicon.png" rel="icon">
+  </head>
+  <body id="page-index">
+    <nav>
+      <div class="nav-block"><span><a href="/">Home</a></span><span>
+          <select id="selectTheme">
+            <option value="yotsuba">Yotsuba</option>
+            <option value="penumbra">Penumbra</option>
+            <option value="jungle">Jungle</option>
+          </select></span></div>
+      <div class="nav-block"><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
+      </div>
+    </nav>
+    <script async src="/.static/js/site.js?1"></script>
+    <main>
+      <div id="indexContent">
+        <header>
+          <h1>indiachan</h1>
+        </header><img id="siteLogo" height="268" width="268" src="/.static/logo.png" alt="logo">
+        <p>
+          Indiachan is a simple imageboard where anyone
+          can post comments and share images about any topic.
+          You do not need to register to post.
+          Indiachan does not use cookies or third party ads.
+          <br><br>
+          See <a href=".static/globalRules.html">site rules</a> to learn more.
+        </p>
+        <div class="indexBlock" id="indexBoards"><a class="t-bg" href="/a">/a/
+            <div>Anime &amp; Manga</div></a><a class="t-bg" href="/b">/b/
+            <div>बकlol</div></a><a class="t-bg" href="/g">/g/
+            <div>Technology</div></a><a class="t-bg" href="/pol">/pol/
+            <div>Politically Incorrect</div></a><a class="t-bg" href="/meta">/meta/
+            <div>Indiachan Discussion</div></a>
+        </div>
+        <div class="indexBlock" id="indexBlocks">
+          <div class="t-bg">
+            <header class="t-bt">Latest Images</header>
+            <div id="divLatestImages"></div>
+          </div>
+          <div class="t-bg">
+            <header class="t-bt">Latest Posts</header>
+            <div id="divLatestPosts"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <hr><a href="mailto:contact@indiachan.com">
+        <div class="i i-mail"></div>contact@indiachan.com</a><a href="https://irc.indiachan.com" target="_blank">
+        <div class="i i-irc"></div>IRC</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">
+        <div class="i i-git"></div>Source</a>
+    </footer>
+    <form id="captchaModal">
+      <div><img>
+        <input class="field block" placeholder="Enter 6 characters" required pattern=".{6}"><span></span>
+        <button class="btn">Answer</button>
+      </div>
+    </form>
+  </body>
+</html>

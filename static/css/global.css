@@ -1,0 +1,589 @@
+#navOverboard,
+#navOverboard + span,
+#navPosting,
+#navPosting + span,
+#bannerImage,
+#boardContentLinks
+{
+  display: none;
+}
+
+.small {
+  font-size: 75%;
+  text-decoration: none;
+}
+
+.clearer {
+  clear: both;
+}
+
+.small a {
+  text-decoration: none;
+}
+
+#panelReferences a {
+  display: block;
+}
+
+.imgLink img, .latestImageCell img, .mediaCell img, .catalogCell img {
+  image-orientation: from-image;
+}
+
+.linkList a {
+  display: block;
+}
+
+#themeSelector {
+  font-size: 100%;
+}
+
+h3, p, label {
+  margin: 0.25em 0;
+}
+
+hr {
+  height: 0px;
+  border-width: 1px medium medium;
+  border-style: solid none none;
+  border-color: #117743;
+}
+
+.coloredIcon {
+  cursor: pointer
+}
+
+.coloredIcon::before {
+  font-family: 'Icons';
+}
+
+#navLinkSpan .coloredIcon:before, #navOptionsSpan .coloredIcon:before,
+  #links .coloredIcon:before {
+  margin-right: 0.25em;
+}
+
+a {
+  color: #FFB300;
+  text-decoration: none;
+}
+
+a:hover, .glowOnHover:hover {
+  text-shadow: 0px 0px 5px #117743;
+}
+
+u {
+  text-decoration: underline;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+input, select, textarea {
+  border: 1px double #07371F;
+  border-radius: 5px;
+  background: #D6DAF0;
+  color: #ACACAC;
+  font-size: 80%;
+}
+
+input[type=button], input[type=submit], button, .dropzone, .selectedCell
+  {
+  border: 3px double #07371F;
+  border-radius: 5px;
+  background: #16171A;
+  color: #ACACAC;
+  padding-left: 0.25em;
+  font-family: 'Hack', monospace, sans-serif;
+  font-size: 80%;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  cursor: pointer;
+}
+
+.title, .unhideButton {
+  font-weight: bold;
+}
+
+.fileBrowser {
+  background: none;
+}
+
+/* import resources here; external CSS, fonts, etc */
+@font-face {
+  font-family: 'Hack';
+  src: url('../hack-regular-webfont.eot?v=2.018');
+  src: url('../hack-regular-webfont.eot?#iefix&v=2.018')
+    format('embedded-opentype'),
+    url('../hack-regular-webfont.woff2?v=2.018') format('woff2'),
+    url('../hack-regular-webfont.woff?v=2.018') format('woff'),
+    url('../hack-regular-webfont.ttf?v=2.018') format('truetype'),
+    url('../hack-regular-webfont.svg?v=2.018#hackregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Icons';
+  src: url('../open-iconic.eot');
+  src: url('../open-iconic.eot?#iconic-sm') format('embedded-opentype'),
+    url('../open-iconic.woff') format('woff'), url('../open-iconic.ttf')
+    format('truetype'), url('../open-iconic.otf') format('opentype'),
+    url('../open-iconic.svg#iconic-sm') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* body styles, inherited by whole page */
+body {
+  color: #ACACAC;
+  background: #1D1F21;
+  font-family: 'Hack', monospace, sans-serif;
+  font-size: 100%;
+  margin: 0px;
+}
+
+/* header and nav / top of page styles */
+header {
+  width: 50%;
+  margin: 3em auto 0 auto;
+  text-align: center;
+}
+
+nav {
+  height: 18px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #151515;
+  border-bottom: 1px solid #B0790A;
+  padding: 3px;
+  font-size: 70%;
+  text-align: center;
+  z-index: 1;
+}
+
+nav span, nav a {
+  display: inline-block;
+  text-decoration: none;
+  margin: 0 0.2em;
+}
+
+#navLinkSpan {
+  float: left;
+}
+
+#navOptionsSpan {
+  display: none;
+  float: right;
+}
+
+#navLinkHome:before {
+  content: "\e078";
+}
+
+#navBoardList:before {
+  content: "\e03a";
+}
+
+#linkOverboard:before, #navOverboard:before {
+  content: "\e007";
+}
+
+#settingsButton:before {
+  content: "\e041";
+}
+
+#navPosting:before {
+  content: "\e09a";
+}
+
+#navCatalog:before {
+  content: "\e072";
+}
+
+#linkRss:before {
+  content: "\e0b7";
+}
+
+#linkTop:before {
+  content: "\e012";
+}
+
+#linkBottom:before {
+  content: "\e00f";
+}
+
+#linkBack:before {
+  content: "\e003";
+}
+
+/* board list */
+#divPages {
+  display: inline-block;
+}
+
+#divPages a {
+  text-decoration: none;
+  padding: 0 0.25em;
+}
+
+a.rules:after {
+  font-family: Icons;
+  content: "\e052";
+  margin-right: 0.5em;
+  color: #117743;
+  height: 80%;
+  font-size: 80%;
+  padding-left: 0.25em;
+  vertical-align: middle;
+}
+
+/* markdown */
+.greenText {
+  color: #789922;
+}
+
+.redText {
+  color: #AF0A0F;
+  font-weight: bold;
+  font-size: 125%;
+}
+
+span.spoiler {
+  background: #000;
+  color: #000;
+  padding: 0 1px;
+}
+
+.spoiler:hover {
+  color: #ACACAC;
+  background: none;
+}
+
+.red {
+  color: #117743;
+}
+
+/* CSS for pages that deal with site and account settings and bans */
+#settingsWrapper {
+  text-align: center;
+  width: 80%;
+  margin: 2em auto;
+}
+
+#settingsFieldset {
+  border: 1px dashed #117743;
+  padding: 1em;
+  display: inline-block;
+  text-align: left;
+}
+
+#settingsWrapper input {
+  display: block;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.banners {
+  margin: 1em;
+  width: auto;
+  padding: 0.5em;
+}
+
+#settingsFieldset textarea {
+  display: block;
+  height: 5em;
+}
+
+#settingsFieldset label {
+  display: block;
+}
+
+#settingsFieldset label input {
+  display: inline-block;
+}
+
+#settingsWrapper .captchaDiv input {
+  display: inline-block;
+}
+
+.subCaptchaDiv {
+  text-align: left;
+}
+
+.captchaTimer {
+  font-size: 80%;
+}
+
+.wide, #postingForm input[type='text'], #flagCombobox {
+  width: 100%;
+}
+
+#redirect, #maint {
+  text-align: center;
+}
+
+#labelCaptchaId {
+  color: #ff0000;
+}
+
+#staticPageWrapper {
+  margin: 2em auto;
+  text-align: center;
+}
+
+#staticPageFieldset {
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: 1px dashed #117743;
+  text-align: left;
+}
+
+/* footer styles */
+footer {
+  width: 100%;
+  margin: 3em 0px 2em 0px;
+  text-align: center;
+  font-size: 75%;
+}
+
+/* this has to go down here to override anything above it */
+.hidden {
+  display: none;
+}
+
+#settingsWrapper input.hidden {
+  display: none;
+}
+
+.floatingMenu {
+  border: 1px dashed #117743;
+  background: #1d1f21;
+  padding: 0.25em;
+}
+
+.floatingMenu .headerLabel {
+  font-size: 80%;
+}
+
+.floatingMenu .header, .floatingMenu .headerLabel {
+  cursor: pointer;
+}
+
+#divRemember input {
+  display: inline;
+}
+
+
+/* Yotsuba CSS */
+
+body {
+  background: #EEF2FF url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADICAIAAACmkByiAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAE5JREFUKJFjunj1HRMDAwNWzMiILsZIpDpcarDrx28GI17zUeUYiXITLrdg08PISKyfGfGYgT38cLkRm50Dbx9944KYdIUrbohNV0SoAwD1FwRwgMmDbgAAAABJRU5ErkJggg==') repeat-x 50% 0%;
+  color: #000000;
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;
+}
+hr {
+  border: none;
+  border-top: 1px solid #B7C5D9;
+}
+
+/* LINKS */
+a, .hideButton, .unhideButton, .embedButton, .navClickable, #closeWatcherMenuButton, .watchButton, .watchedCellCloseButton, .hideFileButton {
+  color: #34345C;
+}
+a:hover, .hideButton:hover, .unhideButton:hover, .embedButton:hover, .navClickable:hover, #closeWatcherMenuButton:hover, .watchButton:hover, .watchedCellCloseButton:hover, .hideFileButton:hover {
+  color: #DD0000;
+  text-shadow: none; /* gets rid of the stupid glow effect */
+}
+
+/* BOARD TITLE */
+.boardHeader p {
+  color: #AF0A0F;
+  font-family: Tahoma,sans-serif;
+}
+.boardHeader p#labelName {
+  font-size: 28px;
+  font-weight: bold;
+}
+.boardHeader p#labelDescription {
+  font-size: 8pt;
+}
+
+/* REPLY + MAKE THREAD FIELDS */
+#newPostFieldset, #quick-reply table {
+  border: 1px dashed #B7C5D9;
+}
+input, select, textarea {
+  background: #FFFFFF;
+  border-radius: 0px;
+  border: 1px solid #AAAAAA;
+  color: #000000;
+  font-family: arial,helvetica,sans-serif;
+}
+input:hover, select:hover, textarea:hover {
+  border: 1px solid #9988EE;
+}
+
+/* BUTTON, DROPZONE, CAPTCHA */
+input[type="button"], input[type="submit"], button {
+  background: #d4d0c8;
+  border-radius: 0px;
+  color: #000000;
+  font-family: arial,helvetica,sans-serif;
+  font-weight: 400;
+}
+.dropzone, .selectedCell {
+  background: #DADCE3;
+  border: 2px dashed rgba(125, 125, 125, 0.4);
+  border-radius: 0px;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: 0.2s;
+  text-align:center;
+}
+.subCaptchaDiv {
+    text-align: center;
+}
+
+/* ANNOUNCEMENT */
+#divMessage {
+  color: #FF0000;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* THREAD FIELDS */
+.title, .unhideButton {
+  font-weight: 400; /* makes timestamp not bold */
+}
+.labelSubject { /* subject */
+  color: #0F0C5D;
+  font-weight: bold; /* needed for catalog */
+}
+.linkName { /* email field, sage */
+  font-weight: bold;
+  color: #34345C;
+  text-decoration: underline;
+}
+.linkName:hover {
+  color: #DD0000;
+}
+.noEmailName, .noEmailName:hover { /* regular anonymous */
+  color: #117743;
+  text-decoration: none;
+  text-shadow: none;
+}
+.linkSelf, .linkQuote { /* post number */
+  color: #000000;
+}
+.linkSelf:hover, .linkQuote:hover {
+  color: #DD0000;
+}
+.panelBacklinks a { /* backlinks */
+  color: #34345C;
+}
+.panelBacklinks a:hover {
+  color: #DD0000;
+}
+.quoteLink, .quoteLink:hover { /* >> */
+  color: #D00D00;
+  text-decoration: underline;
+}
+.labelRole:before { /* capcode prefix */
+  font-size: 10px;
+}
+.labelOmission { /* posts omitted */
+  color: #707070;
+}
+.labelLastEdit { /* edited post */
+  font-size: 10px;
+}
+.labelId { /* id font */
+  font-size: 12px;
+}
+
+/* THREAD POSTS */
+.innerPost {  /* normal reply */
+  background-color: #D6DAF0;
+  border: 1px solid #B7C5D9;
+  border-left: none;
+  border-top: none;
+  border-radius: 0px;
+}
+.markedPost { /* highlighted reply */
+  background: #D6BAD0;
+  border: 1px solid #BA9DBF;
+  border-left: none;
+  border-top: none;
+  border-radius: 0px;
+}
+span.spoiler:hover { /* spoiler hover */
+  background: #000000;
+  color: #FFFFFF;
+}
+
+/* QUICK REPLY */
+#quick-reply table {
+  background-color: #D6DAF0;
+  border: 1px solid #A1A4B4;
+}
+#quick-reply table {
+  padding: 0em;
+}
+#quick-reply th {
+  background-color: #9988EE;
+}
+.post-table td {
+    padding-bottom: 0em;
+}
+
+/* NAVIGATION BAR */
+nav {
+  background-color: #D6DAF0;
+  border-bottom: 1px solid #8899AA;
+  color: #8899AA;
+  font-size: 12px;margin: 0 0.2em;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+/* DELETE AND REPORT */
+.reportFieldset {
+  border: 1px dashed #B7C5D9;
+}
+
+/* CATALOG */
+#catalogId {
+  color: #AF0A0F;
+}
+.catalogCell {
+  background: #DDE0F0;
+  border: 1px solid #B7B9C4;
+  border-radius: 0px;
+}
+
+/* BOARD LIST */
+.boardPages {
+    color: #8899AA;
+}
+
+/* FRONT PAGE */
+#divLatestPosts .latestPostCell {
+    background: #D6DAF0;
+    border: 1px solid #B7C5D9;
+}
+
+/* Watched threads menu box */
+#watchedMenu{
+  background: #D6DAF0;
+  border: 1px dashed #8899AA;
+}

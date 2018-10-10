@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="/.static/css/chan.css?13" rel="stylesheet">
+    <link href="/.static/icons/style.css" rel="stylesheet">
+    <link rel="manifest" href="/.static/manifest.json">
+    <link href="/.static/favicon.png" rel="icon">
+  </head>
+  <body id="page-thread">
+    <nav>
+      <div class="nav-block"><span><a href="/">Home</a></span><span>
+          <select id="selectTheme">
+            <option value="yotsuba">Yotsuba</option>
+            <option value="penumbra">Penumbra</option>
+            <option value="jungle">Jungle</option>
+          </select></span></div>
+      <div class="nav-block"><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
+      </div>
+    </nav>
+    <script async src="/.static/js/site.js?1"></script>
+    <main>
+      <div class="fixedForm" id="postingForm">
+        <div class="formTitle t-c2"><span>Reply</span>
+          <div class="formClose t-cl">Hide</div>
+        </div>
+        <form action="/replyThread.js" enctype="multipart/form-data" method="post">
+          <input id="boardIdentifier" name="boardUri" type="hidden"/>
+          <input id="threadIdentifier" name="threadId" type="hidden"/>
+          <input class="field block" name="subject" placeholder="Subject (optional)"/>
+          <textarea class="field block" name="message" placeholder="Message" required="required" maxlength="4096"></textarea><span class="help"><span id="labelMessageLength"></span> characters remaining</span>
+          <div id="divUpload">
+            <input class="fileBrowser block" id="files" type="file" name="files" multiple=""/><span class="help">Max filesize: <span id='labelMaxFileSize'></span>, Max files: <span id='labelMaxFiles'></span></span><br/>
+            <input id="checkboxSpoiler" type="checkbox" name="spoiler"/>
+            <label for="checkboxSpoiler">Spoiler</label>
+          </div>
+          <div class="divMore">More</div>
+          <div class="formMore">
+            <input class="field block" id="divName" placeholder="Name" name="name"/>
+            <input class="field block" name="password" placeholder="Post deletion password"/>
+            <input id="fieldEmail" type="checkbox" name="email" value="sage"/>
+            <label for="fieldEmail">Sage</label>
+          </div>
+          <button class="btn" id="formButton" type="submit">Reply</button>
+        </form>
+      </div>
+      <header><img id="bannerImage">
+        <h1 id="labelName"></h1>
+        <div id="labelDescription"></div>
+        <div id="mainLinks"><a class="mainLink t-bg t-c1" href="../catalog.html">
+            <div class="mainLinkInner">Catalog</div></a>
+          <div class="mainLink quickReply t-c1 t-bg">
+            <div class="mainLinkInner">Reply</div>
+          </div><a class="mainLink t-c1 t-bg" target="_blank" href="/.static/posting.html">
+            <div class="mainLinkInner">Help</div></a>
+        </div>
+      </header>
+      <fieldset id="divControls">
+        <legend>Thread Settings</legend>
+        <form id="threadSettings" action="/changeThreadSettings.js" method="post" enctype="multipart/form-data">
+          <input id="checkboxLock" name="lock" type="checkbox">
+          <label for="checkboxLock">Lock</label><br>
+          <input id="checkboxPin" name="pin" type="checkbox">
+          <label for="checkboxPin">Pin</label><br>
+          <input id="checkboxCyclic" type="checkbox" name="cyclic">
+          <label for="checkboxCyclic">Cyclic</label><br>
+          <input id="controlBoardIdentifier" type="hidden" name="boardUri">
+          <input id="controlThreadIdentifier" type="hidden" name="threadId">
+          <button class="btn">Save</button>
+        </form>
+      </fieldset>
+      <fieldset class="formTransfer" id="formTransfer">
+        <legend>Transfer Thread</legend>
+        <form action="/transferThread.js" enctype="multipart/form-data" method="post">
+          <input id="transferBoardIdentifier" type="hidden" name="boardUri">
+          <input id="transferThreadIdentifier" type="hidden" name="threadId">
+          <input class="field block" id="fieldDestinationBoard" placeholder="Destination board" name="boardUriDestination">
+          <button class="btn">Transfer thread</button>
+        </form>
+      </fieldset>
+      <fieldset id="ipDeletionForm">
+        <legend>Delete from IP</legend>
+        <form method="post" action="/deleteFromIp.js" enctype="multipart/form-data">
+          <input class="field block" placeholder="Non-hashed ip" name="ip">
+          <label>Delete only from these boards(Ex:"b v", leaving blank will delete from all boards)</label>
+          <input class="field block" name="boards">
+          <button class="btn">Delete</button>
+        </form>
+      </fieldset>
+      <form id="contentActions" method="post" action="/contentActions.js" enctype="multipart/form-data">
+        <div id="panelMessage">
+          <hr>
+          <div id="divMessage"></div>
+        </div>
+        <div id="threadList">
+          <div id="divThreads"></div>
+        </div>
+        <hr><br>
+        <fieldset class="t-bg">
+          <legend>Delete</legend>
+          <div class="block">
+            <input class="field" id="deletionFieldPassword" type="text" name="password" placeholder="Deletion Password">
+          </div>
+          <div class="block">
+            <input id="checkboxOnlyFiles" type="checkbox" name="deleteUploads">
+            <label for="checkboxOnlyFiles">Delete only files</label><br><span class="help">(Removes the file reference to the posts)</span>
+          </div>
+          <div class="block">
+            <input id="checkboxMediaDeletion" type="checkbox" name="deleteMedia">
+            <label for="checkboxMediaDeletion">Delete media</label><br><span class="help">(Removes the saved files from the server)</span>
+          </div>
+          <input class="btn" id="deleteFormButton" type="submit" value="Delete" name="action">
+        </fieldset>
+        <fieldset class="t-bg" style="display: none">
+          <legend>Report/Ban</legend>
+          <div class="contentAction">
+            <textarea class="field block" id="reportFieldReason" name="reason" placeholder="Enter reason"></textarea>
+            <div class="block">
+              <input id="checkboxGlobal" type="checkbox" name="global">
+              <label for="checkboxGlobal">Global</label>
+            </div><img class="captchaImage" id="captchaImageReport" src="/captcha.js">
+            <input class="hidden" id="reloadCaptchaButtonReport" type="button" onclick="reloadCaptcha()" value="Reload"><span class="captchaTimer"></span><br>
+            <input class="captchaField field" id="fieldCaptchaReport" name="captcha" placeholder="answer"><br>
+            <input id="reportFormButton" type="submit" value="Report" name="action">
+          </div>
+        </fieldset>
+        <fieldset class="t-bg" id="divMod">
+          <legend>Moderation actions</legend>
+          <label>Ban duration (Defaults to 5 years):</label>
+          <input class="field block" id="fieldDuration" name="duration"><a href="/.static/moderation.html#banSection">Duration format</a><br>
+          <label>Ban Message</label>
+          <input class="field block" id="fieldbanMessage" name="banMessage">
+          <labe>Ban type:</labe>
+          <select class="field block" id="comboBoxBanTypes" name="banType">
+            <option value="0">Regular ban</option>
+            <option value="1">Range ban (1/2 octects)</option>
+            <option value="2">Range ban (3/4 octects)</option>
+          </select>
+          <button class="btn" id="inputIpDelete" value="ip-deletion" name="action">Delete by ip on this board</button>
+          <input id="inputBan" type="submit" value="Ban" name="action">
+          <button class="btn" id="inputSpoil" value="spoil" name="action">Spoil Files</button>
+        </fieldset>
+      </form>
+    </main>
+    <footer>
+      <hr><a href="mailto:contact@indiachan.com">
+        <div class="i i-mail"></div>contact@indiachan.com</a><a href="https://irc.indiachan.com" target="_blank">
+        <div class="i i-irc"></div>IRC</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">
+        <div class="i i-git"></div>Source</a>
+    </footer>
+    <form id="captchaModal">
+      <div><img>
+        <input class="field block" placeholder="Enter 6 characters" required pattern=".{6}"><span></span>
+        <button class="btn">Answer</button>
+      </div>
+    </form>
+  </body>
+  <div id="floatingMenu"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0-beta.1/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/3.0.2/timeago.min.js"></script>
+  <script src="/.static/js/chan.js?14"></script>
+</html>
