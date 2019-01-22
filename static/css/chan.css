@@ -26,6 +26,10 @@
   margin: 0 20px 20px 0;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.16);
+  background: url("/.static/logo.png") no-repeat center;
+  background-size: contain;
+  height: 268px;
+  width: 268px;
 }
 #indexBoards {
   display: flex;
@@ -307,13 +311,13 @@ input.deletionCheckbox {
   margin: 0 -10px 0 3px;
 }
 .innerOP .innerPost {
-  background: rgba(0,0,0,0.04);
+  background: #bbe6c2;
   border: 0;
 }
 .opCell {
   margin: 16px 0;
   padding-top: 16px;
-  border-top: 1px dashed rgba(0,0,0,0.2);
+  border-top: 1px dashed rgba(0,0,0,0.3);
 }
 .postCell {
   margin-top: 6px;
@@ -337,16 +341,27 @@ input.deletionCheckbox {
   color: #777;
   font-size: 80%;
 }
-.innerOP .linkSelf:after {
-  content: ' [View Thread]';
+#page-board .innerOP .linkSelf:after {
+  content: ' [Goto Thread]';
   font-size: 1.125em;
   white-space: nowrap;
+}
+#page-board .opCell .linkQuote.quickReply {
+  display: none;
 }
 .linkSelf,
 .linkQuote,
 .postTitle span + span,
 .linkEdit {
   margin-left: 6px;
+}
+.linkQuote:before,
+.linkEdit:before {
+  content: '[';
+}
+.linkQuote:after,
+.linkEdit:after {
+  content: ']';
 }
 .postTitle {
   padding: 6px 12px;
@@ -374,6 +389,9 @@ font-size: 0.875em {
 }
 .panelUploads.expanded + .divMessage {
   clear: both;
+}
+.imgFlag {
+  margin: 0 4px;
 }
 .innerUpload {
   cursor: pointer;
@@ -430,6 +448,14 @@ font-size: 0.875em {
 .innerPost.markedPost {
   background: #ccc;
 }
+.divBanMessage {
+  color: #a00;
+  padding: 10px;
+}
+.divBanMessage:before {
+  content: '(User banned) ';
+  font-weight: bold;
+}
 .greenText {
   color: #588006;
 }
@@ -456,7 +482,10 @@ font-size: 0.875em {
   color: #a00;
 }
 .labelRole:after {
-  content: ' ಠ_ಠ';
+  font-family: 'i';
+  margin: 2px;
+  font-weight: normal;
+  font-size: 90%;
 }
 .labelOmission {
   margin: 8px;
@@ -484,7 +513,8 @@ font-size: 0.875em {
   margin: 0 4px;
 }
 .panelBacklinks a:first-child:before {
-  content: 'Replies: ';
+  pointer-events: none;
+  content: 'Quoted By: ';
   text-decoration: none;
   color: #777;
   display: inline-block;
@@ -567,11 +597,83 @@ font-size: 0.875em {
 .t-c1 {
   color: #117743;
 }
+html.theme-yotsubab {
+  background: #ffe;
+}
+html.theme-yotsubab .t-bg {
+  background: #f0e0d6;
+}
+html.theme-yotsubab .innerOP .innerPost {
+  background: none;
+}
+html.theme-yotsubab .postTitle {
+  border-bottom: 0;
+}
+html.theme-yotsubab .panelBacklinks a:after {
+  content: none;
+}
 html.theme-simplechan {
   background: #f0f0f0;
   font-family: arial, helvetica, sans-serif;
-  color: #1e1e1e;
+  color: #333;
+}
+html.theme-simplechan footer a {
+  color: #333;
+}
+html.theme-simplechan #siteLogo {
+  background-image: url("/.static/leaf.png");
+  box-shadow: none;
+}
+html.theme-simplechan .linkQuote,
+html.theme-simplechan .linkEdit {
+  background: #fff;
+  color: #444;
+  padding: 3px 6px;
+}
+html.theme-simplechan .linkQuote:before,
+html.theme-simplechan .linkEdit:before,
+html.theme-simplechan .linkQuote:after,
+html.theme-simplechan .linkEdit:after {
+  content: none;
+}
+html.theme-simplechan .linkSelf:before {
+  content: 'No.';
   font-size: 14px;
+  color: #00f;
+}
+html.theme-simplechan #page-board .innerOP .linkSelf:after {
+  content: 'Goto Thread';
+  background: #fff;
+  color: #444;
+  padding: 3px 6px;
+  margin: 0 3px 0 6px;
+  font-size: 16px;
+}
+html.theme-simplechan .t-c1 {
+  color: #ee4747;
+}
+html.theme-simplechan .quoteLink,
+html.theme-simplechan .panelBacklinks a,
+html.theme-simplechan .t-cl,
+html.theme-simplechan a,
+html.theme-simplechan .mainLink {
+  color: #00f;
+  font-weight: normal;
+}
+html.theme-simplechan .t-bg {
+  background: #dcdcdc;
+  border: 0;
+  border-radius: 0;
+}
+html.theme-simplechan .markedPost {
+  border: 1px solid #555;
+}
+html.theme-simplechan .innerOP .innerPost {
+  background: #dcf0dc;
+}
+html.theme-simplechan .postTitle {
+  background: #c8c8c8;
+  border: 0;
 }
 html.theme-penumbra {
   font-family: monospace;
@@ -638,18 +740,6 @@ html.theme-penumbra .postTitle {
 }
 html.theme-penumbra .postTitle svg {
   fill: #fff;
-}
-html.theme-jungle {
-  background: #0f0;
-}
-html.theme-jungle #indexBlocks > div header {
-  background: none;
-}
-html.theme-jungle .innerPost,
-html.theme-jungle .markedPost,
-html.theme-jungle #threadPages,
-html.theme-jungle .field {
-  background: #d6daf0;
 }
 html {
   font-size: 16px;
@@ -727,7 +817,7 @@ nav select {
   color: inherit;
   background: none;
   border: none;
-  width: 88px;
+  width: 102px;
   font: inherit;
 }
 .nav-block {

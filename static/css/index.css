@@ -26,6 +26,10 @@
   margin: 0 20px 20px 0;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.16);
+  background: url("/.static/logo.png") no-repeat center;
+  background-size: contain;
+  height: 268px;
+  width: 268px;
 }
 #indexBoards {
   display: flex;

@@ -20,27 +20,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.i-git:before {
+.i-git:after {
   content: "\e907";
 }
-.i-lock:before {
+.i-lock:after {
   content: "\e900";
 }
-.i-pin:before {
+.i-pin:after {
   content: "\e901";
 }
-.i-play:before {
+.i-play:after {
   content: "\e902";
 }
-.i-refresh:before {
+.i-refresh:after {
   content: "\e903";
 }
-.i-irc:before {
+.i-irc:after {
   content: "\e904";
 }
-.i-mail:before {
+.i-mail:after {
   content: "\e905";
 }
-.i-mod:before {
+.i-mod:after {
   content: "\e906";
 }

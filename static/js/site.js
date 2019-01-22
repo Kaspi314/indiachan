@@ -1,7 +1,7 @@
 var selectThemeEl = document.querySelector('#selectTheme');
 function setTheme(value) {
   if (!value) {
-    value = localStorage.SITE_THEME || 'yotsuba';
+    value = localStorage.SITE_THEME || '4plebs';
   }
   document.documentElement.className = 'theme-' + value;
   selectThemeEl.value = value;
@@ -16,7 +16,8 @@ var mimeExts = {
   'imagepng': '.png',
   'imagejpeg': '.jpg',
   'imagegif': '.gif',
-  'imagebmp': '.bmp'
+  'imagebmp': '.bmp',
+  'videomp4': '.mp4'
 }
 
 addEventListener('error', function(e) {

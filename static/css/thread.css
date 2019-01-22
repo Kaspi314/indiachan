@@ -16,13 +16,13 @@ input.deletionCheckbox {
   margin: 0 -10px 0 3px;
 }
 .innerOP .innerPost {
-  background: rgba(0,0,0,0.04);
+  background: #bbe6c2;
   border: 0;
 }
 .opCell {
   margin: 16px 0;
   padding-top: 16px;
-  border-top: 1px dashed rgba(0,0,0,0.2);
+  border-top: 1px dashed rgba(0,0,0,0.3);
 }
 .postCell {
   margin-top: 6px;
@@ -46,16 +46,27 @@ input.deletionCheckbox {
   color: #777;
   font-size: 80%;
 }
-.innerOP .linkSelf:after {
-  content: ' [View Thread]';
+#page-board .innerOP .linkSelf:after {
+  content: ' [Goto Thread]';
   font-size: 1.125em;
   white-space: nowrap;
+}
+#page-board .opCell .linkQuote.quickReply {
+  display: none;
 }
 .linkSelf,
 .linkQuote,
 .postTitle span + span,
 .linkEdit {
   margin-left: 6px;
+}
+.linkQuote:before,
+.linkEdit:before {
+  content: '[';
+}
+.linkQuote:after,
+.linkEdit:after {
+  content: ']';
 }
 .postTitle {
   padding: 6px 12px;
@@ -83,6 +94,13 @@ font-size: 0.875em {
 }
 .panelUploads.expanded + .divMessage {
   clear: both;
+}
+.imgFlag {
+  margin: 0 4px;
+}
+.flag-in {
+  width: 0;
+  margin: 0 2px;
 }
 .innerUpload {
   cursor: pointer;
@@ -139,6 +157,14 @@ font-size: 0.875em {
 .innerPost.markedPost {
   background: #ccc;
 }
+.divBanMessage {
+  color: #a00;
+  padding: 10px;
+}
+.divBanMessage:before {
+  content: '(User banned) ';
+  font-weight: bold;
+}
 .greenText {
   color: #588006;
 }
@@ -165,7 +191,10 @@ font-size: 0.875em {
   color: #a00;
 }
 .labelRole:after {
-  content: ' ಠ_ಠ';
+  font-family: 'i';
+  margin: 2px;
+  font-weight: normal;
+  font-size: 90%;
 }
 .labelOmission {
   margin: 8px;
@@ -193,7 +222,8 @@ font-size: 0.875em {
   margin: 0 4px;
 }
 .panelBacklinks a:first-child:before {
-  content: 'Replies: ';
+  pointer-events: none;
+  content: 'Quoted By: ';
   text-decoration: none;
   color: #777;
   display: inline-block;
