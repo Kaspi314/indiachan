@@ -16,7 +16,24 @@
   var rootElement = document.querySelector('#divThreads');
   var cellElements = $$('.catalogCell');
 
-  onresize = function onresize(e) {
+  function debounce(func, wait) {
+    var timeout;
+    return function () {
+      var context = this,
+          args = arguments;
+
+      var later = function later() {
+        timeout = null;
+        func.apply(context, args);
+      };
+
+      var callNow = !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  }
+  onresize = debounce(function (e) {
     // only layout when the number of columns has changed
     var newNoOfColumns = parseInt(innerWidth / minWidth);
     if (newNoOfColumns > 7) newNoOfColumns = 7;
@@ -85,8 +102,7 @@
 
 
     rootElement.style.maxHeight = masonryHeight + 1 + 'px';
-  };
-
+  });
   var content = $$('.content').map(function (cell) {
     return cell.innerText;
   });

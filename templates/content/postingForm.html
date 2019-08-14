@@ -1,0 +1,81 @@
+
+<input id="boardIdentifier" name="boardUri" type="hidden"/>
+<input id="threadIdentifier" name="threadId" type="hidden"/>
+<input class="reply-field" id="fieldSubject" name="subject" placeholder="Subject"/>
+<textarea class="reply-field" id="fieldMessage" required="required" name="message" placeholder="Message (Required)" maxlength="4096"></textarea>
+<div class="help">
+  <div style="float: right"><span id="labelMessageLength"></span> characters remaining.</div>
+  <div id="manual">
+    <input class="hidden" id="showManual" type="checkbox"/>
+    <label class="toggler" for="showManual">Posting Manual</label>
+    <table class="hidden" id="manualTable">
+      <tr>
+        <td>> huehuehue</td>
+        <td class="greenText">>huehuehue</td>
+      </tr>
+      <tr>
+        <td>>>9211</td>
+        <td class="quoteLink">>>9211</td>
+      </tr>
+      <tr>
+        <td>**huehuehue**</td>
+        <td class="spoiler">huehuehue</td>
+      </tr>
+      <tr>
+        <td>==huehuehue==</td>
+        <td class="redText">huehuehue</td>
+      </tr>
+      <tr>
+        <td>''huehuehue''<br/>(two single quotes, not a double quote)</td>
+        <td><em>huehuehue</em></td>
+      </tr>
+      <tr>
+        <td>'''huehuehue'''<br/>(three single quotes)</td>
+        <td><strong>huehuehue</strong></td>
+      </tr>
+      <tr>
+        <td>__huehuehue__</td>
+        <td>
+          <u>huehuehue</u>
+        </td>
+      </tr>
+      <tr>
+        <td>~~huehuehue~~</td>
+        <td>
+          <s>huehuehue</s>
+        </td>
+      </tr>
+      <tr>
+        <td>[code]huehuehue[/code]</td>
+        <td><code>huehuehue</code></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="double-field" id="divUpload">
+  <input class="reply-field" id="inputFiles" type="file" name="files" multiple="multiple"/>
+  <input class="hidden" id="checkboxSpoiler" type="checkbox" name="spoiler"/>
+  <label class="checkLabel" for="checkboxSpoiler">Spoiler</label>
+  <label for="checkboxSpoiler"></label>
+</div>
+<div class="help">Max file size:<span id="labelMaxFileSize"></span>, Max files:<span id="labelMaxFiles"></span></div>
+<div id="captchaDiv"></div>
+<div id="more-fields">
+  <input class="hidden" id="showMore" type="checkbox"/>
+  <label class="toggler" for="showMore">More</label>
+  <div class="double-field" id="divName">
+    <input class="reply-field" id="fieldName" name="name" placeholder="Name"/>
+    <input class="reply-field" id="fieldPostingPassword" name="password" placeholder="Deletion Password"/>
+    <input class="hidden" id="fieldEmail" type="checkbox" name="email" value="sage"/>
+    <label class="checkLabel" for="fieldEmail">Sage</label>
+  </div>
+</div>
+<div id="flagsDiv">
+  <p class="small">(used to delete files and postings)</p>Flag
+  <select id="flagCombobox" name="flag"></select><img class="flagPreview"/>No location
+</div>
+<div class="hidden" id="noFlagDiv">
+  <input id="checkboxNoFlag" type="checkbox" name="noFlag"/>
+  <label for="checkboxNoFlag"></label>
+</div>
+<input class="hidden" id="alwaysUseBypassCheckBox" type="checkbox"/>
