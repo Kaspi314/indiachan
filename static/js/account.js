@@ -1,54 +1,56 @@
-var settingsRelation = {
+var account = {};
+
+account.settingsRelation = {
   checkboxAlwaysSign : 'alwaysSignRole',
   checkboxReportNotify : 'reportNotify'
 };
 
-if (!DISABLE_JS) {
-  document.getElementById('logoutJsButton').style.display = 'inline';
-  document.getElementById('saveJsButton').style.display = 'inline';
-  document.getElementById('passwordJsButton').style.display = 'inline';
+account.init = function() {
 
-  if (document.getElementById('requestConfirmationJsButton')) {
-    document.getElementById('requestConfirmationJsButton').style.display = 'inline';
-    document.getElementById('requestConfirmationFormButton').style.display = 'none';
+  if (document.getElementById('requestConfirmationFormButton')) {
+    api.convertButton('requestConfirmationFormButton',
+        account.requestConfirmation);
   }
 
-  document.getElementById('passwordFormButton').style.display = 'none';
-  document.getElementById('saveFormButton').style.display = 'none';
-  document.getElementById('logoutFormButton').style.display = 'none';
+  api.convertButton('passwordFormButton', account.changePassword,
+      'passwordChangeField');
+
+  api.convertButton('saveFormButton', account.save, 'settingsField');
+
+  api.convertButton('logoutFormButton', account.logout);
 
   if (document.getElementById('boardCreationDiv')) {
-    document.getElementById('reloadCaptchaButton').style.display = 'inline';
-    document.getElementById('newBoardFormButton').style.display = 'none';
-    document.getElementById('newBoardJsButton').style.display = 'inline';
+    api.convertButton('newBoardFormButton', account.createBoard,
+        'creationField');
   }
 
-}
+};
 
-function requestConfirmation() {
+account.requestConfirmation = function() {
 
-  apiRequest('requestEmailConfirmation', {}, function requestComplete(status,
-      data) {
+  api.formApiRequest('requestEmailConfirmation', {}, function requestComplete(
+      status, data) {
 
     if (status === 'ok') {
       alert('Confirmation requested.');
     } else {
       alert(status + ': ' + JSON.stringify(data));
     }
+
   });
 
-}
+};
 
-function logout() {
+account.logout = function() {
 
   document.cookie = 'login=invalid+login';
   document.cookie = 'hash=invalid+hash; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
   window.location.pathname = '/login.html';
 
-}
+};
 
-function changePassword() {
+account.changePassword = function() {
 
   var typedPassword = document.getElementById('fieldPassword').value;
   var typedNewPassword = document.getElementById('fieldNewPassword').value;
@@ -61,7 +63,7 @@ function changePassword() {
   } else if (!typedNewPassword.length) {
     alert('You cannot provide a blank password.');
   } else {
-    apiRequest('changeAccountPassword', {
+    api.formApiRequest('changeAccountPassword', {
       password : typedPassword,
       newPassword : typedNewPassword,
       confirmation : typedConfirmation
@@ -71,7 +73,9 @@ function changePassword() {
 
         alert('Password changed.');
 
-        location.reload(true);
+        document.getElementById('fieldPassword').value = '';
+        document.getElementById('fieldNewPassword').value = '';
+        document.getElementById('fieldConfirmation').value = '';
 
       } else {
         alert(status + ': ' + JSON.stringify(data));
@@ -79,16 +83,16 @@ function changePassword() {
     });
   }
 
-}
+};
 
-function save() {
+account.save = function() {
 
   var selectedSettings = [];
 
-  for ( var key in settingsRelation) {
+  for ( var key in account.settingsRelation) {
 
     if (document.getElementById(key).checked) {
-      selectedSettings.push(settingsRelation[key]);
+      selectedSettings.push(account.settingsRelation[key]);
     }
 
   }
@@ -99,15 +103,13 @@ function save() {
     alert('Email too long, keep it under 64 characters');
   } else {
 
-    apiRequest('changeAccountSettings', {
+    api.formApiRequest('changeAccountSettings', {
       email : typedEmail,
       settings : selectedSettings
     }, function requestComplete(status, data) {
 
       if (status === 'ok') {
-
         alert('Settings changed.');
-
       } else {
         alert(status + ': ' + JSON.stringify(data));
       }
@@ -115,9 +117,9 @@ function save() {
 
   }
 
-}
+};
 
-function createBoard() {
+account.createBoard = function() {
 
   var typedUri = document.getElementById('newBoardFieldUri').value.trim();
   var typedName = document.getElementById('newBoardFieldName').value.trim();
@@ -137,7 +139,7 @@ function createBoard() {
     alert('Invalid captcha.');
     return;
   } else {
-    apiRequest('createBoard', {
+    api.formApiRequest('createBoard', {
       boardUri : typedUri,
       boardName : typedName,
       boardDescription : typedDescription,
@@ -152,4 +154,6 @@ function createBoard() {
     });
   }
 
-}
+};
+
+account.init();

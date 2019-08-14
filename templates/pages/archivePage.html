@@ -25,19 +25,31 @@
 
     <fieldset id="settingsFieldset">
 
-      <legend>Bans</legend>
+      <legend>Archive</legend>
 
-      <div id="bansDiv"></div>
+      <form
+        action="/archives.js"
+        method="GET">
+        Boards:
+        <input
+          name="boards"
+          id="fieldBoards"
+          type="text">
 
+        <button type="submit">Filter</button>
+      </form>
+
+
+      <div id="divThreads"></div>
+      <div id="divPages"></div>
     </fieldset>
-
   </div>
 
 </body>
 
 <script src="/.static/js/api.js"></script>
-<script src="/.static/js/bans.js"></script>
 <script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
+<script src="/.static/js/filterManagement.js"></script>
 
 </html>

@@ -1,740 +1,356 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8" />
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0">
-<link
-  href="/.static/css/global.css"
-  type="text/css"
-  rel="stylesheet" />
-</head>
-<body>
-
-  <nav>
-    <span id="navLinkSpan"> <span>[</span> <a
-        href="/"
-        class="coloredIcon"
-        id="navLinkHome">home</a> <span>/</span> <a
-        href="/boards.js"
-        class="coloredIcon"
-        id="navBoardList">boards</a> <span>/</span> <a
-        href="/overboard"
-        class="coloredIcon"
-        id="navOverboard">overboard</a> <span>/</span> <a
-        href="/.static/posting.html"
-        class="coloredIcon"
-        id="navPosting">help</a> <span>]</span>
-    </span> <span id="navBoardsSpan"> </span> <span id="navOptionsSpan"> </span>
-  </nav>
-
-  <header>
-    <img
-      src="/.static/logo.png"
-      alt="logo" />
-  </header>
-
-  <div id="settingsWrapper">
-    <fieldset id="settingsFieldset">
-      <legend>Global Settings</legend>
-
-      <form
-        action="/saveGlobalSettings.js"
-        enctype="multipart/form-data"
-        method="post">
-
-        <p class="title">HTTP settings</p>
-        <label>
-          Address<sup>2</sup>:
-          <input
-            type="text"
-            name="address"
-            id="fieldAddress">
-        </label>
-        <label>
-          Port<sup>2</sup>:
-          <input
-            type="text"
-            name="port"
-            id="fieldPort">
-        </label>
-        <label>
-          Tor Port<sup>2</sup>:
-          <input
-            type="text"
-            name="torPort"
-            id="fieldTorPort">
-        </label>
-        <label>
-          SSL key passphrase:
-          <input
-            type="password"
-            name="sslPass"
-            id="fieldSslPass">
-        </label>
-        <label>
-          CSP directives (e.g: "default-src 'self'", without the quotations):
-          <input
-            type="text"
-            name="CSP"
-            id="fieldCSP">
-        </label>
-        <label>
-          Static files expiration (minutes):
-          <input
-            type="text"
-            name="staticExpiration"
-            id="fieldStaticExpiration">
-        </label>
-        <label>
-          Maximum size for requests (MB):
-          <input
-            type="text"
-            name="maxRequestSizeMB"
-            id="fieldMaxRequestSize">
-        </label>
-        <label>
-          Cluster Port<sup>2</sup>:
-          <input
-            type="text"
-            name="clusterPort"
-            id="fieldClusterPort">
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxDisable304"
-            name="disable304">
-          Disable http response 304 (Only turn on if you know what you are
-          doing, will consume lots more of bandwidth)
-        </label>
-        <label>
-          SSL<sup>2</sup> (Make sure you have the proper files)
-          <select
-            id="comboSsl"
-            name="ssl">
-          </select>
-        </label>
-        <hr>
-
-        <p class="title">System settings</p>
-        <label>
-          Master Ip:
-          <input
-            type="text"
-            name="master"
-            id="fieldMaster">
-        </label>
-        <label>
-          Slaves ips<sup>1</sup>:
-          <input
-            type="text"
-            name="slaves"
-            id="fieldSlaves">
-        </label>
-        <label>
-          Front-end directory:
-          <input
-            type="text"
-            name="fePath"
-            id="fieldFePath">
-        </label>
-        <label>
-          Url for the list of TOR exit node ips:
-          <input
-            type="text"
-            name="torSource"
-            id="fieldTorSource">
-        </label>
-        <label>
-          Url for the list of spammer ips(Requirements for the file format are
-          specified on src/be/readme):
-          <input
-            type="text"
-            name="spamIpsSource"
-            id="fieldSpamIpsSource">
-        </label>
-        <label>
-          Url for the list of incremental spammer ips(Requirements for the file
-          format are specified on src/be/readme):
-          <input
-            type="text"
-            name="incSpamIpsSource"
-            id="fieldIncrementalSpamIpsSource">
-        </label>
-        <label>
-          Path to an optional language pack:
-          <input
-            type="text"
-            name="languagePackPath"
-            id="fieldLanguagePack">
-        </label>
-        <label>
-          Extension used for thumbnails (Will make all gif thumbs do not
-          animate):
-          <input
-            type="text"
-            id="fieldThumbExtension"
-            name="thumbExtension">
-        </label>
-        <label>
-          Temporary directory:
-          <input
-            type="text"
-            name="tempDirectory"
-            id="fieldTempDir">
-        </label>
-
-        <hr>
-        <p class="title">Posting settings</p>
-        <label>
-          Character limit for messages:
-          <input
-            type="text"
-            name="messageLength"
-            id="fieldMessageLength">
-        </label>
-        <label>
-          Maximum size for uploaded files (MB):
-          <input
-            type="text"
-            name="maxFileSizeMB"
-            id="fieldMaxFileSize">
-        </label>
-        <label>
-          Allowed mime-types<sup>1</sup>:
-          <input
-            type="text"
-            name="acceptedMimes"
-            id="fieldAcceptedMimes">
-        </label>
-        <label>
-          Maximum number of uploaded files on posting:
-          <input
-            type="text"
-            name="maxFiles"
-            id="fieldMaxFiles">
-        </label>
-        <label>
-          Minimum amount of seconds between posts from the same ip:
-          <input
-            type="text"
-            name="floodTimerSec"
-            id="fieldFloodInterval">
-        </label>
-        <label>
-          How many posts a block bypass allows:
-          <input
-            type="text"
-            name="bypassMaxPosts"
-            id="fieldBypassPosts">
-        </label>
-        <label>
-          How many hours a block bypass lasts:
-          <input
-            type="text"
-            name="bypassDurationHours"
-            id="fieldBypassHours">
-        </label>
-        <label>
-          Default anonymous name:
-          <input
-            type="text"
-            name="defaultAnonymousName"
-            id="fieldAnonymousName">
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxDisableFloodCheck"
-            name="disableFloodCheck">
-          Disable flood checks
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxGlobalCaptcha"
-            name="forceCaptcha">
-          Forces all boards to use captcha
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxDisableCatalogPosting"
-            name="disableCatalogPosting">
-          Disable thread creation from catalog
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxAllowTorFiles"
-            name="allowTorFiles">
-          Allow TOR users to post files
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxDisableSpamCheck"
-            name="disableSpamCheck">
-          Disable check on spammer ips (Use it if you can't obtain the spam ip
-          list, so users are still able to post)
-        </label>
-        <label>
-          TOR posting permission level:
-          <select
-            id="comboTorPostingLevel"
-            name="torPostingLevel">
-          </select>
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxSpamBypass"
-            name="allowSpamBypass">
-          Allow ips caught on the spammer list to use the block bypass if block
-          bypass is not disabled
-        </label>
-        <label>
-          Bypass mode:
-          <select
-            id="comboBypassMode"
-            name="bypassMode">
-          </select>
-        </label>
-
-        <hr>
-
-        <p class="title">Display Limits</p>
-        <label>
-          Amount of latest posts to show on front-page:
-          <input
-            type="text"
-            name="globalLatestPosts"
-            id="fieldGlobalLatestPosts">
-        </label>
-        <label>
-          Amount of latest images to show on front-page:
-          <input
-            type="text"
-            name="globalLatestImages"
-            id="fieldGlobalLatestImages">
-        </label>
-        <label>
-          Amount of threads on the multi-board:
-          <input
-            type="text"
-            name="multiboardThreadCount"
-            id="fieldMultiBoardThreadCount">
-        </label>
-        <label>
-          Number of preview posts:
-          <input
-            type="text"
-            name="latestPostCount"
-            id="fieldLatestPostsCount">
-        </label>
-        <label>
-          Maximum amount of threads per board:
-          <input
-            type="text"
-            name="maxThreadCount"
-            id="fieldThreadLimit">
-        </label>
-        <label>
-          Boards page size:
-          <input
-            type="text"
-            name="pageSize"
-            id="fieldPageSize">
-        </label>
-        <label>
-          Amount of boards to be picked as top boards:
-          <input
-            type="text"
-            name="topBoardsCount"
-            id="fieldTopBoardsCount">
-        </label>
-        <label>
-          Maximum amount of boards per page on boards list:
-          <input
-            type="text"
-            name="boardsPerPage"
-            id="fieldBoardsPerPage">
-        </label>
-        <label>
-          Amount of threads on the overboard:
-          <input
-            type="text"
-            name="overBoardThreadCount"
-            id="fieldOverBoardThreads">
-        </label>
-        <label>
-          Size of media management pages:
-          <input
-            type="text"
-            name="mediaPageSize"
-            id="fieldMediaPageSize">
-        </label>
-
-        <hr>
-        <p class="title">Board limits</p>
-        <label>
-          Maximum size for flags (KB):
-          <input
-            type="text"
-            name="maxFlagSizeKB"
-            id="fieldMaxFlagSize">
-        </label>
-        <label>
-          Maximum board message size:
-          <input
-            type="text"
-            name="boardMessageLength"
-            id="fieldBoardMessageLength">
-        </label>
-        <label>
-          Maximum number of board hash bans:
-          <input
-            type="text"
-            name="maxBoardHashBans"
-            id="fieldMaxBoardHashBans">
-        </label>
-        <label>
-          Maximum number of rules in boards:
-          <input
-            type="text"
-            name="maxBoardRules"
-            id="fieldMaxRules">
-        </label>
-        <label>
-          Maximum number of filters in boards:
-          <input
-            type="text"
-            name="maxFilters"
-            id="fieldMaxFilters">
-        </label>
-        <label>
-          Maximum number of tags per board:
-          <input
-            type="text"
-            name="maxBoardTags"
-            id="fieldMaxTags">
-        </label>
-        <label>
-          Maximum number of volunteers in boards:
-          <input
-            type="text"
-            name="maxBoardVolunteers"
-            id="fieldMaxVolunteers">
-        </label>
-        <label>
-          Maximum size for banners (KB):
-          <input
-            type="text"
-            name="maxBannerSizeKB"
-            id="fieldMaxBannerSize">
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="omitUnindexedContent"
-            id="checkboxOmitUnindexedContent">
-          Omit content from unindexed boards from front-page or overboards
-        </label>
-        <hr>
-
-        <p class="title">Variables</p>
-        <label>
-          Amount of days before removing ips from posts (any value below 1 or
-          null means to never remove):
-          <input
-            type="text"
-            name="ipExpirationDays"
-            id="fieldIpExpiration">
-        </label>
-        <label>
-          Number of replies before a thread enters auto-sage:
-          <input
-            type="text"
-            name="autoSageLimit"
-            id="fieldAutoSageLimit">
-        </label>
-        Maximum size for custom flag names:
-        <label>
-          <input
-            type="text"
-            name=flagNameLength
-            id="fieldFlagNameLength">
-        </label>
-        <label>
-          Mark accounts after these many days of inactivity<sup>2</sup>:
-          <input
-            type="text"
-            name="inactivityThreshold"
-            id="fieldInactivityThreshold">
-        </label>
-        <label>
-          Maximum dimension for thumbnails, for both height and width:
-          <input
-            type="text"
-            name="thumbSize"
-            id="fieldThumbSize">
-        </label>
-        <label>
-          Sender address for automated e-mails:
-          <input
-            type="text"
-            name="emailSender"
-            id="fieldSenderEmail">
-        </label>
-        <label>
-          Amount of minutes before a captcha expires:
-          <input
-            type="text"
-            name="captchaExpiration"
-            id="fieldCaptchaExpiration">
-        </label>
-        <label>
-          Site title:
-          <input
-            type="text"
-            name="siteTitle"
-            id="fieldSiteTitle">
-        </label>
-        <label>
-          Default ban message to be displayed on banned posts:
-          <input
-            type="text"
-            name="defaultBanMessage"
-            id="fieldBanMessage">
-        </label>
-        <label>
-          RSS link domain:
-          <input
-            type="text"
-            name="rssDomain"
-            id="fieldRssDomain">
-        </label>
-        <label>
-          Overboard uri:
-          <input
-            type="text"
-            name="overboard"
-            id="fieldOverboard">
-        </label>
-        <label>
-          SFW overboard uri:
-          <input
-            type="text"
-            name="sfwOverboard"
-            id="fieldSfwOverboard">
-        </label>
-
-        <hr>
-        <p class="title">Misc</p>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxVerbose"
-            name="verbose">
-          Full verbose mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxVerboseApis"
-            name="verboseApis">
-          Verbose APIs mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxVerboseCache"
-            name="verboseCache">
-          Verbose cache mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxVerboseGridfs"
-            name="verboseGridfs">
-          Verbose gridfs mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxVerboseQueue"
-            name="verboseQueue">
-          Verbose message queue mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxVerboseMisc"
-            name="verboseMisc">
-          Verbose miscellaneous mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxVerboseGenerator"
-            name="verboseGenerator">
-          Verbose generator mode
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxUseAlternativeLanguages"
-            name="useAlternativeLanguages">
-          Use alternative languages
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxBlockedReport"
-            name="allowBlockedToReport">
-          Allow blocked or banned users to report
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxFfmpegGifs"
-            name="ffmpegGifs">
-          Use ffmpeg to generate animated gif thumbnails (requires ffmpeg
-          installed)
-        </label>
-        <label>
-          Addons<sup>1</sup>,<sup>2</sup>(They will be loaded in the order they
-          appear in this list):
-          <input
-            type="text"
-            name="addons"
-            id="fieldAddons">
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxGlobalBoardModeration"
-            name="allowGlobalBoardModeration">
-          Allow global staff to moderate boards
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxGlobalBanners"
-            name="useGlobalBanners">
-          Make boards use global banners
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxAllowCustomJs"
-            name="allowBoardCustomJs">
-          Allow board custom javascript
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxMediaThumb"
-            name="mediaThumb">
-          Generate thumbnails from media files (requires ffmpeg installed)
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxFrontPageStats"
-            name="frontPageStats">
-          Display total post count and total unique ips on front-page
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxAutoPruneFiles"
-            name="autoPruneFiles">
-          Prune orphaned files weekly<sup>2</sup>
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxMaintenance"
-            name="maintenance">
-          Maintenance mode (Disables input to the server and let users know it
-          is under maintenance)
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxDisableAccountCreation"
-            name="disableAccountCreation">
-          Disable account creation
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxSFWLatestImages"
-            name="onlySfwLatestImages">
-          Display only SFW images on the front-page
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="checkboxMultipleReports"
-            name="multipleReports">
-          Allow multiple reports at once
-        </label>
-        <label>
-          Minimum global role for users to be able to see poster's clear ips:
-          <select
-            id="comboMinClearIpRole"
-            name="clearIpMinRole">
-          </select>
-        </label>
-        <label>
-          Minimum global role required for board creation:
-          <select
-            id="comboBoardCreationRequirement"
-            name="boardCreationRequirement">
-          </select>
-        </label>
-        <input
-          type="submit"
-          value="Save"
-          id="saveFormButton">
-
-        <input
-          id="saveJSButton"
-          type="button"
-          value="Save"
-          onclick="save()"
-          class="hidden">
-
-      </form>
-      <br>
-      <p>
-        <sup>1</sup>: Separate values by commas, spaces will be ignored (a,b,c)
-      </p>
-      <p>
-        <sup>2</sup>: Requires server restart
-      </p>
-      <p>
-        Those settings are all explained
-        <a href="https://gitgud.io/LynxChan/LynxChan/tree/master/src/be">here</a>
-      </p>
-    </fieldset>
-
-
-
-  </div>
-
-</body>
-
-<script src="/.static/js/settings.js"></script>
-<script src="/.static/js/api.js"></script>
-<script src="/.static/js/globalSettings.js"></script>
-<script src="/.static/js/themes.js"></script>
-<script src="/.static/js/favouriteBoards.js"></script>
-
+  <head>
+    <meta charset="utf-8">
+    <link href="/.static/favicon.png" rel="icon">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google" content="notranslate">
+    <link rel="stylesheet" href="/.static/css/main.css">
+  </head>
+  <body>
+    <nav>
+      <section><span><a href="/">Home</a></span><span>
+          <select id="theme">
+            <option value="inch">Indiachan</option>
+            <option value="simplechan">Simplechan</option>
+            <option value="penumbra">Penumbra</option>
+            <option value="yotsuba">Yotsuba</option>
+          </select></span></section>
+      <section id="navBoards">
+        <select id="selectBoard">
+          <option value="a">/a/ - Anime &amp; Manga</option>
+          <option value="a">/b/ - Bakchodi</option>
+          <option value="a">/g/ - Technology</option>
+          <option value="a">/pol/ - Politically Incorrect</option>
+          <option value="a">/meta/ - Indiachan Discussion</option>
+        </select><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
+      </section>
+      <script>!function(){var e=document,n=localStorage,t=e.querySelector("#theme");function a(a){a||(a=n.SITE_THEME||"yotsuba"),e.documentElement.className="theme-"+a,t.value=a}t.onchange=function(){a(t.value);n.SITE_THEME=t.value;onresize&&onresize()},a()}();</script>
+    </nav>
+    <main>
+      <div id="settingsWrapper">
+        <fieldset id="settingsFieldset">
+          <legend>Global Settings</legend>
+          <form action="/saveGlobalSettings.js" enctype="multipart/form-data" method="post">
+            <p class="title">HTTP settings</p>
+            <label>Address<sup>2</sup>:
+              <input class="globalSettingsField" id="fieldAddress" type="text" name="address">
+            </label>
+            <label>SSL key passphrase:
+              <input id="fieldSslPass" type="password" name="sslPass">
+            </label>
+            <label>CSP directives (e.g: "default-src 'self'", without the quotations):
+              <input class="globalSettingsField" id="fieldCSP" type="text" name="CSP">
+            </label>
+            <label>Port<sup>2</sup>:
+              <input class="globalSettingsField" id="fieldPort" type="number" name="port">
+            </label>
+            <label>Tor Port<sup>2</sup>:
+              <input class="globalSettingsField" id="fieldTorPort" type="number" name="torPort">
+            </label>
+            <label>Static files expiration (minutes):
+              <input class="globalSettingsField" id="fieldStaticExpiration" type="number" name="staticExpiration">
+            </label>
+            <label>Maximum size for requests (MB):
+              <input class="globalSettingsField" id="fieldMaxRequestSize" type="number" name="maxRequestSizeMB">
+            </label>
+            <label>Cluster Port<sup>2</sup>:
+              <input class="globalSettingsField" id="fieldClusterPort" type="number" name="clusterPort">
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxDisable304" type="checkbox" name="disable304">Disable http response 304 (Only turn on if you know what you are
+              doing, will consume lots more of bandwidth)
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxSendmail" type="checkbox" name="useSendmail">Use sendmail
+            </label>
+            <label>SSL<sup>2</sup> (Make sure you have the proper files)
+              <select id="comboSsl" name="ssl"></select>
+            </label>
+            <hr>
+            <p class="title">System settings</p>
+            <label>Master Ip:
+              <input class="globalSettingsField" id="fieldMaster" type="text" name="master">
+            </label>
+            <label>Slaves ips<sup>1</sup>:
+              <input class="globalSettingsField" id="fieldSlaves" type="text" name="slaves">
+            </label>
+            <label>Front-end directory:
+              <input class="globalSettingsField" id="fieldFePath" type="text" name="fePath">
+            </label>
+            <label>Url for the list of TOR exit node ips:
+              <input class="globalSettingsField" id="fieldTorSource" type="url" name="torSource">
+            </label>
+            <label>
+              Url for the list of spammer ips(Requirements for the file format are
+              specified on src/be/readme):
+              <input class="globalSettingsField" id="fieldSpamIpsSource" type="url" name="spamIpsSource">
+            </label>
+            <label>
+              Url for the list of incremental spammer ips(Requirements for the file
+              format are specified on src/be/readme):
+              <input class="globalSettingsField" id="fieldIncrementalSpamIpsSource" type="url" name="incSpamIpsSource">
+            </label>
+            <label>Path to an optional language pack:
+              <input class="globalSettingsField" id="fieldLanguagePack" type="text" name="languagePackPath">
+            </label>
+            <label>
+              Extension used for thumbnails (Will make all gif thumbs do not
+              animate):
+              <input class="globalSettingsField" id="fieldThumbExtension" type="text" name="thumbExtension">
+            </label>
+            <label>Temporary directory:
+              <input class="globalSettingsField" id="fieldTempDir" type="text" name="tempDirectory">
+            </label>
+            <hr>
+            <p class="title">Posting settings</p>
+            <label>Character limit for messages:
+              <input class="globalSettingsField" id="fieldMessageLength" type="number" name="messageLength">
+            </label>
+            <label>Maximum size for uploaded files (MB):
+              <input class="globalSettingsField" id="fieldMaxFileSize" type="number" name="maxFileSizeMB">
+            </label>
+            <label>Allowed mime-types<sup>1</sup>:
+              <input class="globalSettingsField" id="fieldAcceptedMimes" type="text" name="acceptedMimes">
+            </label>
+            <label>Maximum number of uploaded files on posting:
+              <input class="globalSettingsField" id="fieldMaxFiles" type="number" name="maxFiles">
+            </label>
+            <label>Minimum amount of seconds between posts from the same ip:
+              <input class="globalSettingsField" id="fieldFloodInterval" type="number" name="floodTimerSec">
+            </label>
+            <label>How many posts a block bypass allows:
+              <input class="globalSettingsField" id="fieldBypassPosts" type="number" name="bypassMaxPosts">
+            </label>
+            <label>How many hours a block bypass lasts:
+              <input class="globalSettingsField" id="fieldBypassHours" type="number" name="bypassDurationHours">
+            </label>
+            <label>Default anonymous name:
+              <input class="globalSettingsField" id="fieldAnonymousName" type="text" name="defaultAnonymousName">
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxDisableFloodCheck" type="checkbox" name="disableFloodCheck">Disable flood checks
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxGlobalCaptcha" type="checkbox" name="forceCaptcha">Force all boards to use captcha
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxDisableCatalogPosting" type="checkbox" name="disableCatalogPosting">Disable thread creation from catalog
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxAllowTorFiles" type="checkbox" name="allowTorFiles">Allow TOR users to post files
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxDisableSpamCheck" type="checkbox" name="disableSpamCheck">Disable check on spammer ips (Use it if you can't obtain the spam ip
+              list, so users are still able to post)
+            </label>
+            <label>TOR posting permission level:
+              <select id="comboTorPostingLevel" name="torPostingLevel"></select>
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxSpamBypass" type="checkbox" name="allowSpamBypass">Allow ips caught on the spammer list to use the block bypass if block
+              bypass is not disabled
+            </label>
+            <label>Bypass mode:
+              <select id="comboBypassMode" name="bypassMode"></select>
+            </label>
+            <hr>
+            <p class="title">Display Limits</p>
+            <label>Amount of latest posts to show on front-page:
+              <input class="globalSettingsField" id="fieldGlobalLatestPosts" type="number" name="globalLatestPosts">
+            </label>
+            <label>Amount of latest images to show on front-page:
+              <input class="globalSettingsField" id="fieldGlobalLatestImages" type="number" name="globalLatestImages">
+            </label>
+            <label>Amount of threads on the multi-board:
+              <input class="globalSettingsField" id="fieldMultiBoardThreadCount" type="number" name="multiboardThreadCount">
+            </label>
+            <label>Number of preview posts:
+              <input class="globalSettingsField" id="fieldLatestPostsCount" type="number" name="latestPostCount">
+            </label>
+            <label>Maximum amount of threads per board:
+              <input class="globalSettingsField" id="fieldThreadLimit" type="number" name="maxThreadCount">
+            </label>
+            <label>Boards page size:
+              <input class="globalSettingsField" id="fieldPageSize" type="number" name="pageSize">
+            </label>
+            <label>Amount of boards to be picked as top boards:
+              <input class="globalSettingsField" id="fieldTopBoardsCount" type="number" name="topBoardsCount">
+            </label>
+            <label>Maximum amount of boards per page on boards list:
+              <input class="globalSettingsField" id="fieldBoardsPerPage" type="number" name="boardsPerPage">
+            </label>
+            <label>Amount of threads on the overboard:
+              <input class="globalSettingsField" id="fieldOverBoardThreads" type="number" name="overBoardThreadCount">
+            </label>
+            <label>Size of media management pages:
+              <input class="globalSettingsField" id="fieldMediaPageSize" type="number" name="mediaPageSize">
+            </label>
+            <hr>
+            <p class="title">Board limits</p>
+            <label>Maximum size for flags (KB):
+              <input class="globalSettingsField" id="fieldMaxFlagSize" type="number" name="maxFlagSizeKB">
+            </label>
+            <label>Maximum board message size:
+              <input class="globalSettingsField" id="fieldBoardMessageLength" type="number" name="boardMessageLength">
+            </label>
+            <label>Maximum number of board hash bans:
+              <input class="globalSettingsField" id="fieldMaxBoardHashBans" type="number" name="maxBoardHashBans">
+            </label>
+            <label>Maximum number of board range bans:
+              <input class="globalSettingsField" id="fieldMaxBoardRangeBans" type="number" name="maxBoardRangeBans">
+            </label>
+            <label>Maximum number of rules in boards:
+              <input class="globalSettingsField" id="fieldMaxRules" type="number" name="maxBoardRules">
+            </label>
+            <label>Maximum number of filters in boards:
+              <input class="globalSettingsField" id="fieldMaxFilters" type="number" name="maxFilters">
+            </label>
+            <label>Maximum number of tags per board:
+              <input class="globalSettingsField" id="fieldMaxTags" type="number" name="maxBoardTags">
+            </label>
+            <label>Maximum number of volunteers in boards:
+              <input class="globalSettingsField" id="fieldMaxVolunteers" type="number" name="maxBoardVolunteers">
+            </label>
+            <label>Maximum size for banners (KB):
+              <input class="globalSettingsField" id="fieldMaxBannerSize" type="number" name="maxBannerSizeKB">
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxOmitUnindexedContent" type="checkbox" name="omitUnindexedContent">Omit content from unindexed boards from front-page or overboards
+            </label>
+            <hr>
+            <p class="title">Variables</p>
+            <label>
+              Amount of days before removing ips from posts (any value below 1 or
+              null means to never remove):
+              <input class="globalSettingsField" id="fieldIpExpiration" type="number" name="ipExpirationDays">
+            </label>
+            <label>Number of replies before a thread enters auto-sage:
+              <input class="globalSettingsField" id="fieldAutoSageLimit" type="number" name="autoSageLimit">
+            </label>        Maximum size for custom flag names:
+            <label>
+              <input class="globalSettingsField" id="fieldFlagNameLength" type="number" name="flagNameLength">
+            </label>
+            <label>Mark accounts after these many days of inactivity<sup>2</sup>:
+              <input class="globalSettingsField" id="fieldInactivityThreshold" type="number" name="inactivityThreshold">
+            </label>
+            <label>Maximum dimension for thumbnails, for both height and width:
+              <input class="globalSettingsField" id="fieldThumbSize" type="number" name="thumbSize">
+            </label>
+            <label>Sender address for automated e-mails:
+              <input class="globalSettingsField" id="fieldSenderEmail" type="email" name="emailSender">
+            </label>
+            <label>Amount of minutes before a captcha expires:
+              <input class="globalSettingsField" id="fieldCaptchaExpiration" type="number" name="captchaExpiration">
+            </label>
+            <label>Site title:
+              <input class="globalSettingsField" id="fieldSiteTitle" type="text" name="siteTitle">
+            </label>
+            <label>Default ban message to be displayed on banned posts:
+              <input class="globalSettingsField" id="fieldBanMessage" type="text" name="defaultBanMessage">
+            </label>
+            <label>RSS link domain:
+              <input class="globalSettingsField" id="fieldRssDomain" type="text" name="rssDomain">
+            </label>
+            <label>Overboard uri:
+              <input class="globalSettingsField" id="fieldOverboard" type="text" name="overboard">
+            </label>
+            <label>SFW overboard uri:
+              <input class="globalSettingsField" id="fieldSfwOverboard" type="text" name="sfwOverboard">
+            </label>
+            <hr>
+            <p class="title">Misc</p>
+            <label>Addons<sup>1</sup>,<sup>2</sup>(They will be loaded in the order they
+              appear in this list):
+              <input class="globalSettingsField" id="fieldAddons" type="text" name="addons">
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxVerbose" type="checkbox" name="verbose">Full verbose mode
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxVerboseApis" type="checkbox" name="verboseApis">Verbose APIs mode
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxVerboseCache" type="checkbox" name="verboseCache">Verbose cache mode
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxVerboseGridfs" type="checkbox" name="verboseGridfs">Verbose gridfs mode
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxVerboseQueue" type="checkbox" name="verboseQueue">Verbose message queue mode
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxVerboseMisc" type="checkbox" name="verboseMisc">Verbose miscellaneous mode
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxVerboseGenerator" type="checkbox" name="verboseGenerator">Verbose generator mode
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxUseAlternativeLanguages" type="checkbox" name="useAlternativeLanguages">Use alternative languages
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxBlockedReport" type="checkbox" name="allowBlockedToReport">Allow blocked or banned users to report
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxFfmpegGifs" type="checkbox" name="ffmpegGifs">Use ffmpeg to generate animated gif thumbnails (requires ffmpeg
+              installed)
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxGlobalBoardModeration" type="checkbox" name="allowGlobalBoardModeration">Allow global staff to moderate boards
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxGlobalBanners" type="checkbox" name="useGlobalBanners">Make boards use global banners
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxAllowCustomJs" type="checkbox" name="allowBoardCustomJs">Allow board custom javascript
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxMediaThumb" type="checkbox" name="mediaThumb">Generate thumbnails from media files (requires ffmpeg installed)
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxFrontPageStats" type="checkbox" name="frontPageStats">Display total post count and total unique ips on front-page
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxAutoPruneFiles" type="checkbox" name="autoPruneFiles">Prune orphaned files weekly<sup>2</sup>
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxMaintenance" type="checkbox" name="maintenance">Maintenance mode (Disables input to the server and let users know it
+              is under maintenance)
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxDisableAccountCreation" type="checkbox" name="disableAccountCreation">Disable account creation
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxSFWLatestImages" type="checkbox" name="onlySfwLatestImages">Display only SFW images on the front-page
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxDisableLatestPostings" type="checkbox" name="disableLatestPostings">Disable latest postings
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxBoardStaffArchiving" type="checkbox" name="allowBoardStaffArchiving">Allow board staff to archive threads
+            </label>
+            <label>
+              <input class="globalSettingsField" id="checkboxMultipleReports" type="checkbox" name="multipleReports">Allow multiple reports at once
+            </label>
+            <label>Minimum global role for users to be able to see poster's clear ips:
+              <select id="comboMinClearIpRole" name="clearIpMinRole"></select>
+            </label>
+            <label>Minimum global role required for board creation:
+              <select id="comboBoardCreationRequirement" name="boardCreationRequirement"></select>
+            </label>
+            <label>Minimum replies for archiving instead of pruning
+              <input id="fieldArchiveThreshold" name="fieldArchiveThreshold" type="number">
+            </label>
+            <button id="saveFormButton" type="submit">Save</button>
+          </form><br>
+          <p><sup>1</sup>: Separate values by commas, spaces will be ignored (a,b,c)</p>
+          <p><sup>2</sup>: Requires server restart</p>
+          <p>Those settings are all explained<a href="https://gitgud.io/LynxChan/LynxChan/tree/master/src/be">here</a></p>
+        </fieldset>
+      </div>
+    </main>
+    <footer>
+      <div id="footer-inner"><a href="https://irc.indiachan.com" target="_blank">IRC</a><a href="mailto:contact@indiachan.com">contact@indiachan.com</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">Source</a></div>
+    </footer>
+  </body>
 </html>
-<div id="fieldMaxBoardRangeBans"></div>
-<div id="checkboxDisableLatestPostings"></div>

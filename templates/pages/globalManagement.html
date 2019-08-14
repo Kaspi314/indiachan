@@ -16,26 +16,12 @@
 </head>
 <body>
 
-  <nav>
-    <span id="navLinkSpan"> <span>[</span> <a
-        href="/"
-        class="coloredIcon"
-        id="navLinkHome">home</a> <span>/</span> <a
-        href="/boards.js"
-        class="coloredIcon"
-        id="navBoardList">boards</a> <span>/</span> <a
-        href="/overboard"
-        class="coloredIcon"
-        id="navOverboard">overboard</a> <span>/</span> <a
-        href="/.static/posting.html"
-        class="coloredIcon"
-        id="navPosting">help</a> <span>]</span>
-    </span> <span id="navBoardsSpan"> </span> <span id="navOptionsSpan"> </span>
-  </nav>
+  <nav id="dynamicHeader"></nav>
 
   <header>
     <img
       src="/.static/logo.png"
+      class="logoImg"
       alt="logo" />
   </header>
 
@@ -58,6 +44,7 @@
           <input
             type="text"
             name="login"
+            class="addUserField"
             id="fieldLogin">
         </label>
         <label>
@@ -67,17 +54,9 @@
             id="newStaffCombo"></select>
         </label>
 
-        <input
+        <button
           type="submit"
-          id="addFormButton"
-          value="Add user">
-
-        <input
-          type="button"
-          onClick="addUser()"
-          class="hidden"
-          id="addJsButton"
-          value="Add user">
+          id="addFormButton">Add user</button>
 
       </form>
 
@@ -149,18 +128,31 @@
         <label>
           <input
             type="checkbox"
+            class="closeReportsField"
             name="deleteContent"
             id="deleteContentCheckbox">
           Delete reported content after closing the reports
         </label>
+        <label>
+          <input
+            type="checkbox"
+            name="banReporter"
+            class="closeReportsField"
+            id="banReporterCheckbox">
+          Ban reporters
+        </label>
+        <label>
+          Ban duration:
+          <input
+            type="text"
+            class="closeReportsField"
+            id="fieldBanDuration"
+            name="duration">
+        </label>
         <button
           type="submit"
           id="closeReportsFormButton">Close selected reports</button>
-        <button
-          id="closeReportsJsButton"
-          type="button"
-          class="hidden"
-          onclick="closeReports()">Close selected reports</button>
+
       </form>
 
       <hr />
@@ -181,31 +173,32 @@
             <input
               type="text"
               name="ips"
+              class="massBanField"
               id="fieldIps">
           </label>
+
           <label>
             Ban duration:
             <input
               type="text"
               name="duration"
+              class="massBanField"
               id="fieldDuration">
           </label>
+
           <label>
             Ban reason:
             <input
               type="text"
+              class="massBanField"
               name="reason"
               id="fieldReason">
           </label>
+
           <label>
             <button
               type="submit"
               id="massBanFormButton">Ban</button>
-            <button
-              onclick="massBan()"
-              type="button"
-              style="display: none;"
-              id="massBanJsButton">Ban</button>
           </label>
         </form>
       </div>
@@ -216,7 +209,6 @@
 
 </body>
 
-<script src="/.static/js/settings.js"></script>
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/reports.js"></script>
 <script src="/.static/js/globalManagement.js"></script>

@@ -12,26 +12,12 @@
 </head>
 <body>
 
-  <nav>
-    <span id="navLinkSpan"> <span>[</span> <a
-        href="/"
-        class="coloredIcon"
-        id="navLinkHome">home</a> <span>/</span> <a
-        href="/boards.js"
-        class="coloredIcon"
-        id="navBoardList">boards</a> <span>/</span> <a
-        href="/overboard"
-        class="coloredIcon"
-        id="navOverboard">overboard</a> <span>/</span> <a
-        href="/.static/posting.html"
-        class="coloredIcon"
-        id="navPosting">help</a> <span>]</span>
-    </span> <span id="navBoardsSpan"> </span> <span id="navOptionsSpan"> </span>
-  </nav>
+  <nav id="dynamicHeader"></nav>
 
   <header>
     <img
       src="/.static/logo.png"
+      class="logoImg"
       alt="logo" />
   </header>
 
@@ -50,6 +36,7 @@
           <input
             type="text"
             name="range"
+            class="rangeBanField"
             id="rangeField">
         </label>
         <input
@@ -57,55 +44,18 @@
           type="hidden"
           name="boardUri">
 
-        <div class="captchaDiv">
-
-          <img
-            class="captchaImage"
-            id="captchaImage"
-            src="/captcha.js">
-
-          <br>
-          <input
-            type="button"
-            class="hidden"
-            id="reloadCaptchaButton"
-            onclick="reloadCaptcha()"
-            value="Reload">
-          <span class="captchaTimer"></span>
-          <br>
-
-          <input
-            name="captcha"
-            type="text"
-            class="captchaField"
-            id="fieldCaptcha"
-            placeholder="Answer">
-          <a
-            class="small"
-            href="/noCookieCaptcha.js">No cookies?</a>
-
-        </div>
-
-        <input
+        <button
           type="submit"
-          id="createFormButton"
-          value="Place Range Ban">
-        <input
-          type="button"
-          id="createJsButton"
-          onClick="placeRangeBan()"
-          class="hidden"
-          value="Place Range Ban">
+          id="createFormButton">Place range ban</button>
+
       </form>
       <div id="rangeBansDiv"></div>
     </fieldset>
   </div>
 </body>
 
-<script src="/.static/js/settings.js"></script>
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/rangeBans.js"></script>
-<script src="/.static/js/captcha.js"></script>
 <script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 

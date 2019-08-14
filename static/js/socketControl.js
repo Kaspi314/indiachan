@@ -1,11 +1,12 @@
-if (!DISABLE_JS) {
-  document.getElementById('restartFormButton').style.display = 'none';
-  document.getElementById('restartJsButton').style.display = 'inline';
-}
+var socketControl = {};
 
-function restartSocket() {
+socketControl.init = function() {
+  api.convertButton('restartFormButton', socketControl.restartSocket);
+};
 
-  apiRequest('restartSocket', {}, function restarted(status, data) {
+socketControl.restartSocket = function() {
+
+  api.formApiRequest('restartSocket', {}, function restarted(status, data) {
 
     if (status === 'ok') {
       window.location = '/socketControl.js';
@@ -15,4 +16,6 @@ function restartSocket() {
 
   });
 
-}
+};
+
+socketControl.init();

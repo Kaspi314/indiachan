@@ -1,17 +1,27 @@
-if (!DISABLE_JS) {
-  document.getElementById('saveJSButton').style.display = 'inline';
+var globalSettings = {};
 
-  document.getElementById('saveFormButton').style.display = 'none';
+globalSettings.init = function() {
 
-  var siteSettingsRelation = {
+  api.convertButton('saveFormButton', globalSettings.save,
+      'globalSettingsField');
+
+  globalSettings.siteSettingsRelation = {
 
     fieldSlaves : {
       setting : 'slaves',
       type : 'array'
     },
+    checkboxSendmail : {
+      type : 'boolean',
+      setting : 'useSendmail',
+    },
     checkboxGlobalBanners : {
       type : 'boolean',
       setting : 'useGlobalBanners',
+    },
+    checkboxDisableLatestPostings : {
+      type : 'boolean',
+      setting : 'disableLatestPostings',
     },
     checkboxVerboseCache : {
       type : 'boolean',
@@ -20,6 +30,10 @@ if (!DISABLE_JS) {
     checkboxVerboseGenerator : {
       type : 'boolean',
       setting : 'verboseGenerator',
+    },
+    checkboxBoardStaffArchiving : {
+      type : 'boolean',
+      setting : 'allowBoardStaffArchiving',
     },
     checkboxVerboseQueue : {
       type : 'boolean',
@@ -30,8 +44,12 @@ if (!DISABLE_JS) {
       setting : 'omitUnindexedContent',
     },
     fieldMaxBoardHashBans : {
-      type : 'boolean',
+      type : 'string',
       setting : 'maxBoardHashBans',
+    },
+    fieldMaxBoardRangeBans : {
+      type : 'string',
+      setting : 'maxBoardRangeBans',
     },
     checkboxVerboseGridfs : {
       type : 'boolean',
@@ -367,15 +385,15 @@ if (!DISABLE_JS) {
     }
   };
 
-}
+};
 
-function save() {
+globalSettings.save = function() {
 
   var parameters = {};
 
-  for ( var key in siteSettingsRelation) {
+  for ( var key in globalSettings.siteSettingsRelation) {
 
-    var item = siteSettingsRelation[key];
+    var item = globalSettings.siteSettingsRelation[key];
 
     switch (item.type) {
     case 'string':
@@ -414,17 +432,17 @@ function save() {
 
   }
 
-  apiRequest('saveGlobalSettings', parameters, function requestComplete(status,
-      data) {
+  api.formApiRequest('saveGlobalSettings', parameters,
+      function requestComplete(status, data) {
 
-    if (status === 'ok') {
+        if (status === 'ok') {
+          alert('New settings saved.');
+        } else {
+          alert(status + ': ' + JSON.stringify(data));
+        }
 
-      alert('Settings saved.');
+      });
 
-      location.reload(true);
-    } else {
-      alert(status + ': ' + JSON.stringify(data));
-    }
-  });
+};
 
-}
+globalSettings.init();

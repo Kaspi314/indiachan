@@ -16,26 +16,12 @@
 </head>
 <body>
 
-  <nav>
-    <span id="navLinkSpan"> <span>[</span> <a
-        href="/"
-        class="coloredIcon"
-        id="navLinkHome">home</a> <span>/</span> <a
-        href="/boards.js"
-        class="coloredIcon"
-        id="navBoardList">boards</a> <span>/</span> <a
-        href="/overboard"
-        class="coloredIcon"
-        id="navOverboard">overboard</a> <span>/</span> <a
-        href="/.static/posting.html"
-        class="coloredIcon"
-        id="navPosting">help</a> <span>]</span>
-    </span> <span id="navBoardsSpan"> </span> <span id="navOptionsSpan"> </span>
-  </nav>
+  <nav id="dynamicHeader"></nav>
 
   <header>
     <img
       src="/.static/logo.png"
+      class="logoImg"
       alt="logo" />
   </header>
 
@@ -78,16 +64,9 @@
           type="file"
           id="files"
           name="files">
-        <input
+        <button
           type="submit"
-          value="Add Flag"
-          id="addFormButton">
-        <input
-          type="button"
-          onClick="uploadFlags()"
-          class="hidden"
-          value="Upload flags"
-          id="addJsButton">
+          id="addFormButton">Add Flag</button>
         <p class="small">
           Maximum size allowed: <span id="maxSizeLabel"></span>
           <br>
@@ -101,7 +80,6 @@
 
 </body>
 
-<script src="/.static/js/settings.js"></script>
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/flags.js"></script>
 <script src="/.static/js/themes.js"></script>

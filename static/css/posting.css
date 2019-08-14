@@ -9,6 +9,10 @@
   max-width: 100%;
 }
 
+.imgLink {
+  float: left;
+}
+
 .reportFieldset {
   margin-top: 1em;
   border: 1px dashed #117743;
@@ -38,7 +42,7 @@
   font-size: 80%;
 }
 
-.hideMenu label, .extraMenu label {
+.hideMenu div, .extraMenu div {
   font-size: 80%;
   cursor: pointer;
 }
@@ -58,22 +62,6 @@
 
 .postCell {
   margin: 0.25em 0;
-}
-
-.innerPost, .markedPost {
-  background: #D6DAF0;
-  display: inline-block;
-  overflow: hidden;
-  padding-right: 0.5em;
-  padding-left: 0.25em;
-  padding-top: 0.25em;
-  max-width: 100%;
-  border: 1px solid #117743;
-  border-radius: 5px;
-}
-
-.markedPost {
-  background: rgba(59, 22, 43, 0.4);
 }
 
 .linkName {
@@ -189,6 +177,7 @@
   vertical-align: top;
   max-width: 155px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
@@ -275,7 +264,7 @@
 }
 
 .contentAction label, #divControls label, #transferControls label,
-  #ipDelete label {
+  #ipDelete label, #divArchive label {
   font-size: 80%;
 }
 

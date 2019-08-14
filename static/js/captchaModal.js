@@ -1,4 +1,41 @@
-function getCaptchaModal(header, noCaptcha) {
+var captchaModal = {};
+
+captchaModal.addModalRow = function(label, element, action) {
+
+  var tableBody = document.getElementsByClassName('modalTableBody')[0];
+
+  var tableRow = document.createElement('tr');
+  tableBody.appendChild(tableRow);
+
+  var labelElement = document.createElement('th');
+  labelElement.innerHTML = label;
+
+  tableRow.appendChild(labelElement);
+
+  var fieldHolder = document.createElement('td');
+
+  fieldHolder.appendChild(element);
+
+  tableRow.appendChild(fieldHolder);
+
+  if (action) {
+
+    element.addEventListener('keydown', function(event) {
+
+      if (event.key === 'Enter') {
+
+        action();
+
+        event.preventDefault();
+      }
+
+    });
+
+  }
+
+};
+
+captchaModal.getCaptchaModal = function(header, noCaptcha) {
 
   var outerPanel = document.createElement('div');
   outerPanel.className = 'modalPanel';
@@ -30,7 +67,7 @@ function getCaptchaModal(header, noCaptcha) {
     var reloadButton = document.createElement('input');
     reloadButton.value = 'Reload';
     reloadButton.addEventListener('click', function() {
-      reloadCaptcha()
+      captchaUtils.reloadCaptcha()
     });
     reloadButton.type = 'button';
     captchaControls.appendChild(reloadButton);
@@ -39,20 +76,34 @@ function getCaptchaModal(header, noCaptcha) {
     reloadTimer.className = 'captchaTimer';
     captchaControls.appendChild(reloadTimer);
 
-    var captchaField = document.createElement('input');
-    captchaField.type = 'text';
-    captchaField.setAttribute('placeHolder', 'answer');
-    captchaField.className = 'modalAnswer';
-    decorationPanel.appendChild(captchaField);
   }
 
-  var responseButtonsPanel = document.createElement('span');
-  decorationPanel.appendChild(responseButtonsPanel);
+  var captchaTable = document.createElement('table');
+  var tableBody = document.createElement('tbody');
+  tableBody.className = 'modalTableBody';
+  captchaTable.appendChild(tableBody);
+  decorationPanel.appendChild(captchaTable);
 
   var okButton = document.createElement('input');
   okButton.type = 'button';
   okButton.className = 'modalOkButton';
   okButton.value = 'Ok';
+
+  if (!noCaptcha) {
+
+    var captchaField = document.createElement('input');
+    captchaField.type = 'text';
+    captchaField.className = 'modalAnswer';
+
+    captchaModal.addModalRow('Answer', captchaField, function() {
+      okButton.onclick();
+    });
+
+  }
+
+  var responseButtonsPanel = document.createElement('span');
+  decorationPanel.appendChild(responseButtonsPanel);
+
   responseButtonsPanel.appendChild(okButton);
 
   var cancelButton = document.createElement('input');
@@ -65,4 +116,4 @@ function getCaptchaModal(header, noCaptcha) {
 
   return outerPanel;
 
-}
+};

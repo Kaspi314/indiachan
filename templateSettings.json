@@ -1,4 +1,16 @@
 {
+  "optional": {
+    "dynamicHeader": "content/header.html",
+    "postingTable": "content/postingForm.html"
+  },
+  "templated": [
+    "pages/about.html",
+    "pages/contact.html",
+    "pages/globalRules.html",
+    "pages/links.html",
+    "pages/moderation.html",
+    "pages/posting.html"
+  ],
   "accountPage": "pages/account.html",
   "mediaManagementPage": "pages/mediaManagement.html",
   "editPage": "pages/edit.html",
@@ -77,5 +89,7 @@
   "mediaDetailsPage": "pages/mediaDetailsPage.html",
   "confirmationEmail": "emails/confirmationEmail.html",
   "reportNotificationEmail": "emails/reportNotifyEmail.html",
-  "latestPostingsPage": "pages/latestPostingsPage.html"
+  "latestPostingsPage": "pages/latestPostings.html",
+  "archivePage": "pages/archivePage.html",
+  "archiveCell": "cells/archiveCell.html"
 }

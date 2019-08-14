@@ -14,7 +14,7 @@
   font-size: 80%;
 }
 
-#divControls, #transferControls, #ipDelete {
+#divControls, #transferControls, #ipDelete, #divArchive {
   margin: 1em;
 }
 
@@ -66,7 +66,8 @@
   padding: 0 5px;
 }
 
-#quick-reply input[type="text"], #quick-reply select {
+#quick-reply input[type="text"], #quick-reply input[type="password"],
+  #quick-reply select {
   width: 100%;
   padding: 2px;
   font-size: 10pt;
@@ -117,7 +118,6 @@
 }
 
 #quick-reply table {
-  background: #1D1F21;
   padding: 0.25em;
   margin: 0;
   width: 100%;

@@ -1,170 +1,209 @@
-var boardUri;
-var threadId;
-var board = false;
-var replyButton;
-var fullRefresh = false;
-var refreshButton;
-var lastReplyId;
-var refreshLabel;
-var autoRefresh;
-var refreshTimer;
-var lastRefresh;
-var currentRefresh;
-var manualRefresh;
-var foundPosts;
-var refreshingThread;
-var hiddenCaptcha = !document.getElementById('captchaDiv');
-var markedPosting;
-var limitRefreshWait = 10 * 60;
-var originalButtonText;
-var messageLimit;
-var unreadPosts;
-var originalTitle;
-var lastPost;
-var highLightedIds;
-var idsRelation;
-var refreshURL;
+var thread = {};
 
-function initThread() {
+thread.init = function() {
 
-  lastPost = null;
-  lastReplyId = 0;
-  originalTitle = document.title;
-  highLightedIds = [];
-  idsRelation = {};
-  unreadPosts = 0;
-  threadId = +document.getElementsByClassName('opCell')[0].id;
-  refreshURL = document.getElementById('divMod') ? '/mod.js?boardUri='
-      + boardUri + '&threadId=' + threadId + '&json=1' : '/' + boardUri
-      + '/res/' + threadId + '.json';
+  thread.mod = !!document.getElementById('divMod');
 
-}
-
-if (!DISABLE_JS) {
+  api.hiddenCaptcha = !document.getElementById('captchaDiv');
 
   document.getElementById('mainPanel').onscroll = function() {
 
-    if (!unreadPosts) {
+    if (!thread.unreadPosts) {
       return;
     }
 
-    var rect = lastPost.getBoundingClientRect();
+    var rect = thread.lastPost.getBoundingClientRect();
 
     if (rect.bottom < window.innerHeight) {
-      unreadPosts = 0;
+      thread.unreadPosts = 0;
 
-      document.title = originalTitle;
+      document.title = thread.originalTitle;
     }
 
   };
 
-  boardUri = document.getElementById('boardIdentifier').value;
-  var divPosts = document.getElementsByClassName('divPosts')[0];
+  api.boardUri = document.getElementById('boardIdentifier').value;
+  thread.divPosts = document.getElementsByClassName('divPosts')[0];
 
-  initThread();
+  thread.initThread();
 
   document.getElementsByClassName('divRefresh')[0].style.display = 'block';
 
-  messageLimit = +document.getElementById('labelMessageLength').innerHTML;
-  refreshLabel = document.getElementById('labelRefresh');
+  thread.messageLimit = +document.getElementById('labelMessageLength').innerHTML;
+  thread.refreshLabel = document.getElementById('labelRefresh');
 
-  refreshButton = document.getElementById('refreshButton');
+  thread.refreshButton = document.getElementById('refreshButton');
+
+  if (document.getElementById('divArchive')) {
+    api.convertButton('archiveFormButon', thread.archiveThread, 'archiveField');
+  }
 
   if (document.getElementById('controlThreadIdentifier')) {
-    document.getElementById('settingsJsButon').style.display = 'inline';
-    document.getElementById('settingsFormButon').style.display = 'none';
+
+    api.convertButton('settingsFormButon', thread.saveThreadSettings,
+        'threadSettingsField');
 
     if (document.getElementById('ipDeletionForm')) {
-      document.getElementById('deleteFromIpJsButton').style.display = 'inline';
-
-      document.getElementById('deleteFromIpFormButton').style.display = 'none';
+      api.convertButton('deleteFromIpFormButton', thread.deleteFromIp,
+          'ipDeletionField');
     }
 
     if (document.getElementById('formTransfer')) {
-      document.getElementById('transferJsButton').style.display = 'inline';
-
-      document.getElementById('transferFormButton').style.display = 'none';
+      api.convertButton('transferFormButton', thread.transfer, 'transferField');
     }
 
+    api.convertButton('inputBan', thread.banPosts, 'banField');
+    api.convertButton('inputIpDelete', thread.deleteFromIpOnBoard);
+    api.convertButton('inputSpoil', posting.spoilFiles);
+
   }
 
-  replyButton = document.getElementById('jsButton');
-  replyButton.style.display = 'inline';
-  replyButton.disabled = false;
+  thread.replyButton = document.getElementById('formButton');
+  thread.replyButton.disabled = false;
 
-  if (document.getElementById('captchaDiv')) {
-    document.getElementById('reloadCaptchaButton').style.display = 'inline';
-  }
-
-  document.getElementById('reloadCaptchaButtonReport').style.display = 'inline';
-
-  document.getElementById('formButton').style.display = 'none';
+  api.convertButton(thread.replyButton, thread.postReply, 'postingInput');
 
   var replies = document.getElementsByClassName('postCell');
 
   if (replies && replies.length) {
-    lastReplyId = replies[replies.length - 1].id;
+    thread.lastReplyId = replies[replies.length - 1].id;
   }
 
-  changeRefresh();
+  thread.changeRefresh();
 
   var postingQuotes = document.getElementsByClassName('linkQuote');
 
   for (var i = 0; i < postingQuotes.length; i++) {
-    processPostingQuote(postingQuotes[i]);
+    thread.processPostingQuote(postingQuotes[i]);
   }
 
-  var ids = document.getElementsByClassName('labelId');
+};
 
-  for (i = 0; i < ids.length; i++) {
-    processIdLabel(ids[i]);
-  }
-}
+thread.initThread = function() {
 
-function processIdLabel(label) {
-
-  var id = label.innerHTML;
-
-  var array = idsRelation[id] || [];
-  idsRelation[id] = array;
-
-  var cell = label.parentNode.parentNode.parentNode;
-
-  array.push(cell);
-
-  label.onmouseover = function() {
-    label.innerHTML = id + ' (' + array.length + ')';
-  }
-
-  label.onmouseout = function() {
-    label.innerHTML = id;
-  }
-
-  label.onclick = function() {
-
-    var index = highLightedIds.indexOf(id);
-
-    if (index > -1) {
-      highLightedIds.splice(index, 1);
-    } else {
-      highLightedIds.push(id);
-    }
-
-    for (var i = 0; i < array.length; i++) {
-      var cellToChange = array[i];
-
-      if (cellToChange.className === 'innerOP') {
-        continue;
-      }
-
-      cellToChange.className = index > -1 ? 'innerPost' : 'markedPost';
-    }
-
+  thread.lastReplyId = 0;
+  thread.originalTitle = document.title;
+  posting.highLightedIds = [];
+  posting.idsRelation = {};
+  thread.unreadPosts = 0;
+  api.threadId = +document.getElementsByClassName('opCell')[0].id;
+  thread.refreshURL = '/' + api.boardUri + '/res/' + api.threadId + '.json';
+  thread.refreshParameters = {
+    boardUri : api.boardUri,
+    threadId : api.threadId
   };
 
-}
+};
 
-function transfer() {
+thread.deleteFromIpOnBoard = function() {
+
+  var checkBoxes = document.getElementsByClassName('deletionCheckBox');
+
+  for (var i = 0; i < checkBoxes.length; i++) {
+    var checkBox = checkBoxes[i];
+
+    if (checkBox.checked) {
+      var splitName = checkBox.name.split('-')[0];
+      break;
+    }
+
+  }
+
+  if (!splitName) {
+    return;
+  }
+
+  var redirect = '/' + splitName + '/';
+
+  var confirmationBox = document
+      .getElementById('ipDeletionConfirmationCheckbox');
+
+  var param = {
+    action : 'ip-deletion',
+    confirmation : confirmationBox.checked
+  };
+
+  posting.newGetSelectedContent(param);
+
+  api.formApiRequest('contentActions', param, function requestComplete(status,
+      data) {
+
+    if (status === 'ok') {
+      window.location.pathname = redirect;
+    } else {
+      alert(status + ': ' + JSON.stringify(data));
+    }
+  });
+
+};
+
+thread.applyBans = function(captcha) {
+
+  var typedReason = document.getElementById('reportFieldReason').value.trim();
+  var typedDuration = document.getElementById('fieldDuration').value.trim();
+  var typedMessage = document.getElementById('fieldbanMessage').value.trim();
+  var banType = document.getElementById('comboBoxBanTypes').selectedIndex;
+
+  var params = {
+    action : 'ban',
+    reason : typedReason,
+    captcha : captcha,
+    banType : banType,
+    duration : typedDuration,
+    banMessage : typedMessage,
+    global : document.getElementById('checkboxGlobal').checked
+  };
+
+  posting.newGetSelectedContent(params);
+
+  api.formApiRequest('contentActions', params, function requestComplete(status,
+      data) {
+
+    if (status === 'ok') {
+      alert('Bans applied');
+    } else {
+      alert(status + ': ' + JSON.stringify(data));
+    }
+
+  });
+};
+
+thread.banPosts = function() {
+
+  if (!document.getElementsByClassName('panelRange').length) {
+    thread.applyBans();
+    return;
+  }
+
+  var typedCaptcha = document.getElementById('fieldCaptchaReport').value.trim();
+
+  if (typedCaptcha && /\W/.test(typedCaptcha)) {
+    alert('Invalid captcha.');
+    return;
+  }
+
+  if (typedCaptcha.length == 24 || !typedCaptcha) {
+    thread.applyBans(typedCaptcha);
+  } else {
+    var parsedCookies = api.getCookies();
+
+    api.formaApiRequest('solveCaptcha', {
+      captchaId : parsedCookies.captchaid,
+      answer : typedCaptcha
+    }, function solvedCaptcha(status, data) {
+
+      if (status !== 'ok') {
+        alert(status);
+        return;
+      }
+
+      thread.applyBans(parsedCookies.captchaid);
+    });
+  }
+
+};
+
+thread.transfer = function() {
 
   var informedBoard = document.getElementById("fieldDestinationBoard").value
       .trim();
@@ -172,35 +211,31 @@ function transfer() {
   var originThread = document.getElementById("transferThreadIdentifier").value;
   var originBoard = document.getElementById("transferBoardIdentifier").value;
 
-  apiRequest('transferThread', {
-    boardUri : boardUri,
-    threadId : threadId,
+  api.formApiRequest('transferThread', {
+    boardUri : api.boardUri,
+    threadId : api.threadId,
     boardUriDestination : informedBoard
-  }, function setLock(status, data) {
+  },
+      function setLock(status, data) {
 
-    if (status === 'ok') {
+        if (status === 'ok') {
+          window.location.pathname = '/' + informedBoard + '/res/' + data
+              + '.html';
+        } else {
+          alert(status + ': ' + JSON.stringify(data));
+        }
+      });
 
-      alert('Thread moved.');
+};
 
-      var redirect = '/' + informedBoard + '/res/';
-
-      window.location.pathname = redirect + data + '.html';
-
-    } else {
-      alert(status + ': ' + JSON.stringify(data));
-    }
-  });
-
-}
-
-function markPost(id) {
+thread.markPost = function(id) {
 
   if (isNaN(id)) {
     return;
   }
 
-  if (markedPosting && markedPosting.className === 'markedPost') {
-    markedPosting.className = 'innerPost';
+  if (thread.markedPosting && thread.markedPosting.className === 'markedPost') {
+    thread.markedPosting.className = 'innerPost';
   }
 
   var container = document.getElementById(id);
@@ -209,181 +244,231 @@ function markPost(id) {
     return;
   }
 
-  markedPosting = container.getElementsByClassName('innerPost')[0];
+  thread.markedPosting = container.getElementsByClassName('innerPost')[0];
 
-  if (markedPosting) {
-    markedPosting.className = 'markedPost';
+  if (thread.markedPosting) {
+    thread.markedPosting.className = 'markedPost';
   }
-}
 
-function processPostingQuote(link) {
+};
+
+thread.processPostingQuote = function(link) {
 
   link.onclick = function() {
-    var toQuote = link.href.match(/#q(\d+)/)[1];
-
-    showQr(link, toQuote);
-
-    document.getElementById('fieldMessage').value += '>>' + toQuote + '\n';
-
+    qr.showQr(link, link.href.match(/#q(\d+)/)[1]);
   };
 
-}
+};
 
-function saveThreadSettings() {
+thread.archiveThread = function() {
 
-  apiRequest('changeThreadSettings', {
-    boardUri : boardUri,
-    threadId : threadId,
-    pin : document.getElementById('checkboxPin').checked,
-    lock : document.getElementById('checkboxLock').checked,
-    cyclic : document.getElementById('checkboxCyclic').checked
+  if (!document.getElementById('checkboxArchive').checked) {
+    alert('You must confirm that you wish to archive this thread.');
+    return;
+  }
+
+  api.formApiRequest('archiveThread', {
+    confirmation : true,
+    boardUri : api.boardUri,
+    threadId : api.threadId
+  }, function archived(status, data) {
+
+    if (status === 'ok') {
+
+      api.resetIndicators({
+        locked : document.getElementsByClassName('lockIndicator').length,
+        pinned : document.getElementsByClassName('pinIndicator').length,
+        cyclic : document.getElementsByClassName('cyclicIndicator').length,
+        archived : true
+      });
+
+    } else {
+      alert(status + ': ' + JSON.stringify(data));
+    }
+
+  });
+
+};
+
+thread.saveThreadSettings = function() {
+
+  var pinned = document.getElementById('checkboxPin').checked;
+  var locked = document.getElementById('checkboxLock').checked;
+  var cyclic = document.getElementById('checkboxCyclic').checked;
+
+  api.formApiRequest('changeThreadSettings', {
+    boardUri : api.boardUri,
+    threadId : api.threadId,
+    pin : pinned,
+    lock : locked,
+    cyclic : cyclic
   }, function setLock(status, data) {
 
     if (status === 'ok') {
 
-      alert('Settings saved.');
-
-      location.reload(true);
+      api.resetIndicators({
+        locked : locked,
+        pinned : pinned,
+        cyclic : cyclic,
+        archived : document.getElementsByClassName('archiveIndicator').length
+      });
 
     } else {
       alert(status + ': ' + JSON.stringify(data));
     }
   });
 
-}
+};
 
-var replyCallback = function(status, data) {
+thread.replyCallback = function(status, data) {
 
   if (status === 'ok') {
 
-    storeUsedPostingPassword(boardUri, threadId, data);
+    postCommon.storeUsedPostingPassword(api.boardUri, api.threadId, data);
 
     document.getElementById('fieldMessage').value = '';
     document.getElementById('fieldSubject').value = '';
-    clearQRAfterPosting();
-    clearSelectedFiles();
+    qr.clearQRAfterPosting();
+    postCommon.clearSelectedFiles();
 
-    refreshPosts(true);
+    thread.refreshPosts(true);
 
   } else {
     alert(status + ': ' + JSON.stringify(data));
   }
+
 };
 
-replyCallback.stop = function() {
-  replyButton.innerHTML = originalButtonText;
+thread.replyCallback.stop = function() {
 
-  setQRReplyText(originalButtonText);
+  thread.replyButton.innerHTML = thread.originalButtonText;
 
-  replyButton.disabled = false;
-  setQRReplyEnabled(true);
+  qr.setQRReplyText(thread.originalButtonText);
+
+  thread.replyButton.disabled = false;
+  qr.setQRReplyEnabled(true);
+
 };
 
-replyCallback.progress = function(info) {
+thread.replyCallback.progress = function(info) {
 
   if (info.lengthComputable) {
     var newText = 'Uploading ' + Math.floor((info.loaded / info.total) * 100)
         + '%';
-    replyButton.innerHTML = newText;
+    thread.replyButton.innerHTML = newText;
 
-    setQRReplyText(newText);
+    qr.setQRReplyText(newText);
   }
+
 };
 
-var refreshCallback = function(error, data) {
+thread.refreshCallback = function(error, receivedData) {
 
-  if (error) {
+  if ((thread.mod && (error !== 'ok')) || (!thread.mod && error)) {
+    console.log('retrun');
     return;
   }
 
-  if (fullRefresh) {
-    lastReplyId = 0;
-    unreadPosts = 0;
-    while (divPosts.firstChild) {
-      divPosts.removeChild(divPosts.firstChild);
+  if (!thread.mod) {
+    receivedData = JSON.parse(receivedData);
+  }
+
+  if (thread.fullRefresh) {
+    thread.lastReplyId = 0;
+    thread.unreadPosts = 0;
+    while (thread.divPosts.firstChild) {
+      thread.divPosts.removeChild(thread.divPosts.firstChild);
     }
 
-    document.title = originalTitle;
+    document.title = thread.originalTitle;
 
   }
 
-  var receivedData = JSON.parse(data);
+  tooltips.cacheData(receivedData);
 
   var posts = receivedData.posts;
 
-  foundPosts = false;
+  var foundPosts = false;
 
   if (posts && posts.length) {
     var lastReceivedPost = posts[posts.length - 1];
 
-    if (lastReceivedPost.postId > lastReplyId) {
+    if (lastReceivedPost.postId > thread.lastReplyId) {
       foundPosts = true;
 
       for (var i = 0; i < posts.length; i++) {
 
         var post = posts[i];
 
-        if (post.postId > lastReplyId) {
-          unreadPosts++;
+        if (post.postId > thread.lastReplyId) {
+          thread.unreadPosts++;
 
-          var postCell = addPost(post, boardUri, threadId);
+          var postCell = posting.addPost(post, api.boardUri, api.threadId);
 
-          divPosts.appendChild(postCell);
+          thread.divPosts.appendChild(postCell);
 
-          lastPost = postCell;
+          thread.lastPost = postCell;
 
-          lastReplyId = post.postId;
+          thread.lastReplyId = post.postId;
         }
 
       }
 
-      if (!fullRefresh) {
-        document.title = '(' + unreadPosts + ') ' + originalTitle;
+      if (!thread.fullRefresh) {
+        document.title = '(' + thread.unreadPosts + ') ' + thread.originalTitle;
       }
 
     }
   }
 
-  if (autoRefresh) {
-    startTimer(manualRefresh || foundPosts ? 5 : lastRefresh * 2);
+  if (thread.autoRefresh) {
+    thread.startTimer(thread.manualRefresh || foundPosts ? 5
+        : thread.lastRefresh * 2);
   }
 
 };
 
-refreshCallback.stop = function() {
-  refreshButton.disabled = false;
+thread.refreshCallback.stop = function() {
 
-  refreshingThread = false;
+  thread.refreshButton.disabled = false;
 
-  if (waitingForRefreshData) {
-    loadThread(waitingForRefreshData.cell, waitingForRefreshData.thread);
-    waitingForRefreshData = false;
+  thread.refreshingThread = false;
+
+  if (sideCatalog.waitingForRefreshData) {
+    sideCatalog.loadThread(sideCatalog.waitingForRefreshData.cell,
+        sideCatalog.waitingForRefreshData.thread);
+    delete sideCatalog.waitingForRefreshData;
   }
 
 };
 
-function refreshPosts(manual, full) {
+thread.refreshPosts = function(manual, full) {
 
-  if (manual && loadingThread) {
+  if (manual && sideCatalog.loadingThread) {
     return;
   }
 
-  manualRefresh = manual;
-  fullRefresh = full;
+  thread.manualRefresh = manual;
+  thread.fullRefresh = full;
 
-  if (autoRefresh && manual) {
-    clearInterval(refreshTimer);
+  if (thread.autoRefresh && manual) {
+    clearInterval(thread.refreshTimer);
   }
 
-  refreshButton.disabled = true;
+  thread.refreshButton.disabled = true;
 
-  refreshingThread = true;
+  thread.refreshingThread = true;
 
-  localRequest(refreshURL, refreshCallback);
+  if (thread.mod) {
+    api.formApiRequest('mod', {}, thread.refreshCallback, true,
+        thread.refreshParameters);
+  } else {
+    api.localRequest(thread.refreshURL, thread.refreshCallback);
+  }
 
-}
+};
 
-function sendReplyData(files, captchaId) {
+thread.sendReplyData = function(files, captchaId) {
 
   var forcedAnon = !document.getElementById('fieldName');
   var hiddenFlags = !document.getElementById('flagsDiv');
@@ -393,7 +478,7 @@ function sendReplyData(files, captchaId) {
 
     var selectedFlag = combo.options[combo.selectedIndex].value;
 
-    savedSelectedFlag(selectedFlag);
+    postCommon.savedSelectedFlag(selectedFlag);
 
   }
 
@@ -408,16 +493,15 @@ function sendReplyData(files, captchaId) {
   var typedPassword = document.getElementById('fieldPostingPassword').value
       .trim();
 
-  var threadId = document.getElementById('threadIdentifier').value;
-
   if (!typedMessage.length && !files.length) {
     alert('A message or a file is mandatory.');
     return;
   } else if (!forcedAnon && typedName.length > 32) {
     alert('Name is too long, keep it under 32 characters.');
     return;
-  } else if (typedMessage.length > messageLimit) {
-    alert('Message is too long, keep it under ' + messageLimit + ' characters.');
+  } else if (typedMessage.length > thread.messageLimit) {
+    alert('Message is too long, keep it under ' + thread.messageLimit
+        + ' characters.');
     return;
   } else if (typedEmail.length > 64) {
     alert('E-mail is too long, keep it under 64 characters.');
@@ -440,13 +524,13 @@ function sendReplyData(files, captchaId) {
 
   var noFlagCheckBox = document.getElementById('checkboxNoFlag');
 
-  originalButtonText = replyButton.innerHTML;
-  replyButton.innerHTML = 'Uploading 0%';
-  setQRReplyText(replyButton.innerHTML);
-  replyButton.disabled = true;
-  setQRReplyEnabled(false);
+  thread.originalButtonText = thread.replyButton.innerHTML;
+  thread.replyButton.innerHTML = 'Uploading 0%';
+  qr.setQRReplyText(thread.replyButton.innerHTML);
+  thread.replyButton.disabled = true;
+  qr.setQRReplyEnabled(false);
 
-  apiRequest('replyThread', {
+  api.formApiRequest('replyThread', {
     name : forcedAnon ? null : typedName,
     flag : hiddenFlags ? null : selectedFlag,
     captcha : captchaId,
@@ -457,24 +541,24 @@ function sendReplyData(files, captchaId) {
     message : typedMessage,
     email : typedEmail,
     files : files,
-    boardUri : boardUri,
-    threadId : threadId
-  }, replyCallback);
+    boardUri : api.boardUri,
+    threadId : api.threadId
+  }, thread.replyCallback);
 
-}
+};
 
-function processFilesToPost(captchaId) {
+thread.processFilesToPost = function(captchaId) {
 
-  getFilestToUpload(function gotFiles(files) {
-    sendReplyData(files, captchaId);
+  postCommon.newGetFilesToUpload(function gotFiles(files) {
+    thread.sendReplyData(files, captchaId);
   });
 
-}
+};
 
-function processReplyRequest() {
+thread.processReplyRequest = function() {
 
-  if (hiddenCaptcha) {
-    processFilesToPost();
+  if (api.hiddenCaptcha) {
+    thread.processFilesToPost();
   } else {
     var typedCaptcha = document.getElementById('fieldCaptcha').value.trim();
 
@@ -487,34 +571,38 @@ function processReplyRequest() {
     }
 
     if (typedCaptcha.length == 24) {
-      processFilesToPost(typedCaptcha);
+      thread.processFilesToPost(typedCaptcha);
     } else {
-      var parsedCookies = getCookies();
+      var parsedCookies = api.getCookies();
 
-      apiRequest('solveCaptcha', {
+      api.formApiRequest('solveCaptcha', {
 
         captchaId : parsedCookies.captchaid,
         answer : typedCaptcha
       }, function solvedCaptcha(status, data) {
-        processFilesToPost(parsedCookies.captchaid);
+
+        if (status !== 'ok') {
+          alert(status);
+          return;
+        }
+
+        thread.processFilesToPost(parsedCookies.captchaid);
       });
     }
 
   }
 
-}
+};
 
-function postReply() {
+thread.postReply = function() {
 
-  localRequest('/blockBypass.js?json=1',
-      function checked(error, response) {
+  api.formApiRequest('blockBypass', {},
+      function checked(status, data) {
 
-        if (error) {
-          alert(error);
+        if (status !== 'ok') {
+          alert(data);
           return;
         }
-
-        var data = JSON.parse(response);
 
         var alwaysUseBypass = document
             .getElementById('alwaysUseBypassCheckBox').checked;
@@ -522,60 +610,60 @@ function postReply() {
         if (!data.valid
             && (data.mode == 2 || (data.mode == 1 && alwaysUseBypass))) {
 
-          displayBlockBypassPrompt(function() {
-            processReplyRequest();
+          postCommon.displayBlockBypassPrompt(function() {
+            thread.processReplyRequest();
           });
 
         } else {
-          processReplyRequest();
+          thread.processReplyRequest();
         }
 
       });
 
-}
+};
 
-function startTimer(time) {
+thread.startTimer = function(time) {
 
-  if (time > limitRefreshWait) {
-    time = limitRefreshWait;
+  if (time > 600) {
+    time = 600;
   }
 
-  currentRefresh = time;
-  lastRefresh = time;
-  refreshLabel.innerHTML = currentRefresh;
-  refreshTimer = setInterval(function checkTimer() {
+  thread.currentRefresh = time;
+  thread.lastRefresh = time;
+  thread.refreshLabel.innerHTML = thread.currentRefresh;
+  thread.refreshTimer = setInterval(function checkTimer() {
 
-    if (loadingThread) {
+    if (sideCatalog.loadingThread) {
       return;
     }
 
-    currentRefresh--;
+    thread.currentRefresh--;
 
-    if (!currentRefresh) {
-      clearInterval(refreshTimer);
-      refreshPosts();
-      refreshLabel.innerHTML = '';
+    if (!thread.currentRefresh) {
+      clearInterval(thread.refreshTimer);
+      thread.refreshPosts();
+      thread.refreshLabel.innerHTML = '';
     } else {
-      refreshLabel.innerHTML = currentRefresh;
+      thread.refreshLabel.innerHTML = thread.currentRefresh;
     }
 
   }, 1000);
-}
+};
 
-function changeRefresh() {
+thread.changeRefresh = function() {
 
-  autoRefresh = document.getElementById('checkboxChangeRefresh').checked;
+  thread.autoRefresh = document.getElementById('checkboxChangeRefresh').checked;
 
-  if (!autoRefresh) {
-    refreshLabel.innerHTML = '';
-    clearInterval(refreshTimer);
+  if (!thread.autoRefresh) {
+    thread.refreshLabel.innerHTML = '';
+    clearInterval(thread.refreshTimer);
   } else {
-    startTimer(5);
+    thread.startTimer(5);
   }
 
-}
+};
 
-function deleteFromIp() {
+thread.deleteFromIp = function() {
 
   var typedIp = document.getElementById('ipField').value.trim();
   var typedBoards = document.getElementById('fieldBoards').value.trim();
@@ -585,7 +673,7 @@ function deleteFromIp() {
     return;
   }
 
-  apiRequest('deleteFromIp', {
+  api.formApiRequest('deleteFromIp', {
     ip : typedIp,
     boards : typedBoards
   }, function requestComplete(status, data) {
@@ -602,4 +690,6 @@ function deleteFromIp() {
     }
   });
 
-}
+};
+
+thread.init();

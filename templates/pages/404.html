@@ -2,46 +2,37 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link href="/.static/css/chan.css" rel="stylesheet">
-    <link href="/.static/icons/style.css" rel="stylesheet">
-    <link rel="manifest" href="/.static/manifest.json">
     <link href="/.static/favicon.png" rel="icon">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google" content="notranslate">
+    <link rel="stylesheet" href="/.static/css/main.css">
   </head>
-  <body id="page-index">
+  <body>
     <nav>
-      <div class="nav-block"><span><a href="/">Home</a></span><span>
-          <select id="selectTheme">
-            <option value="yotsuba">4plebs</option>
+      <section><span><a href="/">Home</a></span><span>
+          <select id="theme">
+            <option value="inch">Indiachan</option>
             <option value="simplechan">Simplechan</option>
             <option value="penumbra">Penumbra</option>
-          </select></span></div>
-      <div class="nav-block"><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
-      </div>
+            <option value="yotsuba">Yotsuba</option>
+          </select></span></section>
+      <section id="navBoards">
+        <select id="selectBoard">
+          <option value="a">/a/ - Anime &amp; Manga</option>
+          <option value="a">/b/ - Bakchodi</option>
+          <option value="a">/g/ - Technology</option>
+          <option value="a">/pol/ - Politically Incorrect</option>
+          <option value="a">/meta/ - Indiachan Discussion</option>
+        </select><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
+      </section>
+      <script>!function(){var e=document,n=localStorage,t=e.querySelector("#theme");function a(a){a||(a=n.SITE_THEME||"yotsuba"),e.documentElement.className="theme-"+a,t.value=a}t.onchange=function(){a(t.value);n.SITE_THEME=t.value;onresize&&onresize()},a()}();</script>
     </nav>
-    <script src="/.static/js/site.js"></script>
     <main>
-      <div id="indexContent">
-        <header>
-          <h1>indiachan</h1>
-        </header>
-        <div style="text-align: center">
-          <h2>404</h2>
-          <p>not found</p>
-        </div>
-      </div>
+      <h1>404</h1>
+      <p>not found</p>
     </main>
     <footer>
-      <hr><a href="mailto:contact@indiachan.com">
-        <div class="i i-mail"></div>contact@indiachan.com</a><a href="https://irc.indiachan.com" target="_blank">
-        <div class="i i-irc"></div>IRC</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">
-        <div class="i i-git"></div>Source</a>
+      <div id="footer-inner"><a href="https://irc.indiachan.com" target="_blank">IRC</a><a href="mailto:contact@indiachan.com">contact@indiachan.com</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">Source</a></div>
     </footer>
-    <form id="captchaModal">
-      <div><img>
-        <input class="field block" placeholder="Enter 6 characters" required pattern=".{6}"><span></span>
-        <button class="btn">Answer</button>
-      </div>
-    </form>
   </body>
 </html>

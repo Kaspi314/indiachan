@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0">
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="/.static/css/global.css">
-</head>
-<body>
-
-  <header>
-    <img
-      src="/.static/logo.png"
-      alt="logo" />
-  </header>
-
-  <div id="redirect">
-    <h4 id="labelMessage"></h4>
-    <p>
-      Click
-      <a id="linkRedirect">here</a>
-      to be redirected.
-    </p>
-  </div>
-
-</body>
-
-<script src="/.static/js/settings.js"></script>
-<script src="/.static/js/themes.js"></script>
-<script src="/.static/js/favouriteBoards.js"></script>
-
+  <head>
+    <meta charset="utf-8">
+    <link href="/.static/favicon.png" rel="icon">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google" content="notranslate">
+    <link rel="stylesheet" href="/.static/css/main.css">
+  </head>
+  <body>
+    <nav>
+      <section><span><a href="/">Home</a></span><span>
+          <select id="theme">
+            <option value="inch">Indiachan</option>
+            <option value="simplechan">Simplechan</option>
+            <option value="penumbra">Penumbra</option>
+            <option value="yotsuba">Yotsuba</option>
+          </select></span></section>
+      <section id="navBoards">
+        <select id="selectBoard">
+          <option value="a">/a/ - Anime &amp; Manga</option>
+          <option value="a">/b/ - Bakchodi</option>
+          <option value="a">/g/ - Technology</option>
+          <option value="a">/pol/ - Politically Incorrect</option>
+          <option value="a">/meta/ - Indiachan Discussion</option>
+        </select><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
+      </section>
+      <script>!function(){var e=document,n=localStorage,t=e.querySelector("#theme");function a(a){a||(a=n.SITE_THEME||"yotsuba"),e.documentElement.className="theme-"+a,t.value=a}t.onchange=function(){a(t.value);n.SITE_THEME=t.value;onresize&&onresize()},a()}();</script>
+    </nav>
+    <main>
+      <h2 id="labelMessage"></h2>
+      <p><a id="linkRedirect">Redirecting...</a>
+        <script>
+          var href = document.currentScript.previousElementSibling.href;
+          setTimeout(function(){location.href = href},2000)
+        </script>
+      </p>
+    </main>
+    <footer>
+      <div id="footer-inner"><a href="https://irc.indiachan.com" target="_blank">IRC</a><a href="mailto:contact@indiachan.com">contact@indiachan.com</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">Source</a></div>
+    </footer>
+  </body>
 </html>

@@ -1,12 +1,17 @@
-if (!DISABLE_JS) {
-  document.getElementById('addAccountJsButton').style.display = 'inline';
+var accounts = {};
 
-  document.getElementById('addAccountFormButton').style.display = 'none';
-}
+accounts.init = function() {
 
-function addAccount() {
+  accounts.divAccounts = document.getElementById('divAccounts');
 
-  var typedLogin = document.getElementById('fieldLogin').value;
+  api.convertButton('addAccountFormButton', accounts.addAccount,
+      'addAccountField');
+
+};
+
+accounts.addAccount = function() {
+
+  var typedLogin = document.getElementById('fieldLogin').value.trim();
   var typedPassword = document.getElementById('fieldPassword').value;
   var typedEmail = document.getElementById('fieldEmail').value;
 
@@ -18,14 +23,23 @@ function addAccount() {
     alert('Invalid login.');
   } else {
 
-    apiRequest('addAccount', {
+    api.formApiRequest('addAccount', {
       login : typedLogin,
       password : typedPassword,
       email : typedEmail
     }, function requestComplete(status, data) {
 
       if (status === 'ok') {
-        location.reload(true);
+
+        var newLink = document.createElement('a');
+        newLink.innerHTML = typedLogin;
+        newLink.href = '/accountManagement.js?account=' + typedLogin;
+        accounts.divAccounts.appendChild(newLink);
+
+        document.getElementById('fieldLogin').value = '';
+        document.getElementById('fieldPassword').value = '';
+        document.getElementById('fieldEmail').value = '';
+
       } else {
         alert(status + ': ' + JSON.stringify(data));
       }
@@ -33,4 +47,6 @@ function addAccount() {
 
   }
 
-}
+};
+
+accounts.init();

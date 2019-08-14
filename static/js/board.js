@@ -1,73 +1,64 @@
-var board = true;
-var originalButtonText;
+api.isBoard = true;
 
-var identifierElement = document.getElementById('boardIdentifier');
-var boardUri = identifierElement ? identifierElement.value : null;
+var board = {};
 
-if (!boardUri) {
+board.init = function() {
 
-  var altIdentifierElement = document.getElementById('labelBoard');
+  api.hiddenCaptcha = !document.getElementById('captchaDiv');
 
-  boardUri = altIdentifierElement ? altIdentifierElement.innerHTML.replace(
-      /\//g, '') : null;
+  var identifierElement = document.getElementById('boardIdentifier');
+  api.boardUri = identifierElement ? identifierElement.value : null;
 
-}
+  if (!api.boardUri) {
 
-var hiddenCaptcha;
-var messageLimit;
+    var altIdentifierElement = document.getElementById('labelBoard');
 
-if (!DISABLE_JS) {
+    api.boardUri = altIdentifierElement ? altIdentifierElement.innerHTML
+        .replace(/\//g, '') : null;
 
-  hiddenCaptcha = !document.getElementById('captchaDiv');
+  }
 
   if (identifierElement) {
 
-    messageLimit = +document.getElementById('labelMessageLength').innerHTML;
+    board.messageLimit = +document.getElementById('labelMessageLength').innerHTML;
 
-    var postButton = document.getElementById('jsButton');
-    postButton.style.display = 'inline';
-    postButton.disabled = false;
-    document.getElementById('formButton').style.display = 'none';
+    board.postButton = document.getElementById('formButton');
 
-    if (!hiddenCaptcha) {
-      document.getElementById('reloadCaptchaButton').style.display = 'inline';
-    }
+    api.convertButton(board.postButton, board.postThread, 'postingInput');
+
+    board.postButton.disabled = false;
 
   }
 
-  if (document.getElementById('reloadCaptchaButtonReport')) {
-    document.getElementById('reloadCaptchaButtonReport').style.display = 'inline';
-  }
+};
 
-}
-
-var postCallback = function requestComplete(status, data) {
+board.postCallback = function(status, data) {
 
   if (status === 'ok') {
 
-    storeUsedPostingPassword(boardUri, data);
+    postCommon.storeUsedPostingPassword(api.boardUri, data);
 
-    window.location.pathname = '/' + boardUri + '/res/' + data + '.html';
+    window.location.pathname = '/' + api.boardUri + '/res/' + data + '.html';
   } else {
     alert(status + ': ' + JSON.stringify(data));
   }
 };
 
-postCallback.stop = function() {
-  postButton.innerHTML = originalButtonText;
-  postButton.disabled = false;
+board.postCallback.stop = function() {
+  board.postButton.innerHTML = board.originalButtonText;
+  board.postButton.disabled = false;
 };
 
-postCallback.progress = function(info) {
+board.postCallback.progress = function(info) {
 
   if (info.lengthComputable) {
     var newText = 'Uploading ' + Math.floor((info.loaded / info.total) * 100)
         + '%';
-    postButton.innerHTML = newText;
+    board.postButton.innerHTML = newText;
   }
 };
 
-function sendThreadData(files, captchaId) {
+board.sendThreadData = function(files, captchaId) {
 
   var hiddenFlags = !document.getElementById('flagsDiv');
 
@@ -76,7 +67,7 @@ function sendThreadData(files, captchaId) {
 
     var selectedFlag = combo.options[combo.selectedIndex].value;
 
-    savedSelectedFlag(selectedFlag);
+    postCommon.savedSelectedFlag(selectedFlag);
   }
 
   var forcedAnon = !document.getElementById('fieldName');
@@ -100,8 +91,9 @@ function sendThreadData(files, captchaId) {
   } else if (!forcedAnon && typedName.length > 32) {
     alert('Name is too long, keep it under 32 characters.');
     return;
-  } else if (typedMessage.length > messageLimit) {
-    alert('Message is too long, keep it under ' + messageLimit + ' characters.');
+  } else if (typedMessage.length > board.messageLimit) {
+    alert('Message is too long, keep it under ' + board.messageLimit
+        + ' characters.');
     return;
   } else if (typedEmail.length > 64) {
     alert('Email is too long, keep it under 64 characters.');
@@ -120,15 +112,15 @@ function sendThreadData(files, captchaId) {
 
   localStorage.setItem('deletionPassword', typedPassword);
 
-  originalButtonText = postButton.innerHTML;
-  postButton.innerHTML = 'Uploading 0%';
-  postButton.disabled = true;
+  board.originalButtonText = board.postButton.innerHTML;
+  board.postButton.innerHTML = 'Uploading 0%';
+  board.postButton.disabled = true;
 
   var spoilerCheckBox = document.getElementById('checkboxSpoiler');
 
   var noFlagCheckBox = document.getElementById('checkboxNoFlag');
 
-  apiRequest('newThread', {
+  api.formApiRequest('newThread', {
     name : forcedAnon ? null : typedName,
     flag : hiddenFlags ? null : selectedFlag,
     captcha : captchaId,
@@ -139,23 +131,23 @@ function sendThreadData(files, captchaId) {
     message : typedMessage,
     email : typedEmail,
     files : files,
-    boardUri : boardUri
-  }, postCallback);
+    boardUri : api.boardUri
+  }, board.postCallback);
 
-}
+};
 
-function processFilesToPost(captchaId) {
+board.processFilesToPost = function(captchaId) {
 
-  getFilestToUpload(function gotFiles(files) {
-    sendThreadData(files, captchaId);
+  postCommon.newGetFilesToUpload(function gotFiles(files) {
+    board.sendThreadData(files, captchaId);
   });
 
-}
+};
 
-function processThreadRequest() {
+board.processThreadRequest = function() {
 
-  if (hiddenCaptcha) {
-    processFilesToPost();
+  if (api.hiddenCaptcha) {
+    board.processFilesToPost();
   } else {
     var typedCaptcha = document.getElementById('fieldCaptcha').value.trim();
 
@@ -168,18 +160,21 @@ function processThreadRequest() {
     }
 
     if (typedCaptcha.length == 24) {
-      processFilesToPost(typedCaptcha);
+      board.processFilesToPost(typedCaptcha);
     } else {
-      var parsedCookies = getCookies();
+      var parsedCookies = api.getCookies();
 
-      apiRequest('solveCaptcha', {
-
+      api.formApiRequest('solveCaptcha', {
         captchaId : parsedCookies.captchaid,
         answer : typedCaptcha
       }, function solvedCaptcha(status, data) {
 
-        processFilesToPost(parsedCookies.captchaid);
+        if (status !== 'ok') {
+          alert(status);
+          return;
+        }
 
+        board.processFilesToPost(parsedCookies.captchaid);
       });
     }
 
@@ -187,17 +182,15 @@ function processThreadRequest() {
 
 };
 
-function postThread() {
+board.postThread = function() {
 
-  localRequest('/blockBypass.js?json=1',
-      function checked(error, response) {
+  api.formApiRequest('blockBypass', {},
+      function checked(status, data) {
 
-        if (error) {
-          alert(error);
+        if (status !== 'ok') {
+          alert(data);
           return;
         }
-
-        var data = JSON.parse(response);
 
         var alwaysUseBypass = document
             .getElementById('alwaysUseBypassCheckBox').checked;
@@ -205,14 +198,16 @@ function postThread() {
         if (!data.valid
             && (data.mode == 2 || (data.mode == 1 && alwaysUseBypass))) {
 
-          displayBlockBypassPrompt(function() {
-            processThreadRequest();
+          postCommon.displayBlockBypassPrompt(function() {
+            board.processThreadRequest();
           });
 
         } else {
-          processThreadRequest();
+          board.processThreadRequest();
         }
 
       });
 
-}
+};
+
+board.init();

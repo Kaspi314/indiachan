@@ -32,19 +32,7 @@
 </head>
 <body>
 
-  <nav>
-    <span id="navLinkSpan"> <span>[</span> <a
-        href="/"
-        class="coloredIcon"
-        id="navLinkHome">home</a> <span>/</span> <a
-        href="/boards.js"
-        class="coloredIcon"
-        id="navBoardList">boards</a> <span>/</span> <a
-        href="/.static/posting.html"
-        class="coloredIcon"
-        id="navPosting">help</a> <span>]</span>
-    </span> <span id="navBoardsSpan"> </span> <span id="navOptionsSpan"> </span>
-  </nav>
+  <nav id="dynamicHeader"></nav>
 
   <header class="boardHeader">
     <img
@@ -71,12 +59,14 @@
           Password
           <input
             type="text"
+            class="deletionField"
             id="deletionFieldPassword"
             name="password">
         </label>
         <label>
           <input
             type="checkbox"
+            class="deletionField"
             id="checkboxOnlyFiles"
             name="deleteUploads">
           Delete only files (Removes the file reference to the posts)
@@ -84,22 +74,17 @@
         <label>
           <input
             type="checkbox"
+            class="deletionField"
             id="checkboxMediaDeletion"
             name="deleteMedia">
           Delete media (Removes the saved files from the server)
         </label>
-        <input
+        <button
           type="submit"
           id="deleteFormButton"
-          value="Delete"
-          name="action">
+          value="delete"
+          name="action">Delete</button>
 
-        <input
-          type="button"
-          class="hidden"
-          id="deleteJsButton"
-          onClick="deletePosts()"
-          value="Delete">
       </div>
     </fieldset>
 
@@ -112,12 +97,14 @@
           Reason
           <input
             type="text"
+            class="reportField"
             id="reportFieldReason"
             name="reason">
         </label>
         <label>
           <input
             type="checkbox"
+            class="reportField"
             id="checkboxGlobal"
             name="global">
           Global
@@ -129,18 +116,16 @@
 
         <input
           type="button"
-          class="hidden"
-          id="reloadCaptchaButtonReport"
-          onclick="reloadCaptcha()"
+          class="hidden reloadCaptchaButton"
+          onclick="captchaUtils.reloadCaptcha()"
           value="Reload">
         <span class="captchaTimer"></span>
         <br>
 
-
         <input
           name="captcha"
           type="text"
-          class="captchaField"
+          class="captchaField reportField"
           id="fieldCaptchaReport"
           placeholder="answer">
 
@@ -149,19 +134,11 @@
           class="small">no cookies?</a>
         <br>
 
-        <input
+        <button
           type="submit"
           id="reportFormButton"
-          value="Report"
-          name="action">
-
-        <input
-          type="button"
-          class="hidden"
-          id="reportJsButton"
-          onClick="reportPosts()"
-          value="Report">
-
+          value="report"
+          name="action">Report</button>
 
       </div>
 
@@ -173,7 +150,6 @@
 
 </body>
 
-<script src="/.static/js/settings.js"></script>
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/overboard.js"></script>
 <script src="/.static/js/thumbs.js"></script>
@@ -186,7 +162,7 @@
 <script src="/.static/js/mediaHiding.js"></script>
 <script src="/.static/js/embed.js"></script>
 <script src="/.static/js/board.js"></script>
-<script src="/.static/js/captcha.js"></script>
+<script src="/.static/js/captchaUtils.js"></script>
 <script src="/.static/js/postingMenu.js"></script>
 <script src="/.static/js/watcher.js"></script>
 <script src="/.static/js/captchaModal.js"></script>

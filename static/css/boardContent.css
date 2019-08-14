@@ -49,13 +49,6 @@
   height: 16px;
 }
 
-.modalDecorationPanel input[type='text'], .modalDecorationPanel select,
-  .modalDecorationPanel textarea {
-  width: 100%;
-  display: block;
-  margin-bottom: 0.25em;
-}
-
 #divUpload, .centered {
   text-align: center;
 }
@@ -64,10 +57,6 @@
   display: inline-block;
   padding-right: 0.75em;
   width: 25em;
-}
-
-#newPostFieldset, #quick-reply table, .modalDecorationPanel {
-  border: 1px dashed #117743;
 }
 
 #postingForm {
@@ -95,11 +84,11 @@
   font-size: 80%;
 }
 
-#postingForm td {
+#postingForm td, .modalTableBody td {
   text-align: left;
 }
 
-#postingForm th {
+#postingForm th, .modalTableBody th {
   font-weight: bold;
   text-align: left;
   width: 100px;
@@ -109,7 +98,7 @@
   cursor: default;
   border: 1px solid #117743;
   border-radius: 5px;
-  background: #D6DAF0;
+  background: #282A2E;
 }
 
 input[type=checkbox].postingCheckbox {

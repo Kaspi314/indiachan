@@ -1,25 +1,23 @@
-var boardIdentifier;
-var threadIdentififer;
-var postIdentifier;
-var messageLimit;
+var edit = {};
 
-if (!DISABLE_JS) {
-  document.getElementById('saveJsButton').style.display = 'inline';
-  document.getElementById('saveFormButton').style.display = 'none';
+edit.init = function() {
 
-  messageLimit = +document.getElementById('labelMessageLength').innerHTML;
-  boardIdentifier = document.getElementById('boardIdentifier').value;
+  api.convertButton('saveFormButton', edit.save, 'editField');
+
+  edit.messageLimit = +document.getElementById('labelMessageLength').innerHTML;
+  api.boardUri = document.getElementById('boardIdentifier').value;
 
   var threadElement = document.getElementById('threadIdentifier');
 
   if (threadElement) {
-    threadIdentififer = threadElement.value;
+    api.threadId = threadElement.value;
   } else {
-    postIdentifier = document.getElementById('postIdentifier').value;
+    api.postId = document.getElementById('postIdentifier').value;
   }
-}
 
-function save() {
+};
+
+edit.save = function() {
 
   var typedMessage = document.getElementById('fieldMessage').value.trim();
 
@@ -29,23 +27,25 @@ function save() {
     alert('Subject too long, keep it under 128 characters.');
   } else if (!typedMessage.length) {
     alert('A message is mandatory.');
-  } else if (typedMessage.length > messageLimit) {
-    alert('Message too long, keep it under ' + messageLimit + ' characters.');
+  } else if (typedMessage.length > edit.messageLimit) {
+    alert('Message too long, keep it under ' + edit.messageLimit
+        + ' characters.');
   } else {
 
     var parameters = {
-      boardUri : boardIdentifier,
+      boardUri : api.boardUri,
       message : typedMessage,
       subject : typedSubject
     };
 
-    if (postIdentifier) {
-      parameters.postId = postIdentifier;
+    if (edit.postId) {
+      parameters.postId = api.postId;
     } else {
-      parameters.threadId = threadIdentififer;
+      parameters.threadId = api.threadId;
     }
 
-    apiRequest('saveEdit', parameters, function requestComplete(status, data) {
+    api.formApiRequest('saveEdit', parameters, function requestComplete(status,
+        data) {
 
       if (status === 'ok') {
         alert('Posting edited.');
@@ -56,4 +56,6 @@ function save() {
 
   }
 
-}
+};
+
+edit.init();

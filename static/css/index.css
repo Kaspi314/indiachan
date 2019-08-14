@@ -1,100 +1,119 @@
-#indexContent {
-  max-width: 800px;
-  margin: 10px auto;
+.white,
+.trifag:after,
+.trifag:before {
+  content: '';
+  height: 4px;
+  width: 32%;
+  float: left;
+  background: #f93;
 }
-#indexContent h1 {
+.trifag {
+  white-space: nowrap;
+  margin-left: 2px;
+}
+.trifag:after {
+  background: #128807;
+}
+.white {
+  background: #fff;
+}
+h1 {
+  display: inline-block;
   text-transform: uppercase;
   letter-spacing: 10px;
-  font-size: 30px;
+  padding-left: 6px;
+  font-size: 36px;
   transform: scaleY(0.92);
   text-shadow: 1px 1px 4px rgba(0,0,0,0.11);
+  margin: 0;
 }
-#indexContent h1:after {
-  display: block;
-  margin: 6px auto 0;
-  content: '';
-  height: 3px;
-  background: #e7a469;
-  width: 60px;
+h1 + p {
+  margin: 10px auto;
+  font-size: 0.875em;
 }
-#indexContent h1+p {
-  margin: -10px auto 10px;
-  max-width: 600px;
+#indexContent {
+  max-width: 880px;
+  margin: 32px auto 0;
 }
 #siteLogo {
   float: left;
-  margin: 0 20px 20px 0;
+  margin: 0 30px 20px 0;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.16);
   background: url("/.static/logo.png") no-repeat center;
   background-size: contain;
-  height: 268px;
-  width: 268px;
-}
-#indexBoards {
-  display: flex;
-  flex-wrap: wrap;
-}
-#indexBoards a {
-  text-align: center;
-  border: 1px solid #9aa39f;
-}
-#indexBoards a > div {
-  white-space: nowrap;
+  width: 280px;
+  height: 280px;
 }
 #indexBlocks {
   clear: both;
   justify-content: space-between;
-  text-align: center;
 }
 #indexBlocks > div {
   margin: 20px 0;
   border-radius: 2px;
 }
-#indexBlocks img {
-  max-width: 128px;
-  max-height: 128px;
-  vertical-align: top;
-  overflow: hidden;
-}
 #indexBlocks header {
   line-height: 36px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
-#contentWarning {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-}
-#contentWarning p {
-  margin: 30px 0;
-}
-#contentWarning .btn {
-  display: inline-block;
-}
-.indexBlock a {
+.latestPostCell,
+#indexBoards > a,
+#divLatestImages a {
+  font-weight: bold;
   background: rgba(255,255,255,0.7);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.16);
-  margin: 10px;
-  border-radius: 4px;
-  display: inline-block;
-  vertical-align: middle;
-  max-width: 175px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  margin: 12px 12px 0px 0;
+  border-radius: 2px;
+  max-width: 270px;
   padding: 10px 20px;
   overflow: hidden;
   transition: 0.3s;
+  float: left;
+  display: inline-block;
 }
-.indexBlock a:hover {
-  transform: scale(1.02);
-  box-shadow: 0 3px 14px rgba(0,0,0,0.22);
-}
-.indexBlock a > div {
-  color: #333;
-  font-size: 0.875em;
+.latestPostCell:hover,
+#indexBoards > a:hover,
+#divLatestImages a:hover {
+  transform: scale(1.01);
+  background: #fff;
 }
 #divLatestImages a {
   padding: 0;
 }
-#divLatestPosts a {
-  width: 100%;
+#divLatestImages img {
+  max-width: 128px;
+  max-height: 128px;
+  display: block;
+}
+.labelPreview {
+  color: #333;
+  font-size: 0.875em;
+  font-weight: normal;
+}
+.latestPostCell {
+  padding: 30px 10px 6px;
+  position: relative;
+  min-width: 120px;
+}
+.latestPostCell > a {
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+@media (max-width: 800px) {
+  #siteLogo {
+    margin: 0 auto;
+    float: none;
+    display: block;
+  }
+  main {
+    text-align: center;
+  }
+  #indexBoards > a {
+    float: none;
+  }
 }

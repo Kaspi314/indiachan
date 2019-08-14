@@ -1,6 +1,8 @@
-var boardIdentifier;
+var boardManagement = {};
 
-if (!DISABLE_JS) {
+boardManagement.init = function() {
+
+  api.management = true;
 
   var volunteerCellTemplate = '<span class="userLabel"></span> ';
   volunteerCellTemplate += '<input ';
@@ -15,55 +17,54 @@ if (!DISABLE_JS) {
   volunteerCellTemplate += 'type="hidden" ';
   volunteerCellTemplate += 'name="add" ';
   volunteerCellTemplate += 'value=false>';
-  volunteerCellTemplate += '<input ';
-  volunteerCellTemplate += 'type="button" ';
-  volunteerCellTemplate += 'class="removeJsButton" ';
-  volunteerCellTemplate += 'value="Remove Volunteer" ';
-  volunteerCellTemplate += 'class="hidden"> ';
-  volunteerCellTemplate += '<input ';
+  volunteerCellTemplate += '<button ';
   volunteerCellTemplate += 'type="submit" ';
   volunteerCellTemplate += 'class="removeFormButton" ';
-  volunteerCellTemplate += 'value="Remove Volunteer">';
+  volunteerCellTemplate += '>Remove Volunteer</button';
+
+  boardManagement.volunteerCellTemplate = volunteerCellTemplate;
 
   if (document.getElementById('ownerControlDiv')) {
 
-    document.getElementById('addVolunteerJsButton').style.display = 'inline';
-    document.getElementById('transferBoardJsButton').style.display = 'inline';
-    document.getElementById('deleteBoardJsButton').style.display = 'inline';
-    document.getElementById('cssJsButton').style.display = 'inline';
-    document.getElementById('spoilerJsButton').style.display = 'inline';
-    document.getElementById('spoilerFormButton').style.display = 'none';
-    document.getElementById('cssFormButton').style.display = 'none';
-    document.getElementById('deleteBoardFormButton').style.display = 'none';
-    document.getElementById('addVolunteerFormButton').style.display = 'none';
-    document.getElementById('transferBoardFormButton').style.display = 'none';
+    api.convertButton('spoilerFormButton', boardManagement.setSpoiler);
+    api.convertButton('cssFormButton', boardManagement.setCss);
+    api.convertButton('deleteBoardFormButton', boardManagement.deleteBoard,
+        'deleteBoardField');
+    api.convertButton('addVolunteerFormButton', boardManagement.addVolunteer,
+        'addVolunteerField');
+    api.convertButton('transferBoardFormButton', boardManagement.transferBoard,
+        'transferBoardField');
 
     if (document.getElementById('customJsForm')) {
-      document.getElementById('jsJsButton').style.display = 'inline';
-
-      document.getElementById('jsFormButton').style.display = 'none';
+      api.convertButton('jsFormButton', boardManagement.setJs);
     }
 
     var volunteerDiv = document.getElementById('volunteersDiv');
 
     for (var i = 0; i < volunteerDiv.childNodes.length; i++) {
-      processVolunteerCell(volunteerDiv.childNodes[i]);
-
+      boardManagement.processVolunteerCell(volunteerDiv.childNodes[i]);
     }
   }
 
-  boardIdentifier = document.getElementById('boardSettingsIdentifier').value;
-  document.getElementById('closeReportsJsButton').style.display = 'inline';
-  document.getElementById('closeReportsFormButton').style.display = 'none';
-  document.getElementById('saveSettingsJsButton').style.display = 'inline';
-  document.getElementById('saveSettingsFormButton').style.display = 'none';
+  api.boardUri = document.getElementById('boardSettingsIdentifier').value;
 
-}
+  api.convertButton('closeReportsFormButton', reports.closeReports,
+      'closeReportsField');
 
-function makeJsRequest(files) {
-  apiRequest('setCustomJs', {
-    files : files || [],
-    boardUri : boardIdentifier,
+  api.convertButton('saveSettingsFormButton', boardManagement.saveSettings,
+      'boardSettingsField');
+
+};
+
+boardManagement.setJs = function() {
+
+  var file = document.getElementById('JsFiles').files[0];
+
+  api.formApiRequest('setCustomJs', {
+    files : [ {
+      content : file
+    } ],
+    boardUri : api.boardUri,
   }, function requestComplete(status, data) {
 
     document.getElementById('JsFiles').type = 'text';
@@ -71,7 +72,7 @@ function makeJsRequest(files) {
 
     if (status === 'ok') {
 
-      if (files) {
+      if (file) {
         alert('New javascript set.');
       } else {
         alert('Javascript deleted.');
@@ -81,81 +82,72 @@ function makeJsRequest(files) {
       alert(status + ': ' + JSON.stringify(data));
     }
   });
-}
 
-function setJs() {
+};
 
-  var file = document.getElementById('JsFiles').files[0];
+boardManagement.setIndicatorForRequest = function(obtainedSpoiler) {
 
-  if (!file) {
-    makeJsRequest();
-    return;
-  }
+  var spoilerIndicator = document.getElementById('customSpoilerIndicator');
 
-  var reader = new FileReader();
+  var haveSpoiler = spoilerIndicator ? true : false;
 
-  reader.onloadend = function() {
+  if (haveSpoiler !== obtainedSpoiler) {
 
-    makeJsRequest([ {
-      name : file.name,
-      content : reader.result
-    } ]);
+    if (obtainedSpoiler) {
 
-  };
+      var marker = document.getElementById('indicatorMarker');
 
-  reader.readAsDataURL(file);
+      var indicator = document.createElement('div');
+      indicator.id = 'customSpoilerIndicator';
+      marker.parentNode.insertBefore(indicator, marker);
 
-}
-
-function makeSpoilerRequest(files) {
-  apiRequest('setCustomSpoiler', {
-    files : files || [],
-    boardUri : boardIdentifier,
-  }, function requestComplete(status, data) {
-
-    document.getElementById('files').type = 'text';
-    document.getElementById('files').type = 'file';
-
-    if (status === 'ok') {
-
-      location.reload(true);
+      var indicatorText = document.createElement('p');
+      indicatorText.innerHTML = 'There is a custom spoiler saved for this board';
+      indicator.appendChild(indicatorText);
 
     } else {
-      alert(status + ': ' + JSON.stringify(data));
+      spoilerIndicator.remove();
     }
-  });
-}
 
-function setSpoiler() {
+  } else if (obtainedSpoiler) {
+    alert('New spoiler uploaded.');
+  }
+
+};
+
+boardManagement.setSpoiler = function() {
 
   var file = document.getElementById('filesSpoiler').files[0];
 
-  if (!file) {
-    makeSpoilerRequest();
-    return;
-  }
+  api.formApiRequest('setCustomSpoiler', {
+    files : [ {
+      content : file
+    } ],
+    boardUri : api.boardUri,
+  }, function requestComplete(status, data) {
 
-  var reader = new FileReader();
+    if (status === 'ok') {
+      boardManagement.setIndicatorForRequest(!!file);
+    } else {
+      alert(status + ': ' + JSON.stringify(data));
+    }
 
-  reader.onloadend = function() {
+    document.getElementById('filesSpoiler').type = 'text';
+    document.getElementById('filesSpoiler').type = 'file';
 
-    // style exception, too simple
-    makeSpoilerRequest([ {
-      name : file.name,
-      content : reader.result
-    } ]);
-    // style exception, too simple
+  });
 
-  };
+};
 
-  reader.readAsDataURL(file);
+boardManagement.setCss = function() {
 
-}
+  var file = document.getElementById('files').files[0];
 
-function makeCssRequest(files) {
-  apiRequest('setCustomCss', {
-    files : files || [],
-    boardUri : boardIdentifier,
+  api.formApiRequest('setCustomCss', {
+    files : [ {
+      content : file
+    } ],
+    boardUri : api.boardUri,
   }, function requestComplete(status, data) {
 
     document.getElementById('files').type = 'text';
@@ -163,7 +155,7 @@ function makeCssRequest(files) {
 
     if (status === 'ok') {
 
-      if (files) {
+      if (file) {
         alert('New CSS set.');
       } else {
         alert('CSS deleted.');
@@ -173,35 +165,11 @@ function makeCssRequest(files) {
       alert(status + ': ' + JSON.stringify(data));
     }
   });
-}
 
-function setCss() {
+};
 
-  var file = document.getElementById('files').files[0];
+boardManagement.saveSettings = function() {
 
-  if (!file) {
-    makeCssRequest();
-    return;
-  }
-
-  var reader = new FileReader();
-
-  reader.onloadend = function() {
-
-    // style exception, too simple
-    makeCssRequest([ {
-      name : file.name,
-      content : reader.result
-    } ]);
-    // style exception, too simple
-
-  };
-
-  reader.readAsDataURL(file);
-
-}
-
-function saveSettings() {
   var typedName = document.getElementById('boardNameField').value.trim();
   var typedDescription = document.getElementById('boardDescriptionField').value
       .trim();
@@ -287,65 +255,68 @@ function saveSettings() {
 
   var locationCombo = document.getElementById('locationComboBox');
 
-  apiRequest(
-      'setBoardSettings',
-      {
-        boardName : typedName,
-        captchaMode : combo.options[combo.selectedIndex].value,
-        boardMessage : typedMessage,
-        autoCaptchaLimit : typedAutoCaptcha,
-        locationFlagMode : locationCombo.options[locationCombo.selectedIndex].value,
-        hourlyThreadLimit : typedHourlyLimit,
-        tags : typedTags,
-        anonymousName : typedAnonymousName,
-        boardDescription : typedDescription,
-        boardUri : boardIdentifier,
-        settings : settings,
-        autoSageLimit : typedAutoSage,
-        maxThreadCount : typedThreadLimit,
-        maxFileSizeMB : typedFileSize,
-        acceptedMimes : typedTypedMimes,
-        maxFiles : typedFileLimit,
-        maxBumpAge : typedMaxBumpAge
-      }, function requestComplete(status, data) {
-
-        if (status === 'ok') {
-
-          location.reload(true);
-
-        } else {
-          alert(status + ': ' + JSON.stringify(data));
-        }
-      });
-
-}
-
-function processVolunteerCell(cell) {
-  var button = cell.getElementsByClassName('removeJsButton')[0];
-  button.style.display = 'inline';
-  cell.getElementsByClassName('removeFormButton')[0].style.display = 'none';
-
-  button.onclick = function() {
-    setVolunteer(cell.getElementsByClassName('userIdentifier')[0].value, false);
+  var parameters = {
+    boardName : typedName,
+    captchaMode : combo.options[combo.selectedIndex].value,
+    boardMessage : typedMessage,
+    autoCaptchaLimit : typedAutoCaptcha,
+    locationFlagMode : locationCombo.options[locationCombo.selectedIndex].value,
+    hourlyThreadLimit : typedHourlyLimit,
+    tags : typedTags,
+    anonymousName : typedAnonymousName,
+    boardDescription : typedDescription,
+    boardUri : api.boardUri,
+    settings : settings,
+    autoSageLimit : typedAutoSage,
+    maxThreadCount : typedThreadLimit,
+    maxFileSizeMB : typedFileSize,
+    acceptedMimes : typedTypedMimes,
+    maxFiles : typedFileLimit,
+    maxBumpAge : typedMaxBumpAge
   };
 
-}
+  api.formApiRequest('setBoardSettings', parameters, function requestComplete(
+      status, data) {
 
-function addVolunteer() {
-  setVolunteer(document.getElementById('addVolunteerFieldLogin').value.trim(),
-      true, function(error) {
+    if (status === 'ok') {
+      alert('Settings saved.');
+    } else {
+      alert(status + ': ' + JSON.stringify(data));
+    }
 
-        if (error) {
-          alert(error);
-        } else {
-          document.getElementById('addVolunteerFieldLogin').value = '';
-        }
+  });
 
-      });
+};
 
-}
+boardManagement.processVolunteerCell = function(cell) {
 
-function setVolunteersDiv(volunteers) {
+  var button = cell.getElementsByClassName('removeFormButton')[0];
+
+  api.convertButton(button, function() {
+    boardManagement.setVolunteer(
+        cell.getElementsByClassName('userIdentifier')[0].value, false);
+  });
+
+};
+
+boardManagement.addVolunteer = function() {
+
+  boardManagement.setVolunteer(document
+      .getElementById('addVolunteerFieldLogin').value.trim(), true, function(
+      error) {
+
+    if (error) {
+      alert(error);
+    } else {
+      document.getElementById('addVolunteerFieldLogin').value = '';
+    }
+
+  });
+
+};
+
+boardManagement.setVolunteersDiv = function(volunteers) {
+
   var volunteersDiv = document.getElementById('volunteersDiv');
 
   while (volunteersDiv.firstChild) {
@@ -355,7 +326,7 @@ function setVolunteersDiv(volunteers) {
   for (var i = 0; i < volunteers.length; i++) {
 
     var cell = document.createElement('form');
-    cell.innerHTML = volunteerCellTemplate;
+    cell.innerHTML = boardManagement.volunteerCellTemplate;
 
     cell.getElementsByClassName('userIdentifier')[0].setAttribute('value',
         volunteers[i]);
@@ -363,39 +334,37 @@ function setVolunteersDiv(volunteers) {
     cell.getElementsByClassName('userLabel')[0].innerHTML = volunteers[i];
 
     cell.getElementsByClassName('boardIdentifier')[0].setAttribute('value',
-        boardIdentifier);
+        api.boardUri);
 
-    processVolunteerCell(cell);
+    boardManagement.processVolunteerCell(cell);
 
     volunteersDiv.appendChild(cell);
   }
-}
 
-function refreshVolunteers() {
+};
 
-  localRequest('/boardManagement.js?json=1&boardUri=' + boardIdentifier,
-      function gotData(error, data) {
+boardManagement.refreshVolunteers = function() {
 
-        if (error) {
-          alert(error);
-        } else {
+  api.formApiRequest('boardManagement', {}, function gotData(status, data) {
 
-          var parsedData = JSON.parse(data);
+    if (status !== 'ok') {
+      return;
+    }
 
-          setVolunteersDiv(parsedData.volunteers || []);
+    boardManagement.setVolunteersDiv(data.volunteers);
 
-        }
+  }, false, {
+    boardUri : api.boardUri
+  });
 
-      });
+};
 
-}
+boardManagement.setVolunteer = function(user, add, callback) {
 
-function setVolunteer(user, add, callback) {
-
-  apiRequest('setVolunteer', {
+  api.formApiRequest('setVolunteer', {
     login : user,
     add : add,
-    boardUri : boardIdentifier
+    boardUri : api.boardUri
   }, function requestComplete(status, data) {
 
     if (status === 'ok') {
@@ -404,46 +373,50 @@ function setVolunteer(user, add, callback) {
         callback();
       }
 
-      refreshVolunteers();
+      boardManagement.refreshVolunteers();
 
     } else {
       alert(status + ': ' + JSON.stringify(data));
     }
   });
 
-}
+};
 
-function transferBoard() {
+boardManagement.transferBoard = function() {
 
-  apiRequest('transferBoardOwnership', {
+  api.formApiRequest('transferBoardOwnership', {
     login : document.getElementById('transferBoardFieldLogin').value.trim(),
-    boardUri : boardIdentifier
+    boardUri : api.boardUri
   }, function requestComplete(status, data) {
 
     if (status === 'ok') {
-
-      window.location.pathname = '/' + boardIdentifier + '/';
-
+      window.location.pathname = '/' + api.boardUri + '/';
     } else {
       alert(status + ': ' + JSON.stringify(data));
     }
   });
 
-}
+};
 
-function deleteBoard() {
-  apiRequest('deleteBoard', {
-    boardUri : boardIdentifier,
-    confirmDeletion : document.getElementById('confirmDelCheckbox').checked
+boardManagement.deleteBoard = function() {
+
+  if (!document.getElementById('confirmDelCheckbox').checked) {
+    alert('You must confirm that you wish to delete this board.')
+    return;
+  }
+
+  api.formApiRequest('deleteBoard', {
+    boardUri : api.boardUri,
+    confirmDeletion : true
   }, function requestComplete(status, data) {
 
     if (status === 'ok') {
-
       window.location.pathname = '/';
-
     } else {
       alert(status + ': ' + JSON.stringify(data));
     }
   });
 
-}
+};
+
+boardManagement.init();

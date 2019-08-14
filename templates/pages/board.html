@@ -2,116 +2,82 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link href="/.static/css/chan.css" rel="stylesheet">
-    <link href="/.static/icons/style.css" rel="stylesheet">
-    <link rel="manifest" href="/.static/manifest.json">
     <link href="/.static/favicon.png" rel="icon">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google" content="notranslate">
+    <link rel="stylesheet" href="/.static/css/main.css">
   </head>
-  <body id="page-board">
+  <body>
     <nav>
-      <div class="nav-block"><span><a href="/">Home</a></span><span>
-          <select id="selectTheme">
-            <option value="yotsuba">4plebs</option>
+      <section><span><a href="/">Home</a></span><span>
+          <select id="theme">
+            <option value="inch">Indiachan</option>
             <option value="simplechan">Simplechan</option>
             <option value="penumbra">Penumbra</option>
-          </select></span></div>
-      <div class="nav-block"><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
-      </div>
+            <option value="yotsuba">Yotsuba</option>
+          </select></span></section>
+      <section id="navBoards">
+        <select id="selectBoard">
+          <option value="a">/a/ - Anime &amp; Manga</option>
+          <option value="a">/b/ - Bakchodi</option>
+          <option value="a">/g/ - Technology</option>
+          <option value="a">/pol/ - Politically Incorrect</option>
+          <option value="a">/meta/ - Indiachan Discussion</option>
+        </select><span><a href="/a">a</a></span><span><a href="/b">b</a></span><span><a href="/g">g</a></span><span><a href="/pol">pol</a></span><span><a href="/meta">meta</a></span>
+      </section>
+      <script>!function(){var e=document,n=localStorage,t=e.querySelector("#theme");function a(a){a||(a=n.SITE_THEME||"yotsuba"),e.documentElement.className="theme-"+a,t.value=a}t.onchange=function(){a(t.value);n.SITE_THEME=t.value;onresize&&onresize()},a()}();</script>
     </nav>
-    <script src="/.static/js/site.js"></script>
-    <main>
-      <div class="fixedForm" id="postingForm">
-        <div class="formTitle t-c2"><span>New Thread</span>
-          <div class="formClose t-cl">Hide</div>
+    <div class="hidden"><a id="linkManagement">Settings</a><a id="linkModeration">Mod</a></div>
+    <main id="board-page">
+      <div id="mainPanel">
+        <header class="boardHeader">
+          <h1 id="labelName"></h1>
+          <div id="labelDescription"></div><img id="bannerImage">
+        </header>
+        <div id="postingForm">
+          <input class="hidden" id="showForm" type="checkbox">
+          <label class="toggler topBtn" for="showForm">New Thread</label><a class="topBtn" href="./catalog.html">Catalog</a>
+          <form action="/newThread.js" enctype="multipart/form-data" method="post"><b>New Thread</b>
+            <div id="postingTable"></div>
+            <button class="btn" id="formButton" type="submit">Post</button>
+          </form>
         </div>
-        <form action="/newThread.js" enctype="multipart/form-data" method="post">
-          <input id="boardIdentifier" name="boardUri" type="hidden"/>
-          <input id="threadIdentifier" name="threadId" type="hidden"/>
-          <input class="field block" name="subject" placeholder="Subject (optional)"/>
-          <textarea class="field block" name="message" placeholder="Message" required="required" maxlength="4096"></textarea><span class="help"><span id="labelMessageLength"></span> characters remaining</span>
-          <div id="divUpload">
-            <input class="fileBrowser block" id="files" type="file" name="files" multiple=""/><span class="help">Max filesize: <span id='labelMaxFileSize'></span>, Max files: <span id='labelMaxFiles'></span></span><br/>
-            <input id="checkboxSpoiler" type="checkbox" name="spoiler"/>
-            <label for="checkboxSpoiler">Spoiler</label>
-          </div>
-          <div class="divMore">More</div>
-          <div class="formMore">
-            <input class="field block" id="divName" placeholder="Name" name="name"/>
-            <input class="field block" name="password" placeholder="Post deletion password"/>
-            <input id="fieldEmail" type="checkbox" name="email" value="sage"/>
-            <label for="fieldEmail">Sage</label>
-          </div>
-          <button class="btn" id="formButton" type="submit">Post</button>
-        </form>
-      </div>
-      <header><img id="bannerImage">
-        <h1 id="labelName"></h1>
-        <div id="labelDescription"></div>
-        <div id="mainLinks"><a class="mainLink t-bg t-c1" href="./catalog.html">
-            <div class="mainLinkInner">Catalog</div></a>
-          <div class="mainLink quickReply t-c1 t-bg">
-            <div class="mainLinkInner">New Thread</div>
-          </div><a class="mainLink t-c1 t-bg" target="_blank" href="/.static/posting.html">
-            <div class="mainLinkInner">Help</div></a>
-        </div>
-      </header>
-      <form id="contentActions" action="/contentActions.js" method="post" enctype="multipart/form-data">
         <div id="panelMessage">
           <hr>
           <div id="divMessage"></div>
         </div>
         <div id="threadList">
-          <div id="divThreads"></div>
+          <form action="/contentActions.js" method="post" enctype="multipart/form-data">
+            <div id="divThreads"></div>
+            <div class="threadPages"><span class="divPages"><a href="catalog.html">Catalog</a><a id="linkPrevious">Previous</a><span id="divPages"></span><a id="linkNext">Next</a></span></div>
+            <fieldset id="deleteForm">
+              <legend>Delete</legend>
+              <label>Password
+                <input name="password">
+              </label>
+              <label>Delete only files (Removes the file reference to the posts)
+                <input type="checkbox" name="deleteUploads">
+              </label>
+              <label>Delete media (Removes the saved files from the server)
+                <input type="checkbox" name="deleteMedia">
+              </label>
+              <button value="delete" name="action">Delete</button>
+            </fieldset>
+          </form>
         </div>
-        <div class="t-bg" id="threadPages"><a href="./catalog.html">Catalog</a><a id="linkPrevious">Previous</a><span id="divPages"></span><a id="linkNext">Next</a></div><br><br>
-        <hr><br>
-        <fieldset class="t-bg">
-          <legend>Delete</legend>
-          <div class="block">
-            <input class="field" id="deletionFieldPassword" type="text" name="password" placeholder="Deletion Password">
-          </div>
-          <div class="block">
-            <input id="checkboxOnlyFiles" type="checkbox" name="deleteUploads">
-            <label for="checkboxOnlyFiles">Delete only files</label><br><span class="help">(Removes the file reference to the posts)</span>
-          </div>
-          <div class="block">
-            <input id="checkboxMediaDeletion" type="checkbox" name="deleteMedia">
-            <label for="checkboxMediaDeletion">Delete media</label><br><span class="help">(Removes the saved files from the server)</span>
-          </div>
-          <input class="btn" id="deleteFormButton" type="submit" value="Delete" name="action">
-        </fieldset>
-        <fieldset class="t-bg" style="display: none">
-          <legend>Report/Ban</legend>
-          <div class="contentAction">
-            <textarea class="field block" id="reportFieldReason" name="reason" placeholder="Enter reason"></textarea>
-            <div class="block">
-              <input id="checkboxGlobal" type="checkbox" name="global">
-              <label for="checkboxGlobal">Global</label>
-            </div><img class="captchaImage" id="captchaImageReport" src="/captcha.js">
-            <input class="hidden" id="reloadCaptchaButtonReport" type="button" onclick="reloadCaptcha()" value="Reload"><span class="captchaTimer"></span><br>
-            <input class="captchaField field" id="fieldCaptchaReport" name="captcha" placeholder="answer"><br>
-            <input id="reportFormButton" type="submit" value="Report" name="action">
-          </div>
-        </fieldset>
-      </form>
+      </div>
     </main>
-    <footer>
-      <hr><a href="mailto:contact@indiachan.com">
-        <div class="i i-mail"></div>contact@indiachan.com</a><a href="https://irc.indiachan.com" target="_blank">
-        <div class="i i-irc"></div>IRC</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">
-        <div class="i i-git"></div>Source</a>
-    </footer>
+    <div id="preview"></div>
     <form id="captchaModal">
-      <div><img>
-        <input class="field block" placeholder="Enter 6 characters" required pattern=".{6}"><span></span>
+      <div>
+        <h3>Solve captcha to post</h3><img>
+        <input class="reply-field" placeholder="Enter 6 characters" required pattern=".{6}"><span></span>
         <button class="btn">Answer</button>
       </div>
     </form>
+    <script src="/.static/chan.js"></script>
+    <footer>
+      <div id="footer-inner"><a href="https://irc.indiachan.com" target="_blank">IRC</a><a href="mailto:contact@indiachan.com">contact@indiachan.com</a><a href="https://gitlab.com/rusty02/indiachan" target="_blank">Source</a></div>
+    </footer>
   </body>
-  <div id="floatingMenu"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0-beta.1/axios.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/3.0.2/timeago.min.js"></script>
-  <script src="/.static/js/chan.js"></script>
 </html>
