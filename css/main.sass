@@ -1,0 +1,152 @@
+@import 'imports/post'
+@import 'imports/form'
+@import 'imports/catalog'
+@import 'imports/theme'
+
+html
+  font-size: 16px
+  background: #EEF8F0 no-repeat
+  background-image: linear-gradient(to bottom, #CFECD1 0, transparent 160px)
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Cantarell,'Open Sans',Ubuntu,Roboto,Oxygen,'Helvetica Neue',sans-serif
+  color: #333
+
+body
+  position: relative
+  margin: 0
+  font-size: 1em
+  line-height: 1.4
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  overflow-x: hidden
+  > main
+    padding: 0 20px
+    > form
+      max-width: 240px
+
+*
+  box-sizing: border-box
+  outline: none
+
+hr
+  clear: both
+  border: 0
+  border-top: 1px dashed #c0c4c6
+  margin: 0
+
+a
+  color: #358
+  text-decoration: none
+
+img
+  max-width: 100%
+  max-height: 100%
+
+#selectBoard
+  display: none
+  width: 130px
+
+@media (max-width: 800px)
+  body > main
+    padding: 8px
+  #selectBoard
+    display: inline
+  #navBoards span
+    display: none
+  .boardHeader
+    text-align: center
+
+nav
+  white-space: nowrap
+  padding: 4px 10px
+  border-bottom: 1px solid rgba(0,0,0,0.1)
+  max-width: 100%
+  overflow: auto
+  a
+    padding: 2px 4px
+  span + span:before
+    opacity: 0.5
+    content: '/'
+  select
+    color: inherit
+    background: none
+    border: none
+    width: 90px
+    font: inherit
+  section
+    display: inline-block
+    margin-right: 6px
+    &:before
+      opacity: 0.5
+      content: '['
+    &:after
+      opacity: 0.5
+      content: ']'
+
+#bannerImage
+  max-height: 200px
+
+#labelName
+  margin: 20px 0 0
+  font-size: 30px
+
+#labelDescription
+  margin: 10px 0
+
+fieldset
+  border-radius: 2px
+  max-width: 360px
+  border: 1px solid #c0c4c6
+  padding: 20px
+  background: #fff
+  label
+    display: block
+
+legend
+  padding: 0 10px
+  font-size: 1.125em
+
+#footer-inner
+  border-top: 1px solid rgba(0,0,0,0.1)
+  a
+    display: inline-block
+    line-height: 40px
+    background: embedurl('mail.svg', 'utf8') no-repeat left center
+    background-size: 16px
+    padding-left: 20px
+    color: #000
+    opacity: 0.7
+    padding-right: 10px
+    &:first-child
+      background-image: embedurl('irc.svg', 'utf8')
+    &:last-child
+      background-image: embedurl('git.svg', 'utf8')
+
+footer
+  text-align: center
+  margin-top: auto
+  padding-top: 16px
+  a+a
+    margin-left: 20px
+
+#preview
+  pointer-events: none
+  position: absolute
+  display: none
+  box-shadow: 0 2px 8px rgba(0,0,0,0.11)
+  border: 1px solid #999
+  z-index: 1
+  border-radius: 2px
+  .innerPost
+    display: block
+  @media (max-width: 800px)
+    left: 12px !important
+    margin-top: 2px
+
+iframe
+  border: 0
+  margin: 4px 0
+  border-radius: 3px
+  box-shadow: 0 1px 6px rgba(0,0,0,0.22)
+  display: block
+  max-width: 100%

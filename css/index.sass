@@ -1,0 +1,105 @@
+.white, .trifag:after, .trifag:before
+  content: ''
+  height: 4px
+  width: 32%
+  float: left
+  background: #FF9933
+.trifag
+  white-space: nowrap
+  margin-left: 2px
+  &:after
+    background: #128807
+.white
+  background: #fff
+
+h1
+  display: inline-block
+  text-transform: uppercase
+  letter-spacing: 10px
+  padding-left: 6px
+  font-size: 36px
+  transform: scaleY(0.92)
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.11)
+  margin: 0
+  & + p
+    margin: 10px auto
+    font-size: 0.875em
+
+#indexContent
+  max-width: 1080px
+  margin: 32px auto 0
+
+#siteLogo
+  float: left
+  margin: 0 30px 20px 0
+  border-radius: 4px
+  box-shadow: 0 2px 10px rgba(0,0,0,0.16)
+  background: url('/.static/logo.png') no-repeat center
+  background-size: contain
+  width: 228px
+  height: 228px
+
+#indexBlocks
+  clear: both
+  text-align: center
+  > div
+    margin: 20px 0
+    padding-bottom: 10px
+    border-radius: 2px
+    background: #D6F0DA
+  header
+    line-height: 36px
+    border-bottom: 1px solid rgba(0,0,0,0.1)
+    margin-bottom: 10px
+
+.latestPostCell, #indexBoards > a, #divLatestImages a
+  font-weight: bold
+  background: rgba(255,255,255,0.7)
+  box-shadow: 0 2px 8px rgba(0,0,0,0.14)
+  margin: 6px
+  border-radius: 2px
+  max-width: 290px
+  padding: 10px 20px
+  overflow: hidden
+  transition: 0.3s
+  vertical-align: middle
+  display: inline-block
+  &:hover
+    transform: scale(1.01)
+    background: #fff
+
+#divLatestImages
+  a
+    padding: 0
+  img
+    max-width: 128px
+    max-height: 128px
+    display: block
+
+.labelPreview
+  color: #333
+  font-size: 0.875em
+  font-weight: normal
+
+.latestPostCell
+  padding: 32px 12px 12px
+  position: relative
+  min-width: 140px
+  text-align: left
+  > a
+    padding: 10px
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+
+@media (max-width: 800px)
+  #siteLogo
+    margin: 0 auto
+    float: none
+    display: block
+  main
+    text-align: center
+  #indexBoards > a
+    float: none

@@ -1,0 +1,11 @@
+extends /base
+
+append body
+  main
+    h2#labelMessage
+    p
+      a#linkRedirect Redirecting...
+      script.
+        var href = document.currentScript.previousElementSibling.href;
+        setTimeout(function(){location.href = href},1300)
+

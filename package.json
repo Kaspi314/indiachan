@@ -1,0 +1,27 @@
+{
+  "name": "fe-source",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "chalk": "^4.0.0",
+    "fast-async": "^6.3.8",
+    "gaze": "^1.1.3",
+    "glob": "^7.1.6",
+    "pug": "^2.0.4",
+    "rollup": "^2.7.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "sass": "^1.26.5",
+    "timeago.js": "^4.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

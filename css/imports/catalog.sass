@@ -1,0 +1,43 @@
+.catalogCell
+  flex: 1 1 270px
+  max-height: 320px
+  min-height: 180px
+  overflow: hidden
+  margin: 6px
+  padding: 12px 4px 12px 8px
+  border: 1px solid rgba(0,0,0,0.14)
+  background: #D6F0DA
+  border-radius: 2px
+  max-width: 400px
+  &.active
+    overflow-y: auto
+  .divMessage
+    padding-left: 2px
+    padding-right: 2px
+    font-size: 0.875em
+  .content
+    margin-top: 8px
+
+.threadStats
+  opacity: 0.8
+  font-size: 0.875em
+  white-space: nowrap
+  text-align: center
+
+.linkThumb
+  display: block
+  text-align: center
+
+#catalog-page
+  #divThreads
+    border-top: 1px solid rgba(0,0,0,0.11)
+    display: flex
+    flex-wrap: wrap
+    max-width: 100%
+    margin: 20px 0
+    padding-top: 16px
+    box-sizing: content-box
+
+@media(max-width: 800px)
+  .catalogCell
+    flex-basis: 160px

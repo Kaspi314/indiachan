@@ -1,0 +1,24 @@
+extends /base
+
+block body
+  .hidden
+    a#linkManagement Settings
+    a#linkModeration Mod
+  main#catalog-page
+    h1 Catalog of <a href='.' id='labelBoard'></a>
+    | Filter: <input>
+    | Sort:&nbsp;
+    select#sortCatalog
+      option(value='1' selected) Bump Order
+      option(value='4') Newest
+      option(value='5') Oldest
+      option(value='2') Most Replies
+      option(value='3') Least Replies
+    #mainPanel
+      #postingForm
+        form.hidden(action='/newThread.js' enctype='multipart/form-data' method='post')
+          b New Thread
+          #postingTable
+          button#formButton.btn(type='submit') Post
+      #divThreads
+  script(src='/.static/catalog.js')

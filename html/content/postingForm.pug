@@ -1,0 +1,83 @@
+input#boardIdentifier(name='boardUri', type='hidden')
+input#threadIdentifier(name='threadId' type='hidden')
+input#fieldSubject.reply-field(name='subject' placeholder='Subject')
+textarea#fieldMessage.reply-field(required name='message' placeholder='Message (Required)' maxlength=4096)
+
+.help
+  div(style='float: right')
+    span#labelMessageLength
+    |  characters remaining.
+  #manual
+    input.hidden#showManual(type='checkbox')
+    label.toggler(for='showManual') Posting Manual
+    table.hidden#manualTable
+      tr
+        td > huehuehue
+        td.greenText >huehuehue
+      tr
+        td >>9211
+        td.quoteLink >>9211
+      tr
+        td **huehuehue**
+        td.spoiler huehuehue
+      tr
+        td ==huehuehue==
+        td.redText huehuehue
+      tr
+        td ''huehuehue''
+          br
+          | (two single quotes, not a double quote)
+        td
+          em huehuehue
+      tr
+        td '''huehuehue'''
+          br
+          | (three single quotes)
+        td
+          strong huehuehue
+      tr
+        td __huehuehue__
+        td
+          u huehuehue
+      tr
+        td ~~huehuehue~~
+        td
+          s huehuehue
+      tr
+        td [code]huehuehue[/code]
+        td
+          code huehuehue
+
+div#divUpload.double-field
+  input#inputFiles.reply-field(type='file' name='files' multiple)
+  input#checkboxSpoiler.hidden(type='checkbox' name='spoiler')
+  label.checkLabel(for='checkboxSpoiler') Spoiler
+  label(for='checkboxSpoiler')
+
+.help
+  | Max file size:
+  span#labelMaxFileSize
+  |, Max files:
+  span#labelMaxFiles
+
+#captchaDiv
+
+#more-fields
+  input.hidden#showMore(type='checkbox')
+  label.toggler(for='showMore') More
+  #divName.double-field
+    input#fieldName.reply-field(name='name' placeholder='Name')
+    input.reply-field#fieldPostingPassword(name='password' placeholder='Deletion Password')
+    input.hidden#fieldEmail(type='checkbox' name='email' value='sage')
+    label.checkLabel(for='fieldEmail') Sage
+
+#flagsDiv
+  p.small (used to delete files and postings)
+  | Flag
+  select#flagCombobox(name='flag')
+  img.flagPreview
+  | No location
+#noFlagDiv.hidden
+  input#checkboxNoFlag(type='checkbox' name='noFlag')
+  label(for='checkboxNoFlag')
+input#alwaysUseBypassCheckBox.hidden(type='checkbox')

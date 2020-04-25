@@ -1,0 +1,345 @@
+extends /base
+
+block body
+  main
+    #settingsWrapper
+      fieldset#settingsFieldset
+        legend Global Settings
+        form(action='/saveGlobalSettings.js', enctype='multipart/form-data', method='post')
+          p.title HTTP settings
+          label
+            | Address
+            sup 2
+            | :
+            input#fieldAddress.globalSettingsField(type='text', name='address')
+          label
+            | SSL key passphrase:
+            input#fieldSslPass(type='password', name='sslPass')
+          label
+            | CSP directives (e.g: "default-src 'self'", without the quotations):
+            input#fieldCSP.globalSettingsField(type='text', name='CSP')
+          label
+            | Port
+            sup 2
+            | :
+            input#fieldPort.globalSettingsField(type='number', name='port')
+          label
+            | Tor Port
+            sup 2
+            | :
+            input#fieldTorPort.globalSettingsField(type='number', name='torPort')
+          label
+            | Static files expiration (minutes):
+            input#fieldStaticExpiration.globalSettingsField(type='number', name='staticExpiration')
+          label
+            | Maximum size for requests (MB):
+            input#fieldMaxRequestSize.globalSettingsField(type='number', name='maxRequestSizeMB')
+          label
+            | Cluster Port
+            sup 2
+            | :
+            input#fieldClusterPort.globalSettingsField(type='number', name='clusterPort')
+          label
+            input#checkboxDisable304.globalSettingsField(type='checkbox', name='disable304')
+            | Disable http response 304 (Only turn on if you know what you are
+            | doing, will consume lots more of bandwidth)
+          label
+            input#checkboxSendmail.globalSettingsField(type='checkbox', name='useSendmail')
+            | Use sendmail
+          label
+            | SSL
+            sup 2
+            |  (Make sure you have the proper files)
+            select#comboSsl(name='ssl')
+          hr
+          p.title System settings
+          label
+            | Master Ip:
+            input#fieldMaster.globalSettingsField(type='text', name='master')
+          label
+            | Slaves ips
+            sup 1
+            | :
+            input#fieldSlaves.globalSettingsField(type='text', name='slaves')
+          label
+            | Front-end directory:
+            input#fieldFePath.globalSettingsField(type='text', name='fePath')
+          label
+            | Url for the list of TOR exit node ips:
+            input#fieldTorSource.globalSettingsField(type='url', name='torSource')
+          label
+            | Url for the list of spammer ips(Requirements for the file format are
+            | specified on src/be/readme):
+            input#fieldSpamIpsSource.globalSettingsField(type='url', name='spamIpsSource')
+          label
+            | Url for the list of incremental spammer ips(Requirements for the file
+            | format are specified on src/be/readme):
+            input#fieldIncrementalSpamIpsSource.globalSettingsField(type='url', name='incSpamIpsSource')
+          label
+            | Path to an optional language pack:
+            input#fieldLanguagePack.globalSettingsField(type='text', name='languagePackPath')
+          label
+            | Extension used for thumbnails (Will make all gif thumbs do not
+            | animate):
+            input#fieldThumbExtension.globalSettingsField(type='text', name='thumbExtension')
+          label
+            | Temporary directory:
+            input#fieldTempDir.globalSettingsField(type='text', name='tempDirectory')
+          hr
+          p.title Posting settings
+          label
+            | Character limit for messages:
+            input#fieldMessageLength.globalSettingsField(type='number', name='messageLength')
+          label
+            | Maximum size for uploaded files (MB):
+            input#fieldMaxFileSize.globalSettingsField(type='number', name='maxFileSizeMB')
+          label
+            | Allowed mime-types
+            sup 1
+            | :
+            input#fieldAcceptedMimes.globalSettingsField(type='text', name='acceptedMimes')
+          label
+            | Maximum number of uploaded files on posting:
+            input#fieldMaxFiles.globalSettingsField(type='number', name='maxFiles')
+          label
+            | Minimum amount of seconds between posts from the same ip:
+            input#fieldFloodInterval.globalSettingsField(type='number', name='floodTimerSec')
+          label
+            | How many posts a block bypass allows:
+            input#fieldBypassPosts.globalSettingsField(type='number', name='bypassMaxPosts')
+          label
+            | How many hours a block bypass lasts:
+            input#fieldBypassHours.globalSettingsField(type='number', name='bypassDurationHours')
+          label
+            | Default anonymous name:
+            input#fieldAnonymousName.globalSettingsField(type='text', name='defaultAnonymousName')
+          label
+            input#checkboxDisableFloodCheck.globalSettingsField(type='checkbox', name='disableFloodCheck')
+            | Disable flood checks
+          label
+            input#checkboxGlobalCaptcha.globalSettingsField(type='checkbox', name='forceCaptcha')
+            | Force all boards to use captcha
+          label
+            input#checkboxDisableCatalogPosting.globalSettingsField(type='checkbox', name='disableCatalogPosting')
+            | Disable thread creation from catalog
+          label
+            input#checkboxAllowTorFiles.globalSettingsField(type='checkbox', name='allowTorFiles')
+            | Allow TOR users to post files
+          label
+            input#checkboxDisableSpamCheck.globalSettingsField(type='checkbox', name='disableSpamCheck')
+            | Disable check on spammer ips (Use it if you can't obtain the spam ip
+            | list, so users are still able to post)
+          label
+            | TOR posting permission level:
+            select#comboTorPostingLevel(name='torPostingLevel')
+          label
+            input#checkboxSpamBypass.globalSettingsField(type='checkbox', name='allowSpamBypass')
+            | Allow ips caught on the spammer list to use the block bypass if block
+            | bypass is not disabled
+          label
+            | Bypass mode:
+            select#comboBypassMode(name='bypassMode')
+          hr
+          p.title Display Limits
+          label
+            | Amount of latest posts to show on front-page:
+            input#fieldGlobalLatestPosts.globalSettingsField(type='number', name='globalLatestPosts')
+          label
+            | Amount of latest images to show on front-page:
+            input#fieldGlobalLatestImages.globalSettingsField(type='number', name='globalLatestImages')
+          label
+            | Amount of threads on the multi-board:
+            input#fieldMultiBoardThreadCount.globalSettingsField(type='number', name='multiboardThreadCount')
+          label
+            | Number of preview posts:
+            input#fieldLatestPostsCount.globalSettingsField(type='number', name='latestPostCount')
+          label
+            | Maximum amount of threads per board:
+            input#fieldThreadLimit.globalSettingsField(type='number', name='maxThreadCount')
+          label
+            | Boards page size:
+            input#fieldPageSize.globalSettingsField(type='number', name='pageSize')
+          label
+            | Amount of boards to be picked as top boards:
+            input#fieldTopBoardsCount.globalSettingsField(type='number', name='topBoardsCount')
+          label
+            | Maximum amount of boards per page on boards list:
+            input#fieldBoardsPerPage.globalSettingsField(type='number', name='boardsPerPage')
+          label
+            | Amount of threads on the overboard:
+            input#fieldOverBoardThreads.globalSettingsField(type='number', name='overBoardThreadCount')
+          label
+            | Size of media management pages:
+            input#fieldMediaPageSize.globalSettingsField(type='number', name='mediaPageSize')
+          hr
+          p.title Board limits
+          label
+            | Maximum size for flags (KB):
+            input#fieldMaxFlagSize.globalSettingsField(type='number', name='maxFlagSizeKB')
+          label
+            | Maximum board message size:
+            input#fieldBoardMessageLength.globalSettingsField(type='number', name='boardMessageLength')
+          label
+            | Maximum number of board hash bans:
+            input#fieldMaxBoardHashBans.globalSettingsField(type='number', name='maxBoardHashBans')
+          label
+            | Maximum number of board range bans:
+            input#fieldMaxBoardRangeBans.globalSettingsField(type='number', name='maxBoardRangeBans')
+          label
+            | Maximum number of rules in boards:
+            input#fieldMaxRules.globalSettingsField(type='number', name='maxBoardRules')
+          label
+            | Maximum number of filters in boards:
+            input#fieldMaxFilters.globalSettingsField(type='number', name='maxFilters')
+          label
+            | Maximum number of tags per board:
+            input#fieldMaxTags.globalSettingsField(type='number', name='maxBoardTags')
+          label
+            | Maximum number of volunteers in boards:
+            input#fieldMaxVolunteers.globalSettingsField(type='number', name='maxBoardVolunteers')
+          label
+            | Maximum size for banners (KB):
+            input#fieldMaxBannerSize.globalSettingsField(type='number', name='maxBannerSizeKB')
+          label
+            input#checkboxOmitUnindexedContent.globalSettingsField(type='checkbox', name='omitUnindexedContent')
+            | Omit content from unindexed boards from front-page or overboards
+          hr
+          p.title Variables
+          label
+            | Amount of days before removing ips from posts (any value below 1 or
+            | null means to never remove):
+            input#fieldIpExpiration.globalSettingsField(type='number', name='ipExpirationDays')
+          label
+            | Number of replies before a thread enters auto-sage:
+            input#fieldAutoSageLimit.globalSettingsField(type='number', name='autoSageLimit')
+          |         Maximum size for custom flag names:
+          label
+            input#fieldFlagNameLength.globalSettingsField(type='number', name='flagNameLength')
+          label
+            | Mark accounts after these many days of inactivity
+            sup 2
+            | :
+            input#fieldInactivityThreshold.globalSettingsField(type='number', name='inactivityThreshold')
+          label
+            | Maximum dimension for thumbnails, for both height and width:
+            input#fieldThumbSize.globalSettingsField(type='number', name='thumbSize')
+          label
+            | Sender address for automated e-mails:
+            input#fieldSenderEmail.globalSettingsField(type='email', name='emailSender')
+          label
+            | Amount of minutes before a captcha expires:
+            input#fieldCaptchaExpiration.globalSettingsField(type='number', name='captchaExpiration')
+          label
+            | Site title:
+            input#fieldSiteTitle.globalSettingsField(type='text', name='siteTitle')
+          label
+            | Default ban message to be displayed on banned posts:
+            input#fieldBanMessage.globalSettingsField(type='text', name='defaultBanMessage')
+          label
+            | RSS link domain:
+            input#fieldRssDomain.globalSettingsField(type='text', name='rssDomain')
+          label
+            | Overboard uri:
+            input#fieldOverboard.globalSettingsField(type='text', name='overboard')
+          label
+            | SFW overboard uri:
+            input#fieldSfwOverboard.globalSettingsField(type='text', name='sfwOverboard')
+          hr
+          p.title Misc
+          label
+            | Addons
+            sup 1
+            | ,
+            sup 2
+            | (They will be loaded in the order they
+            | appear in this list):
+            input#fieldAddons.globalSettingsField(type='text', name='addons')
+          label
+            input#checkboxVerbose.globalSettingsField(type='checkbox', name='verbose')
+            | Full verbose mode
+          label
+            input#checkboxVerboseApis.globalSettingsField(type='checkbox', name='verboseApis')
+            | Verbose APIs mode
+          label
+            input#checkboxVerboseCache.globalSettingsField(type='checkbox', name='verboseCache')
+            | Verbose cache mode
+          label
+            input#checkboxVerboseGridfs.globalSettingsField(type='checkbox', name='verboseGridfs')
+            | Verbose gridfs mode
+          label
+            input#checkboxVerboseQueue.globalSettingsField(type='checkbox', name='verboseQueue')
+            | Verbose message queue mode
+          label
+            input#checkboxVerboseMisc.globalSettingsField(type='checkbox', name='verboseMisc')
+            | Verbose miscellaneous mode
+          label
+            input#checkboxVerboseGenerator.globalSettingsField(type='checkbox', name='verboseGenerator')
+            | Verbose generator mode
+          label
+            input#checkboxUseAlternativeLanguages.globalSettingsField(type='checkbox', name='useAlternativeLanguages')
+            | Use alternative languages
+          label
+            input#checkboxBlockedReport.globalSettingsField(type='checkbox', name='allowBlockedToReport')
+            | Allow blocked or banned users to report
+          label
+            input#checkboxFfmpegGifs.globalSettingsField(type='checkbox', name='ffmpegGifs')
+            | Use ffmpeg to generate animated gif thumbnails (requires ffmpeg
+            | installed)
+          label
+            input#checkboxGlobalBoardModeration.globalSettingsField(type='checkbox', name='allowGlobalBoardModeration')
+            | Allow global staff to moderate boards
+          label
+            input#checkboxGlobalBanners.globalSettingsField(type='checkbox', name='useGlobalBanners')
+            | Make boards use global banners
+          label
+            input#checkboxAllowCustomJs.globalSettingsField(type='checkbox', name='allowBoardCustomJs')
+            | Allow board custom javascript
+          label
+            input#checkboxMediaThumb.globalSettingsField(type='checkbox', name='mediaThumb')
+            | Generate thumbnails from media files (requires ffmpeg installed)
+          label
+            input#checkboxFrontPageStats.globalSettingsField(type='checkbox', name='frontPageStats')
+            | Display total post count and total unique ips on front-page
+          label
+            input#checkboxAutoPruneFiles.globalSettingsField(type='checkbox', name='autoPruneFiles')
+            | Prune orphaned files weekly
+            sup 2
+          label
+            input#checkboxMaintenance.globalSettingsField(type='checkbox', name='maintenance')
+            | Maintenance mode (Disables input to the server and let users know it
+            | is under maintenance)
+          label
+            input#checkboxDisableAccountCreation.globalSettingsField(type='checkbox', name='disableAccountCreation')
+            | Disable account creation
+          label
+            input#checkboxSFWLatestImages.globalSettingsField(type='checkbox', name='onlySfwLatestImages')
+            | Display only SFW images on the front-page
+          label
+            input#checkboxDisableLatestPostings.globalSettingsField(type='checkbox', name='disableLatestPostings')
+            | Disable latest postings
+          label
+            input#checkboxBoardStaffArchiving.globalSettingsField(type='checkbox', name='allowBoardStaffArchiving')
+            | Allow board staff to archive threads
+          label
+            input#checkboxMultipleReports.globalSettingsField(type='checkbox', name='multipleReports')
+            | Allow multiple reports at once
+          label
+            | Minimum global role for users to be able to see poster's clear ips:
+            select#comboMinClearIpRole(name='clearIpMinRole')
+          label
+            | Minimum global role required for board creation:
+            select#comboBoardCreationRequirement(name='boardCreationRequirement')
+          label
+            | Minimum replies for archiving instead of pruning
+            input#fieldArchiveThreshold(name='fieldArchiveThreshold' type='number')
+          button#saveFormButton(type='submit') Save
+        br
+        p
+          sup 1
+          | : Separate values by commas, spaces will be ignored (a,b,c)
+        p
+          sup 2
+          | : Requires server restart
+        p
+          | Those settings are all explained
+          a(href='https://gitgud.io/LynxChan/LynxChan/tree/master/src/be') here

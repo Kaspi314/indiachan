@@ -1,0 +1,16 @@
+extends /base
+
+append body
+  main
+    h1 Edit Post
+    form(action='/saveEdit.js' method='post' enctype='multipart/form-data' style='max-width: 480px')
+      input#boardIdentifier(type='hidden' name='boardUri')
+      input#threadIdentifier(type='hidden' name='threadId')
+      input#postIdentifier(type='hidden' name='postId')
+
+      input#fieldSubject.reply-field(name='subject' placeholder='Subject')
+      textarea#fieldMessage.reply-field(name='message' required)
+      .help Max message length: <span id='labelMessageLength'></span>
+      br
+      button.btn Save
+    #divCreation

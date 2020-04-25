@@ -1,0 +1,15 @@
+doctype html
+html
+  block vars
+    - var rev = src => src
+  head
+    meta(charset='utf-8')
+    link(href='/.static/favicon.png' rel='icon')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    meta(name='google' content='notranslate')
+    link(rel='stylesheet' href=rev('/.static/css/main.css'))
+    block head
+  body
+    include /partials/nav
+    block body
+    include /partials/footer

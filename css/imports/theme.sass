@@ -1,0 +1,123 @@
+.theme-simplechan
+  background: #f0f0f0
+  font-family: arial,helvetica,sans-serif
+  a
+    color: #1340ff
+  #siteLogo
+    background-image: url('/.static/leaf.png')
+    box-shadow: none
+  .innerPost, .threadPages, .catalogCell, #indexBlocks > div
+    background: #dcdcdc
+    border-radius: 0
+  .markedPost, .highlight
+    border: 1px solid #555
+  .postTitle
+    background: #C8C8C8
+    font-weight: normal
+  .opCell > .innerOP
+    .innerPost
+      background: #DDF0DC
+  .topBtn, .labelCreated
+    color: #333
+  .linkName
+    color: #ee4747
+  .btn
+    background: #09f
+
+.theme-yotsuba
+  background: #ffe no-repeat
+  color: #800000
+  background-image: linear-gradient(to bottom, #fed6af 0, transparent 260px)
+  .innerPost, .threadPages, .catalogCell, #indexBlocks > div
+    background: #f0e0d6
+  .markedPost, .highlight
+    background: #F0C0B0
+  .opCell > .innerOP
+    .innerPost
+      background: none
+      border: 0
+    .postTitle
+      border: 0
+      margin-bottom: -10px
+  .quoteLink, .panelBacklinks a
+    color: #cc1105
+  .labelSubject, a
+    color: #239
+  #postingForm
+    color: #333
+  .btn
+    background: #dd4444
+  .divMessage a
+    border-color: #89f
+
+.theme-penumbra
+  background: #33323d
+  font-family: monospace
+  font-size: 14px
+  body
+    line-height: 1.6
+  .topBtn
+    background: #121A24
+    border: 1px solid #323a44
+    box-shadow: none
+    &:before
+      border-left-color: #81a2be
+  h1
+    color: #e3e3e3
+  .trifag
+    opacity: 0.7
+  .labelCreated
+    color: #999
+  .innerPost, .threadPages, .catalogCell, #indexBlocks > div
+    background: #1d1f21
+    border: 1px solid #336018
+    border-radius: 0
+  .markedPost, .highlight
+    border: 1px solid #bbb
+  .opCell
+    border-color: rgba(255,255,255,0.24)
+    > .innerOP
+      .innerPost
+        background: none
+        border: none
+  .quoteLink, .panelBacklinks a, .topBtn
+    color: #81a2be
+  .labelSubject
+    color: #34ed3a
+  .linkName
+    color: #FFB300
+  a, #thread-page .linkQuote:after
+    color: #da8
+  .greenText
+    color: #9abb44
+  #siteLogo, .labelOmission
+    filter: sepia(1)
+  #indexBoards > a
+    border: 1px solid #117743
+  .latestPostCell, #indexBoards > a, #divLatestImages a
+    background: none
+    &:hover
+      background: #111
+  .btnLink
+    &:before
+      content: '['
+      border: none
+    &:after
+      content: ']'
+  .btnLink, #thread-page .linkQuote:after
+    background: none
+    box-shadow: none
+  #thread-page .linkQuote:after
+    content: '[Reply]'
+  &, .labelPreview
+    color: #ddd
+  .labelRole
+    color: #f66
+  .linkQuote:before
+    color: inherit
+  .indicators path
+    fill: #da8
+  #footer-inner
+    filter: invert(1)
+  .divMessage a
+    border-color: #976

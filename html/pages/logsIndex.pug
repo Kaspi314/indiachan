@@ -1,0 +1,12 @@
+extends /base
+
+append body
+  main
+    h1 Moderation Logs
+    form(action='/logs.js')
+      h3 Search by year
+      input.reply-field(name='year' placeholder='Year (YYYY)' required pattern="\\d{4}")
+      button.btn Search
+    br
+    style #divDates a{display: block}#divDates a:before{content: 'Logs for ';color: '#666'}
+    #divDates.linkList

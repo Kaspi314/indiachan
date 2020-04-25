@@ -1,0 +1,314 @@
+#deleteWrap
+  margin-top: 20px
+#threadList
+  clear: both
+
+code
+  background: #fafbfc
+  border-radius: 2px
+  padding: 2px 6px
+  border: 1px solid #eee
+  font-size: 0.875em
+  margin: 2px 4px
+  display: inline-block
+  white-space: pre-wrap
+
+input.deletionCheckBox
+  opacity: 0.4
+  float: right
+  &:hover
+    opacity: 1
+
+.btnLink,
+#thread-page .linkQuote:after
+  background: #fff
+  padding: 2px 6px
+  border-radius: 2px
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2)
+  color: #222
+  transition: 0.2s
+  content: 'Reply'
+  margin: -1px 0 0 5px
+
+.btnLink
+  font-size: 0.875em
+  font-weight: bold
+  opacity: 0.8
+  display: inline-block
+  &:hover
+    opacity: 1
+  &:active
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2) inset
+
+.linkFullText
+  margin: 8px 0 0
+  padding: 6px 12px
+
+.innerOP
+  .innerPost
+    background: #BBE6C2
+
+.opCell
+  position: relative
+  margin: 14px 0
+  padding-top: 14px
+  border-top: 1px solid rgba(0,0,0,0.11)
+  &:last-child
+    border-bottom: 1px solid rgba(0,0,0,0.11)
+    padding-bottom: 20px
+
+.postCell
+  margin-top: 8px
+
+.postExtra
+  clear: both
+  padding: 0 15px
+  p
+    margin: 8px 0 0
+
+.labelLastEdit
+  opacity: 0.8
+  font-size: 0.75em
+
+.uploadCell
+  margin: 0 10px 0 0
+
+.linkQuote
+  font-size: 0.875em
+  &:before
+    content: '#'
+    color: #777
+    font-size: 80%
+
+.postTitle
+  padding: 6px 12px
+  line-height: 1.4
+  font-weight: bold
+  border-bottom: 1px solid rgba(0,0,0,0.1)
+  :not(:first-child)
+    margin-left: 6px
+    display: inline-block
+  .flag-in, .linkSelf, .linkMod
+    display: none
+
+.isMod
+  .linkMod
+    display: inline-block
+
+.labelId
+  font-size: 0.75em
+  padding: 1px 4px
+  border-radius: 2px
+  text-shadow: 1px 1px 2px #000
+  background-image: linear-gradient(-45deg, rgba(0,0,0,0.2), rgba(255,255,255,0.2))
+  color: #fff
+  border: 1px solid rgba(0,0,0,0.1)
+
+.labelId[data-count]
+  cursor: pointer
+  &:hover:after
+    content: " (" attr(data-count) ")"
+
+.panelUploads
+  float: left
+  padding: 15px 0 2px 10px
+  max-width: 100%
+  &.expanded + .divMessage
+    clear: both
+
+.imgFlag
+  margin-left: 2px
+
+.innerUpload
+  cursor: pointer
+  background: rgba(0,0,0,.06)
+  border-radius: 2px
+  padding: 2px
+  text-align: center
+  max-width: 200px
+  box-sizing: content-box
+  line-height: 26px
+  font-size: 0.875em
+  .origMedia
+    display: none
+  img
+    vertical-align: top
+    max-width: 100%
+    max-height: 100%
+  &.loading
+    img
+      opacity: 0.5
+  &.expanded
+    max-width: none
+    .imgLink
+      display: none
+    .origMedia
+      display: block
+      max-width: 100%
+
+.originalNameLink
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  padding: 0 2px
+
+.linkName
+  color: #117743
+  font-weight: bold
+
+.labelSubject
+  color: #0f0c5d
+  font-weight: bold
+
+.labelCreated
+  color: #666
+  font-size: 0.875em
+  white-space: nowrap
+
+.divMessage
+  padding: 15px 15px 0
+  a:not(.quoteLink)
+    border-bottom: 1px dashed #89a
+
+.divPosts
+  &.compact
+    .postCell:nth-last-child(n+6)
+      display: none
+
+.innerPost
+  transition: 0.4s background
+  display: inline-block
+  min-width: 570px
+  max-width: 1400px
+  background: #d6f0da
+  border: 1px solid rgba(154,163,159,0.2)
+  border-top-color: transparent
+  border-left-color: transparent
+  border-radius: 2px
+  padding-bottom: 15px
+  overflow: auto
+  &.highlight
+    background: #bee4c5
+    transition: 0
+  &.markedPost
+    background: #bee4c5
+  &.fadedPost
+    opacity: 0.4
+    pointer-events: none
+  &.newPost
+    background: yellow
+  > .panelBacklinks
+    display: none
+    position: relative
+    padding: 0 4px 0 11px
+    margin: 15px 0 -15px
+    background: rgba(0,0,0,0.03)
+    line-height: 28px
+    a
+      &:first-child
+        &:before
+          content: ''
+          border-top: 1px solid rgba(0,0,0,0.1)
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          pointer-events: none
+
+.divBanMessage
+  &:before
+    content: '(User banned) '
+    font-weight: bold
+  color: #a00
+  padding: 10px
+
+.greenText
+  color: #588006
+
+.redText
+  color: #cc1105
+  font-weight: bold
+
+.spoiler
+  background: #333
+  color: #333
+  &:hover
+    color: #eee
+
+.multipleUploads.opCell > .innerOP, .multipleUploads.postCell
+  figure
+    float: left
+    margin-right: 12px
+
+.labelRole
+  font-weight: bold
+  color: #a00
+  background: url(/.static/favicon.png) no-repeat left center
+  background-size: 16px
+  padding-left: 18px
+  margin-left: 2px
+
+.labelOmission
+  cursor: pointer
+  padding-left: 22px
+  color: #777
+  background: no-repeat left url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAgMAAACcbnALAAAADFBMVEX///+AAACfQDv///p95FPgAAAAAXRSTlMAQObYZgAAAClJREFUeAFjIBqwhoJAAAorahUILEVn/acq6z8I4GfRwF5Mv2ENA2IBAMame4VJAHvgAAAAAElFTkSuQmCC')
+  background-size: 18px
+  &.loading
+    background-image: url('data:image/gif;base64,R0lGODlhJAAkAJEDAJ9AO4AAAP//+gAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgADACwAAAAAJAAkAAACnpyPqcvtD6OcVIaLs94Y8g86F0CW5omWFzOmrrsurSvUwgvEypza96tL8FA+XBAxPBWBAVYAt4Q1Zc9XNHU8JE1XVNawLXVP30HLh06jSeWz+r1sV+H0n5xUh7OnuyrNZsQn5NcDyOQEZSiFaKWIJYhESOToBaklqURJZgmGyaVpctdYE8iIc5rDaeaJuikCApvhEUtbYXuLm6u761AAACH5BAUKAAMALAgACAAUABQAAAIvhI+py70ChVNRTlPhxZlGVDHhMXpZ95yoqJ5m+zVw/LasRtJJCfCcL1tNgA7ioQAAIfkEBQoAAwAsCgAKABIAEgAAAi2EjyYr6ccaiC4uxarFFGbfcRJibU8ZPuKlgl87oawm02Oc5mZpr7cIhLmEgAIAIfkEBQoAAwAsCgAKABIAEgAAAjAEhGLLndqieSi+SW1id1GIVV7mfJtknlonjWyZtqnIkSF42Dm947f4+vlaPSIMUgAAIfkEBQoAAwAsCgAKABIAEgAAAiyEISnHbbqchEk2Gi2DWzl+gB0mhiR4YmNaIWxmsp8Xww99t1qta+peAwYPBQA7')
+  &.open
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAgMAAACcbnALAAAADFBMVEX///+AAACfQDv///p95FPgAAAAAXRSTlMAQObYZgAAACRJREFUeAFjIBqwhoJAAAorahUILKUt6z8IEGDRyS2YYUAsAAAKOXY1Wb0ViAAAAABJRU5ErkJggg==')
+  &:hover
+    color: #505050
+  span
+    display: block
+    margin-top: -8px
+
+.panelBacklinks
+  a
+    font-size: 0.875em
+    margin: 0 4px
+
+.quoteLink, .panelBacklinks a
+  text-decoration: underline
+  display: inline-block
+
+.threadPages
+  background: #d6f0da
+  border-bottom: 1px solid rgba(154,163,159,0.2)
+  border-radius: 2px
+  line-height: 36px
+  padding: 6px 20px
+  display: inline-block
+  a
+    text-decoration: none
+    display: inline-block
+    padding: 0 2px
+    margin: 0 3px
+    &:before
+      content: '['
+      color: #888
+      margin-right: 2px
+    &:after
+      margin-left: 2px
+      content: ']'
+      color: #888
+
+.indicators
+  display: inline-block
+
+@media (max-width: 800px)
+  .innerUpload
+    max-width: 150px
+  .innerPost
+    min-width: 0
+    display: block
+    > .panelBacklinks
+      display: block
+  .postTitle
+    .panelBacklinks
+      display: none
+  .quoteLink, .panelBacklinks a
+    &:after
+      content: ' [ # ]'
+      font-size: 0.875em

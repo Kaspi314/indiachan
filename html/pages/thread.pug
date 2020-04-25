@@ -1,0 +1,106 @@
+extends /base
+
+block body
+  .hidden
+    a#linkManagement Settings
+    a#linkMod Mod
+  main#thread-page
+    #mainPanel
+      include /partials/boardHeader
+      #postingForm
+        input.hidden#showForm(type='checkbox')
+        label.toggler.topBtn(for='showForm') Reply
+        a.topBtn(href='..') Return
+        a.topBtn(href='../catalog.html') Catalog
+        form(action='/replyThread.js' enctype='multipart/form-data' method='post')
+          b Reply
+          #postingTable
+          button#formButton.btn(type='submit') Post
+      #divControls
+        form(action='/changeThreadSettings.js', method='post', enctype='multipart/form-data')
+          fieldset#settingsFieldset
+            legend Thread Settings
+            label
+              input#checkboxLock.threadSettingsField(name='lock', type='checkbox')
+              | Lock
+            label
+              input#checkboxPin.threadSettingsField(name='pin', type='checkbox')
+              | Pin
+            label
+              input#checkboxCyclic.threadSettingsField(type='checkbox', name='cyclic')
+              | Cyclic
+            input#controlBoardIdentifier(type='hidden', name='boardUri')
+            input#controlThreadIdentifier(type='hidden', name='threadId')
+            button#settingsFormButon(type='submit') Save
+      #divArchive
+        form(action='/archiveThread.js', method='post', enctype='multipart/form-data')
+          fieldset#settingsFieldset
+            legend Archive Thread
+            label
+              input#checkboxArchive.archiveField(name='confirmation', type='checkbox')
+              | Yes, I wish to lock and archive this thread
+            input#archiveBoardIdentifier(type='hidden', name='boardUri')
+            input#archiveThreadIdentifier(type='hidden', name='threadId')
+            button#archiveFormButon(type='submit') Archive
+      #transferControls
+        form#formTransfer.formTransfer(action='/transferThread.js', enctype='multipart/form-data', method='post')
+          fieldset#settingsFieldset
+            legend Transfer Thread
+            input#transferBoardIdentifier(type='hidden', name='boardUri')
+            input#transferThreadIdentifier(type='hidden', name='threadId')
+            label
+              | Destination board:
+              input#fieldDestinationBoard.transferField(type='text', name='boardUriDestination')
+            button#transferFormButton(type='submit') Transfer thread
+      #ipDelete
+        form#ipDeletionForm(method='post', action='/deleteFromIp.js', enctype='multipart/form-data')
+          fieldset#settingsFieldset
+            legend Delete from IP
+            label
+              | Non-hashed ip:
+              input#ipField.ipDeletionField(type='text', name='ip')
+            label
+              | Delete only from these boards(Ex:"b v", leaving blank will delete
+              | from all boards)
+              input#fieldBoards.ipDeletionField(type='text', name='boards')
+            button#deleteFromIpFormButton(type='submit') Delete from IP
+      #panelMessage
+        hr
+        #divMessage
+      #threadList
+        form(method='post', action='/contentActions.js', enctype='multipart/form-data')
+          #divThreads
+          .threadPages
+            span.divPages
+              a(href='..') Return
+              a(href='../catalog.html') Catalog
+              a(href='#top') Top
+          include /partials/deleteForm
+          fieldset#divMod
+            legend Mod
+            label Ban duration
+              input#fieldDuration.banField(name='duration' value='1M')
+              .help
+                br
+                <b>y</b> years
+                <b> M</b> months
+                <b> d</b> days
+                <b> h</b> hours
+                <b> m</b> minutes<br>
+                | "2d 1h" means a 49 hour ban
+            label Message
+              input#fieldbanMessage(name='banMessage')
+            label Type
+              select#comboBoxBanTypes(name='banType')
+                option(value='0') Regular ban
+                option(value='1') Range ban (1/2 octects)
+                option(value='2') Range ban (3/4 octects)
+            label
+              input#ipDeletionConfirmationCheckbox.ipDeletionField(type='checkbox', name='confirmation', value='true')
+              | Confirm board-wise ip deletion
+            button#inputIpDelete(type='submit', value='ip-deletion', name='action') Delete by ip on this board
+            br
+            button#inputBan(type='submit', value='ban', name='action') Ban
+            br
+            button#inputSpoil(type='submit', value='spoil', name='action') Spoil Files
+  include /partials/boardFooter

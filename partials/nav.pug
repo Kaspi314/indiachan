@@ -1,0 +1,19 @@
+nav#top
+  section
+    span
+      a(href='/') Home
+    span
+      select#theme
+        option(value='inch' selected) Indiachan
+        option(value='simplechan') Simplechan
+        option(value='penumbra') Penumbra
+        option(value='yotsuba') Yotsuba
+  section#navBoards
+    select#selectBoard
+      option(value='/' selected) Goto Board
+      each board in boards
+        option(value='/'+board.name)=`/${board.name}/ - ${board.text}`
+    each board in boards
+      span
+        a(href='/' + board.name)=board.name
+  script !function(){var e=document,n=localStorage,t=e.querySelector("#theme");function a(a){a||(a=n.SITE_THEME||"inch"),e.documentElement.className="theme-"+a,t.value=a}t.onchange=function(){a(t.value);n.SITE_THEME=t.value;onresize&&onresize()},a();var u=e.querySelector('#selectBoard');u.onchange=function(){location=this.value};var v={'imagepng':'.png','imagejpeg':'.jpg','imagegif':'.gif','imagebmp':'.bmp','videomp4':'.mp4'};addEventListener('error',function(e){if(e.target instanceof Image){e.target.src.replace(/\w+$/,function(w){if(v[w]){e.target.src+=v[w]}})}},true);}();

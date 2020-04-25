@@ -1,0 +1,64 @@
+extends /mod
+
+append body
+  script localStorage.MOD=1
+  h1 Welcome <span id='labelGlobalRole'></span> <span id='labelLogin'></span>!
+    form(action='/logout.js')
+      button#logoutFormButton(type='submit') Logout
+  a#globalManagementLink.btnLink(href='/globalManagement.js') Global Management
+  a.btnLink(href='/.static/pages/moderation.html') Moderation Manual
+  form#confirmationForm(action='/requestEmailConfirmation.js' method='post' enctype='multipart/form-data')
+    p Your e-mail haven't been confirmed yet.
+    p You won't be able to reset your password or receive report notifications until doing so.
+    button#requestConfirmationFormButton(type='submit') Request confirmation e-mail
+  hr
+  h3 Settings
+  form(action='/changeAccountSettings.js' method='post' enctype='multipart/form-data')
+    label Email
+      input#emailField.settingsField(type='email' name='email')
+    label
+      input#checkboxAlwaysSign.settingsField(type='checkbox' name='alwaysSignRole')
+      | Always use role signature
+    label.hidden
+      input#checkboxReportNotify.settingsField(type='checkbox' name='reportNotify')
+      | Receive e-mail report notifications
+    button#saveFormButton(type='submit') Save
+  hr
+  h3 Password Change
+  form(action='/changeAccountPassword.js' method='post' enctype='multipart/form-data')
+    label
+      | Current Password:
+      input#fieldPassword.passwordChangeField(type='password' name='password')
+    label
+      | New Password:
+      input#fieldNewPassword.passwordChangeField(type='password' name='newPassword')
+    label
+      | Confirm New Password:
+      input#fieldConfirmation.passwordChangeField(type='password' name='confirmation')
+    button#passwordFormButton(type='submit') Change password
+  hr
+  h3 Owned Boards
+  #ownedDiv
+  hr
+  h3 Volunteered Boards
+  #volunteeredDiv
+  a#latestPostingsLink(href='/latestPostings.js') Latest postings
+  hr
+  #boardCreationDiv
+    h3 Create Board
+    form(action='/createBoard.js' enctype='multipart/form-data' method='post')
+      label
+        | Board URI:
+        input#newBoardFieldUri.creationField(type='text' name='boardUri')
+      label
+        | Board Name:
+        input#newBoardFieldName.creationField(type='text' name='boardName')
+      label
+        | Board Description:
+        input#newBoardFieldDescription.creationField(type='text' name='boardDescription')
+      .captchaDiv
+        img#captchaImage.captchaImage(src='/captcha.js')
+        br
+        input#fieldCaptcha.captchaField.creationField(type='text' name='captcha' placeholder='answer')
+        a.hidden(href='/noCookieCaptcha.js') no cookies?
+      button#newBoardFormButton(type='submit') Create board

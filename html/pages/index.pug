@@ -1,0 +1,44 @@
+extends /base
+
+block head
+  link(href='/.static/css/index.css' rel='stylesheet')
+  link(rel='canonical' href='https://indiachan.com')
+
+block body
+  main#indexContent
+    #siteLogo
+    h1 Indiachan
+      .trifag
+        .white
+    p.
+      Indiachan is a simple imageboard where anyone
+      can post comments and share images about any topic.
+      <br>
+      You do not need to register to post.
+      Indiachan does not use ads or tracking.
+      <br><br>
+      Posting porn and gore is prohibited and may result
+      a ban if attempted.
+      <br>
+      See <a href="/.static/globalRules.html">site rules</a> to learn more.
+    #indexBoards.indexBlock
+      each link in boards
+        a(href='/' + link.name) /#{link.name}/
+          .labelPreview #{link.text}
+    #indexBlocks.indexBlock
+      div
+        header Latest Images
+        #divLatestImages
+      div
+        header Latest Posts
+        #divLatestPosts
+      .hidden
+        #divBoards
+        #linkEngine
+        #divStats
+          #labelTotalPosts
+          #labelTotalPPH
+          #labelTotalIps
+          #labelTotalBoards
+          #labelTotalFiles
+          #labelTotalSize

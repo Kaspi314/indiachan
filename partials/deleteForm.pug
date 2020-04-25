@@ -1,0 +1,10 @@
+#deleteWrap
+  input.hidden#showDelete(type='checkbox')
+  label.toggler(for='showDelete') Delete
+  fieldset.hidden
+    label Password
+      input(name='password')
+    label Delete files only
+      input(type='checkbox' name='deleteUploads')
+    input(name='deleteMedia' type='hidden' value='on')
+    button(value='delete' name='action') Delete

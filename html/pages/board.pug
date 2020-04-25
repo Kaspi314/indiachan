@@ -1,0 +1,32 @@
+extends /base
+
+block body
+  .hidden
+    a#linkManagement Settings
+    a#linkModeration Mod
+  main#board-page
+    #mainPanel
+      include /partials/boardHeader
+      #postingForm
+        input.hidden#showForm(type='checkbox')
+        label.toggler.topBtn(for='showForm') New Thread
+        a.topBtn(href='./catalog.html') Catalog
+        form(action='/newThread.js' enctype='multipart/form-data' method='post')
+          b New Thread
+          #postingTable
+          button#formButton.btn(type='submit') Post
+      #panelMessage
+        hr
+        #divMessage
+      #threadList
+        form(action='/contentActions.js', method='post', enctype='multipart/form-data')
+          #divThreads
+          .threadPages
+            span.divPages
+              a(href='./catalog.html') Catalog
+              a(href='#top') Top
+              a#linkPrevious Previous
+              span#divPages
+              a#linkNext Next
+          include /partials/deleteForm
+  include /partials/boardFooter

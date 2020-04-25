@@ -1,0 +1,15 @@
+extends /base
+
+append body
+  main
+    h1 Login
+    form(action='/login.js' method='post' enctype='multipart/form-data')
+      input.reply-field(name='login' placeholder='username' required)
+      input.reply-field(name='password' placeholder='password' required type='password')
+      label
+        input(type='checkbox' name='remember' checked)
+        | Remember Me
+      br
+      br
+      button.btn Login
+    #divCreation
