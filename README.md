@@ -1,3 +1,6 @@
+This is a mirror of the [indiachan gitlab repo](https://gitlab.com/rusty02/indiachan).
+  
+
 Indiachan frontend
 ==================
 
